@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS & jQuery CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        body {
+            background: #fafafa;
+            font-family: Arial, sans-serif;
+        }
+        .custom-header {
+            background: #fff;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 8px 0;
+        }
+        .custom-header input[type="text"] {
+            border: 1px solid #d1d1d1;
+            border-radius: 3px;
+            padding: 4px 10px;
+            width: 280px;
+            margin-left: 12px;
+        }
+        .custom-header .header-actions {
+            float: right;
+            font-size: 15px;
+        }
+        .breadcrumb {
+            background: transparent;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        .product-image-main {
+            width: 100%;
+            border-radius: 4px;
+            border: 1px solid #eee;
+            max-width: 400px;
+        }
+        .product-thumbnails img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            margin-right: 6px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .product-thumbnails img.selected {
+            border: 2px solid #ff6600;
+        }
+        .product-title {
+            font-size: 22px;
+            font-weight: 600;
+        }
+        .product-rating {
+            color: #ffc107;
+            font-size: 15px;
+        }
+        .product-price {
+            color: #ff3333;
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 6px;
+        }
+        .product-sale {
+            color: #333;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        .ship-label {
+            font-size: 13px;
+            color: #888;
+        }
+        .btn-add-cart {
+            background: #ff6600;
+            color: #fff;
+        }
+        .btn-buy-now {
+            background: #3399ff;
+            color: #fff;
+        }
+        .fav-checkbox {
+            margin-right: 6px;
+            accent-color: #ff6600;
+        }
+        .nav-tabs .nav-link.active {
+            border-bottom: 2px solid #ff6600;
+        }
+        .tab-content {
+            background: #fafafa;
+            border: 1px solid #ececec;
+            border-top: none;
+            padding: 20px;
+        }
+        .similar-product img {
+            width: 140px;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 4px;
+            border: 1px solid #dcdcdc;
+            margin-bottom: 8px;
+        }
+        .similar-product {
+            text-align: center;
+            margin-right: 8px;
+        }
+        @media (max-width: 992px) {
+            .product-detail-row {
+                flex-direction: column;
+            }
+            .product-detail-row > div {
+                width: 100% !important;
+                margin-bottom: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="container-fluid custom-header">
+        <div class="container d-flex align-items-center justify-content-between">
+            <div class="d-flex align-items-center">
+                <img src="https://img.icons8.com/ios-filled/32/000000/menu--v4.png" alt="menu" style="margin-right:8px;">
+                <input type="text" placeholder="Tìm kiếm sản phẩm...">
+                <button class="btn btn-link p-0 ms-1" style="font-size:21px;">
+                    <img src="https://img.icons8.com/ios-filled/24/000000/search--v1.png" alt="Tìm kiếm">
+                </button>
+            </div>
+            <div class="header-actions">
+                <a href="#">Giỏ hàng</a> | <a href="#">Tài khoản</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breadcrumb -->
+    <div class="container mt-2">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Tên sản phẩm nổi bật</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Product detail -->
+    <div class="container bg-white p-3" style="border:1px solid #eaeaea; border-radius:6px;">
+        <div class="row product-detail-row d-flex">
+            <!-- Product Image -->
+            <div class="col-lg-5 d-flex flex-column align-items-center">
+                <img id="mainProductImage" class="product-image-main mb-2" src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-1.jpg?v=1684470172" alt="Ảnh sản phẩm">
+                <div class="product-thumbnails d-flex">
+                    <img class="selected" src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-1.jpg?v=1684470172" alt="thumb1">
+                    <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-2.jpg?v=1684470172" alt="thumb2">
+                    <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-3.jpg?v=1684470172" alt="thumb3">
+                    <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-4.jpg?v=1684470172" alt="thumb4">
+                </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="col-lg-7">
+                <div class="product-title mb-2">Tên sản phẩm nổi bật</div>
+                <div class="d-flex align-items-center mb-1">
+                    <div class="product-rating me-2">★ 4.8 | 1.2k đánh giá | 5k đã bán</div>
+                </div>
+                <div class="product-price mb-1">₫ 1.299.000</div>
+                <div class="product-sale mb-1">Miễn phí vận chuyển toàn quốc</div>
+                <div class="mb-2">
+                    <span class="ship-label">Vận chuyển</span>
+                    <input type="text" class="form-control d-inline-block" style="width:160px; padding:3px 7px; font-size:13px;" placeholder="Nhập địa chỉ chi tiết phí vận chuyển">
+                    <span class="ship-label ms-2">Phí ship</span>
+                    <span class="badge bg-secondary ms-1" style="font-size:13px;">0đ</span>
+                </div>
+                <div class="mb-3 d-flex">
+                    <button class="btn btn-add-cart me-2">Thêm vào giỏ</button>
+                    <button class="btn btn-buy-now">Mua ngay</button>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input fav-checkbox" type="checkbox" id="favCheck">
+                    <label class="form-check-label" for="favCheck">
+                        Thêm vào danh sách yêu thích
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Product Tabs -->
+        <ul class="nav nav-tabs mt-4" id="productTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="desc-tab" data-bs-toggle="tab" data-bs-target="#desc" type="button" role="tab">Mô tả sản phẩm</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="spec-tab" data-bs-toggle="tab" data-bs-target="#spec" type="button" role="tab">Thông số kỹ thuật</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="usage-tab" data-bs-toggle="tab" data-bs-target="#usage" type="button" role="tab">Hướng dẫn sử dụng</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="review-tab" data-bs-toggle="tab" data-bs-target="#review" type="button" role="tab">Đánh giá</button>
+            </li>
+        </ul>
+        <div class="tab-content" id="productTabContent">
+            <div class="tab-pane fade show active" id="desc" role="tabpanel">
+                <strong>Mô tả sản phẩm</strong>
+                <ul>
+                    <li>Mô tả 1: baaaa</li>
+                    <li>Mô tả 2: bzaaa</li>
+                    <li>Mô tả 3: dfadfafds</li>
+                </ul>
+            </div>
+            <div class="tab-pane fade" id="spec" role="tabpanel">
+                Thông số kỹ thuật đang cập nhật...
+            </div>
+            <div class="tab-pane fade" id="usage" role="tabpanel">
+                Hướng dẫn sử dụng đang cập nhật...
+            </div>
+            <div class="tab-pane fade" id="review" role="tabpanel">
+                Đánh giá sản phẩm đang cập nhật...
+            </div>
+        </div>
+    </div>
+
+    <!-- Similar Products -->
+    <div class="container bg-white mt-4 p-3" style="border:1px solid #eaeaea; border-radius:6px;">
+        <div class="mb-3"><strong>Sản phẩm tương tự</strong></div>
+        <div class="d-flex flex-wrap">
+            <div class="similar-product">
+                <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-1.jpg?v=1684470172" alt="sp1">
+                <div>Sản phẩm 1:</div>
+            </div>
+            <div class="similar-product">
+                <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-2.jpg?v=1684470172" alt="sp2">
+                <div>Sản phẩm 1:</div>
+            </div>
+            <div class="similar-product">
+                <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-3.jpg?v=1684470172" alt="sp3">
+                <div>Sản phẩm 1:</div>
+            </div>
+            <div class="similar-product">
+                <img src="https://cdn.shopify.com/s/files/1/0057/8938/4802/products/backpack-grey-4.jpg?v=1684470172" alt="sp4">
+                <div>Sản phẩm 1:</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // Image thumbnail click functionality
+        $('.product-thumbnails img').on('click', function() {
+            $('.product-thumbnails img').removeClass('selected');
+            $(this).addClass('selected');
+            $('#mainProductImage').attr('src', $(this).attr('src'));
+        });
+    </script>
+</body>
+</html>

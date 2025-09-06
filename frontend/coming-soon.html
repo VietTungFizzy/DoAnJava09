@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Coming Soon - E-commerce Platform</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- jQuery CDN -->
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <style>
+    body {
+      background: #f7fafb;
+      font-family: 'Inter', Arial, sans-serif;
+    }
+    .main-container {
+      border: 2px solid #e5e5e5;
+      border-radius: 18px;
+      margin: 24px auto;
+      background: #f7fafb;
+      padding: 24px 24px 0 24px;
+      max-width: 1200px;
+      min-height: 90vh;
+      box-sizing: border-box;
+      display: flex;
+      gap: 32px;
+    }
+    .left-col {
+      flex: 2;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .right-col {
+      flex: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+    }
+    .illustration-box {
+      width: 100%;
+      background: #f7fafb;
+      border: 1px solid #dbdbdb;
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 370px;
+      max-width: 430px;
+    }
+    .main-illustration {
+      border-radius: 14px;
+      border: 1px dashed #cfcfcf;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6d6d6d;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      background: #fff;
+    }
+    .sub-illustrations {
+      display: flex;
+      gap: 12px;
+    }
+    .sub-illustration {
+      flex: 1;
+      border-radius: 12px;
+      border: 1px dashed #cfcfcf;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+    }
+    .coming-soon-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #626262;
+      margin-bottom: 12px;
+      margin-top: 6px;
+    }
+    .desc {
+      color: #444;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .countdown-row {
+      display: flex;
+      gap: 16px;
+      margin: 18px 0 4px 0;
+    }
+    .countdown-item {
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 14px;
+      text-align: center;
+      width: 90px;
+      padding: 12px 0 2px 0;
+    }
+    .countdown-value {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #222;
+      margin-bottom: 2px;
+    }
+    .countdown-label {
+      font-size: 0.95rem;
+      color: #888;
+      margin-bottom: 0;
+    }
+    .notify-form {
+      display: flex;
+      gap: 16px;
+      margin: 16px 0 12px 0;
+    }
+    .notify-form input[type="email"] {
+      border-radius: 10px;
+      border: 1px solid #dbdbdb;
+      padding: 10px 14px;
+      flex: 2;
+      font-size: 1rem;
+      outline: none;
+    }
+    .notify-form button {
+      flex: 1;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(90deg, #377dff 0%, #3572e6 100%);
+      color: #fff;
+      font-weight: 500;
+      font-size: 1.05rem;
+      padding: 10px 0;
+      transition: background 0.2s;
+    }
+    .notify-form button:hover {
+      background: linear-gradient(90deg, #3572e6 0%, #2b5ebb 100%);
+    }
+    .form-check {
+      margin-bottom: 10px;
+    }
+    .social-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .social-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #f3f7fa;
+      border: 1px solid #e2e6ea;
+      color: #4267b2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.13rem;
+      margin-right: 2px;
+      cursor: pointer;
+      transition: background 0.18s, color 0.18s;
+    }
+    .social-btn:hover {
+      background: #e9f0fa;
+    }
+    .features-row {
+      display: flex;
+      gap: 20px;
+      margin: 32px 0 18px 0;
+    }
+    .feature-card {
+      flex: 1;
+      background: #fff;
+      border: 1px solid #dbdbdb;
+      border-radius: 16px;
+      padding: 23px 25px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      min-width: 240px;
+      min-height: 98px;
+    }
+    .feature-icon {
+      margin-top: 3px;
+      margin-right: 12px;
+      width: 20px;
+      height: 20px;
+      background: #377dff;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .feature-title {
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: #212121;
+    }
+    .feature-desc {
+      font-size: 0.98rem;
+      color: #5b5b5b;
+      margin-top: 2px;
+    }
+    .faq-row {
+      margin: 20px 0 8px 0;
+      font-size: 15px;
+      color: #626262;
+    }
+    /* Responsive styles */
+    @media (max-width: 992px) {
+      .main-container {
+        flex-direction: column;
+        gap: 18px;
+        padding: 12px;
+      }
+      .illustration-box {
+        margin: 0 auto;
+      }
+      .features-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-container">
+    <!-- Left column -->
+    <div class="left-col">
+      <div class="coming-soon-title mt-2">COMING SOON</div>
+      <div class="desc mb-2">E-commerce platform — faster &amp; smarter</div>
+      <div class="desc mb-3">We are polishing the final touches.</div>
+      <div>
+        <div class="fw-semibold mb-2" style="margin-top: 8px;">Launch in</div>
+        <div class="countdown-row" id="countdown">
+          <div class="countdown-item">
+            <div class="countdown-value" id="days">12</div>
+            <div class="countdown-label">Days</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="hours">10</div>
+            <div class="countdown-label">Hours</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="minutes">35</div>
+            <div class="countdown-label">Minutes</div>
+          </div>
+          <div class="countdown-item">
+            <div class="countdown-value" id="seconds">12</div>
+            <div class="countdown-label">Seconds</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="fw-semibold mb-1">Get notified at launch</div>
+        <form class="notify-form" id="notifyForm" onsubmit="return false;">
+          <input type="email" id="emailInput" placeholder="Your email" required>
+          <button type="submit">Notify me</button>
+        </form>
+        <div class="form-check" style="margin-left:2px;">
+          <input class="form-check-input" type="checkbox" value="" id="privacyCheck">
+          <label class="form-check-label" for="privacyCheck" style="font-size: 0.98rem;">
+            I agree to receive emails and accept Privacy
+          </label>
+        </div>
+      </div>
+      <div>
+        <div class="fw-semibold mb-1" style="font-size: 1.01rem;">Follow us</div>
+        <div class="social-row">
+          <div class="social-btn" title="Facebook"><span style="font-weight:bold;">f</span></div>
+          <div class="social-btn" title="LinkedIn"><span style="font-weight:bold;">in</span></div>
+          <div class="social-btn" title="Instagram"><span style="font-weight:bold;">ig</span></div>
+          <div class="social-btn" title="TikTok"><span style="font-weight:bold;">tt</span></div>
+        </div>
+      </div>
+      <div class="features-row">
+        <div class="feature-card">
+          <span class="feature-icon"></span>
+          <div>
+            <div class="feature-title">1-tap checkout</div>
+            <div class="feature-desc">Reduce friction and complete orders faster.</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"></span>
+          <div>
+            <div class="feature-title">Smart suggestions</div>
+            <div class="feature-desc">Personalized recommendations per behavior.</div>
+          </div>
+        </div>
+        <div class="feature-card">
+          <span class="feature-icon"></span>
+          <div>
+            <div class="feature-title">Realtime tracking</div>
+            <div class="feature-desc">Stay updated through every step of delivery.</div>
+          </div>
+        </div>
+      </div>
+      <div class="faq-row">
+        <div>FAQ</div>
+        <div style="font-size: 0.97rem; color:#555; margin-left: 2px;">
+          When is launch? — Targeting Q4/2025.<br>
+          Beta access? — Yes, join the waitlist above.
+        </div>
+      </div>
+    </div>
+    <!-- Right column -->
+    <div class="right-col">
+      <div class="illustration-box">
+        <div class="main-illustration">
+          Place illustration / screenshots here
+        </div>
+        <div class="sub-illustrations">
+          <div class="sub-illustration"></div>
+          <div class="sub-illustration"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Countdown Timer Logic
+    const targetDate = new Date(Date.now() + 12 * 24 * 3600 * 1000 + 10 * 3600 * 1000 + 35 * 60 * 1000 + 12 * 1000);
+    function updateCountdown() {
+      const now = new Date();
+      let distance = targetDate - now;
+      if (distance < 0) distance = 0;
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      $('#days').text(String(days).padStart(2, '0'));
+      $('#hours').text(String(hours).padStart(2, '0'));
+      $('#minutes').text(String(minutes).padStart(2, '0'));
+      $('#seconds').text(String(seconds).padStart(2, '0'));
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Notify Me Form Logic
+    $('#notifyForm').on('submit', function() {
+      const email = $('#emailInput').val();
+      const privacyChecked = $('#privacyCheck').is(':checked');
+      if (!privacyChecked) {
+        alert('Please agree to receive emails and accept the Privacy policy.');
+        return false;
+      }
+      // Simulate successful submission (replace with backend logic)
+      alert('Thank you! You will be notified at ' + email);
+      $('#emailInput').val('');
+      $('#privacyCheck').prop('checked', false);
+      return false;
+    });
+  </script>
+</body>
+</html>
