@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart | Brandname</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+    <div class="container-fluid p-4" style="background:#f7f7fa; min-height:100vh;">
+        <!-- Header -->
+        <div class="rounded shadow-sm bg-white p-3 mb-3">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="https://dummyimage.com/36x36/4589ff/ffffff&text=B" class="me-2 rounded-circle" alt="Brand Logo" width="36" height="36">
+                    <span class="fs-4 fw-bold text-primary">Brand<span class="text-dark">name</span></span>
+                </div>
+                <div class="flex-grow-1 mx-4">
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Find product" aria-label="Search">
+                        <select class="form-select me-2" style="max-width:160px;">
+                            <option>All category</option>
+                            <option>Electronics</option>
+                            <option>Fashion</option>
+                        </select>
+                        <button class="btn btn-primary px-4" type="submit">Search</button>
+                    </form>
+                </div>
+                <div>
+                    <button class="btn btn-outline-secondary me-2"><i class="bi bi-cart"></i> My cart</button>
+                    <button class="btn btn-outline-primary">Sign in</button>
+                </div>
+            </div>
+            <div class="mt-3">
+                <nav class="nav nav-pills">
+                    <a class="nav-link text-secondary" href="#">All category</a>
+                    <a class="nav-link text-secondary" href="#">Hot offers</a>
+                    <a class="nav-link text-secondary" href="#">Services</a>
+                    <a class="nav-link text-secondary" href="#">Bestsellers</a>
+                    <a class="nav-link text-secondary" href="#">Gift boxes</a>
+                    <a class="nav-link text-secondary" href="#">Help</a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="row">
+            <!-- Cart section -->
+            <div class="col-lg-8">
+                <h4 class="mb-3">Your cart</h4>
+                <div class="card mb-3">
+                    <div class="card-body p-0">
+                        <!-- Cart Item -->
+                        <div class="cart-item d-flex align-items-center p-3 border-bottom">
+                            <img src="https://dummyimage.com/60x60/eee/aaa" class="rounded me-3" width="60" height="60" alt="">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">Great product name goes here</div>
+                                <small class="text-muted">Color: Silver<br>Size: Large<br>Price: 23.00 USD / per item</small>
+                            </div>
+                            <div class="text-end me-3">
+                                <div class="fw-semibold">46.00 USD</div>
+                                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                                    <span class="input-group-text">Qty:</span>
+                                    <input type="number" class="form-control qty-input" value="2" min="1">
+                                    <button class="btn btn-outline-secondary btn-sm remove-btn"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item -->
+                        <div class="cart-item d-flex align-items-center p-3 border-bottom">
+                            <img src="https://dummyimage.com/60x60/eee/aaa" class="rounded me-3" width="60" height="60" alt="">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">Great product name goes here</div>
+                                <small class="text-muted">Color: Silver<br>Size: Large<br>Price: 23.00 USD / per item</small>
+                            </div>
+                            <div class="text-end me-3">
+                                <div class="fw-semibold">46.00 USD</div>
+                                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                                    <span class="input-group-text">Qty:</span>
+                                    <input type="number" class="form-control qty-input" value="2" min="1">
+                                    <button class="btn btn-outline-secondary btn-sm remove-btn"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item -->
+                        <div class="cart-item d-flex align-items-center p-3 border-bottom">
+                            <img src="https://dummyimage.com/60x60/ccd/333&text=G" class="rounded me-3" width="60" height="60" alt="">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">Innovative gadget title here</div>
+                                <small class="text-muted">Color: Black<br>Size: Medium<br>Price: 35.00 USD / per item</small>
+                            </div>
+                            <div class="text-end me-3">
+                                <div class="fw-semibold">35.00 USD</div>
+                                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                                    <span class="input-group-text">Qty:</span>
+                                    <input type="number" class="form-control qty-input" value="1" min="1">
+                                    <button class="btn btn-outline-secondary btn-sm remove-btn"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item -->
+                        <div class="cart-item d-flex align-items-center p-3 border-bottom">
+                            <img src="https://dummyimage.com/60x60/dcf/000&text=A" class="rounded me-3" width="60" height="60" alt="">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">Stylish accessory name</div>
+                                <small class="text-muted">Color: Silver<br>Size: Small<br>Price: 15.00 USD / per item</small>
+                            </div>
+                            <div class="text-end me-3">
+                                <div class="fw-semibold">45.00 USD</div>
+                                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                                    <span class="input-group-text">Qty:</span>
+                                    <input type="number" class="form-control qty-input" value="3" min="1">
+                                    <button class="btn btn-outline-secondary btn-sm remove-btn"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Item -->
+                        <div class="cart-item d-flex align-items-center p-3">
+                            <img src="https://dummyimage.com/60x60/edc/543&text=D" class="rounded me-3" width="60" height="60" alt="">
+                            <div class="flex-grow-1">
+                                <div class="fw-bold">Cutting-edge device title goes here</div>
+                                <small class="text-muted">Color: Blue<br>Size: Extra Large<br>Price: 207.99 USD / per item</small>
+                            </div>
+                            <div class="text-end me-3">
+                                <div class="fw-semibold">207.99 USD</div>
+                                <div class="input-group input-group-sm mt-2" style="width:110px;">
+                                    <span class="input-group-text">Qty:</span>
+                                    <input type="number" class="form-control qty-input" value="1" min="1">
+                                    <button class="btn btn-outline-secondary btn-sm remove-btn"><i class="bi bi-x"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white">
+                        <a href="#" class="text-decoration-underline text-danger small remove-all-link">Remove all from cart</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Cart summary -->
+            <div class="col-lg-4">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Promocode">
+                            <button class="btn btn-outline-primary" type="button">Apply</button>
+                        </div>
+                        <ul class="list-unstyled mb-0">
+                            <li class="d-flex justify-content-between mb-2"><span>5 items</span><span>$1703.00</span></li>
+                            <li class="d-flex justify-content-between mb-2"><span>Delivery cost:</span><span>$25</span></li>
+                            <li class="d-flex justify-content-between mb-2"><span>Tax:</span><span>$14.00</span></li>
+                            <li class="d-flex justify-content-between mb-2"><span>Discount:</span><span class="text-success">-$90.00</span></li>
+                        </ul>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <span class="fw-semibold fs-5">Total:</span>
+                            <span class="fs-4 fw-bold text-primary">$1,655.99</span>
+                        </div>
+                        <button class="btn btn-primary w-100 py-2 mb-2 fs-5">Checkout <i class="bi bi-arrow-right"></i></button>
+                        <div class="bg-light rounded p-2 text-secondary small d-flex align-items-center">
+                            <i class="bi bi-truck me-2"></i> Delivered by <b class="ms-1">Morning, Friday, May 20</b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Wishlist section -->
+        <div class="mt-4">
+            <h4 class="mb-3">Your wishlist</h4>
+            <div class="wishlist-slider d-flex align-items-stretch gap-3">
+                <!-- Wishlist item -->
+                <div class="card wishlist-item" style="width:200px;">
+                    <img src="https://dummyimage.com/180x140/ccc/fff&text=Watch" class="card-img-top" alt="Wishlist Product">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">Judi brown for kitchen</h6>
+                        <small class="text-muted">$99.50<br>In stock</small>
+                        <div class="mt-2 text-secondary small">340 sold this week</div>
+                        <button class="btn btn-outline-primary btn-sm w-100 my-1">Move to cart</button>
+                        <button class="btn btn-link btn-sm w-100 text-secondary remove-wishlist-btn">Remove from wishlist</button>
+                    </div>
+                </div>
+                <!-- Wishlist item -->
+                <div class="card wishlist-item" style="width:200px;">
+                    <img src="https://dummyimage.com/180x140/eee/ddd&text=Speaker" class="card-img-top" alt="Wishlist Product">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">Judi brown for kitchen</h6>
+                        <small class="text-muted">$99.50<br>In stock</small>
+                        <div class="mt-2 text-secondary small">340 sold this week</div>
+                        <button class="btn btn-outline-primary btn-sm w-100 my-1">Move to cart</button>
+                        <button class="btn btn-link btn-sm w-100 text-secondary remove-wishlist-btn">Remove from wishlist</button>
+                    </div>
+                </div>
+                <!-- Wishlist item -->
+                <div class="card wishlist-item" style="width:200px;">
+                    <img src="https://dummyimage.com/180x140/ddd/aaa&text=Phone" class="card-img-top" alt="Wishlist Product">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">Judi brown for kitchen</h6>
+                        <small class="text-muted">$99.50<br>In stock</small>
+                        <div class="mt-2 text-secondary small">340 sold this week</div>
+                        <button class="btn btn-outline-primary btn-sm w-100 my-1">Move to cart</button>
+                        <button class="btn btn-link btn-sm w-100 text-secondary remove-wishlist-btn">Remove from wishlist</button>
+                    </div>
+                </div>
+                <!-- Wishlist item -->
+                <div class="card wishlist-item" style="width:200px;">
+                    <img src="https://dummyimage.com/180x140/ccc/eee&text=Laptop" class="card-img-top" alt="Wishlist Product">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">Judi brown for kitchen</h6>
+                        <small class="text-muted">$99.50<br>In stock</small>
+                        <div class="mt-2 text-secondary small">340 sold this week</div>
+                        <button class="btn btn-outline-primary btn-sm w-100 my-1">Move to cart</button>
+                        <button class="btn btn-link btn-sm w-100 text-secondary remove-wishlist-btn">Remove from wishlist</button>
+                    </div>
+                </div>
+                <!-- Wishlist item -->
+                <div class="card wishlist-item" style="width:200px;">
+                    <img src="https://dummyimage.com/180x140/ccc/fff&text=Watch" class="card-img-top" alt="Wishlist Product">
+                    <div class="card-body p-2">
+                        <h6 class="card-title mb-1">Judi brown for kitchen</h6>
+                        <small class="text-muted">$99.50<br>In stock</small>
+                        <div class="mt-2 text-secondary small">340 sold this week</div>
+                        <button class="btn btn-outline-primary btn-sm w-100 my-1">Move to cart</button>
+                        <button class="btn btn-link btn-sm w-100 text-secondary remove-wishlist-btn">Remove from wishlist</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-5 border-top pt-4 pb-2 bg-white">
+            <div class="row g-4">
+                <div class="col-md-2">
+                    <h6>Company</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-secondary text-decoration-none">About Us</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Investors</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Careers</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Blog and news</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6>Buyers</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-secondary text-decoration-none">Find store</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Store service</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Partnerships</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Gift vouchers</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6>Help</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-secondary text-decoration-none">Contact us</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Instructions</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Refund</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Track order</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6>Service</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-secondary text-decoration-none">Trade Resources</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Logistics service</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Safe purchase</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+                    <h6>Language</h6>
+                    <ul class="list-unstyled small">
+                        <li><a href="#" class="text-secondary text-decoration-none">Español</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Português</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">Deutsch</a></li>
+                        <li><a href="#" class="text-secondary text-decoration-none">日本語</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2 d-flex flex-column align-items-end">
+                    <div class="mb-3">
+                        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="App Store" width="120" class="mb-2">
+                        <img src="https://play.google.com/intl/en_us/badges/static/images/badges/en_badge_web_generic.png" alt="Google Play" width="120">
+                    </div>
+                    <div class="d-flex gap-2">
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-twitter"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="text-secondary fs-5"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Bootstrap Bundle (includes Popper) and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="js/cart.js"></script>
+</body>
+</html>
