@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop Product List</title>
+    <meta name="viewport" content="width=1200, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <style>
+        body {
+            background: #faf7f7;
+        }
+        .sidebar {
+            background: #fff;
+            border-radius: 4px;
+            padding: 24px 16px;
+            min-width: 270px;
+        }
+        .sidebar h6 {
+            font-weight: 600;
+            margin-top: 16px;
+            margin-bottom: 8px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 6px;
+            padding: 12px 12px 16px 12px;
+            box-shadow: 0 2px 7px rgba(0,0,0,0.03);
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .product-image-placeholder {
+            background: #f1f1f1;
+            width: 100%;
+            aspect-ratio: 1/1;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #bbb;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+        .flash-badge {
+            position: absolute;
+            top: 16px;
+            left: 12px;
+            background: #ff5b24;
+            color: #fff;
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+        .product-title {
+            font-weight: 500;
+            font-size: 1em;
+            margin: 0 0 4px 0;
+        }
+        .product-price {
+            color: #ff5b24;
+            font-weight: 600;
+            font-size: 1.05em;
+        }
+        .product-meta {
+            font-size: 0.93em;
+            color: #666;
+        }
+        .star {
+            color: #ffc400;
+            font-size: 1em;
+            margin-right: 1px;
+        }
+        .pagination {
+            margin-bottom: 0;
+        }
+        .filter-dropdown .dropdown-menu {
+            min-width: 140px;
+        }
+        .filter-btns > .btn {
+            margin-right: 8px;
+        }
+        .form-check {
+            margin-bottom: 5px;
+        }
+        .form-label {
+            font-size: 0.96em;
+        }
+        .footer {
+            color: #888;
+            font-size: 0.95em;
+            margin-top: 36px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="bg-white border-bottom py-2 px-4 d-flex align-items-center" style="min-height:64px;">
+        <div class="me-3" style="width:36px;">
+            <svg width="28" height="28" fill="none" stroke="#111" stroke-width="2">
+                <rect x="4" y="4" width="20" height="20" rx="4" stroke="#111"/>
+            </svg>
+        </div>
+        <form class="flex-grow-1 me-3" style="max-width:700px;">
+            <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+        </form>
+        <div class="ms-auto">
+            <a href="#" class="me-3 text-dark text-decoration-none">Giỏ hàng</a> |
+            <a href="#" class="ms-3 text-dark text-decoration-none">Tài khoản</a>
+        </div>
+    </div>
+    <!-- Breadcrumb -->
+    <div class="container-fluid px-4 pt-3 pb-2">
+        <div class="small text-muted">
+            Home / Danh mục / Máy tính & Laptop
+        </div>
+    </div>
+    <!-- Main -->
+    <div class="container-fluid px-4">
+        <div class="row">
+            <!-- Sidebar -->
+            <aside class="col-lg-3 col-md-4 sidebar">
+                <h6>Tất cả danh mục</h6>
+                <ul class="list-unstyled mb-2 ps-2">
+                    <li>- Máy tính & Laptop</li>
+                    <li class="ps-3">+ Máy in bàn</li>
+                    <li class="ps-3">+ Màn hình</li>
+                    <li class="ps-3">+ Linh kiện máy tính</li>
+                    <li class="ps-3">+ Thiết bị lưu trữ</li>
+                    <li class="ps-3">+ Thêm...</li>
+                </ul>
+                <h6>Bộ lọc tìm kiếm</h6>
+                <div class="mb-3">
+                    <label class="form-label">Nơi bán</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="hcm"><label class="form-check-label" for="hcm">TP. HCM</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="hn"><label class="form-check-label" for="hn">Hà Nội</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="dn"><label class="form-check-label" for="dn">Đà Nẵng</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="pt"><label class="form-check-label" for="pt">Phan Thiết</label></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Đơn vị vận chuyển</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="fast"><label class="form-check-label" for="fast">Nhanh</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="eco"><label class="form-check-label" for="eco">Tiết kiệm</label></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Thương hiệu</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="logitech"><label class="form-check-label" for="logitech">Logitech</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="lenovo"><label class="form-check-label" for="lenovo">Lenovo</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="tplink"><label class="form-check-label" for="tplink">TP-Link</label></div>
+                    <div><a href="#" class="small">Thêm +</a></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Khoảng giá</label>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" placeholder="Từ">
+                        <input type="text" class="form-control" placeholder="Đến">
+                    </div>
+                    <button class="btn btn-outline-secondary btn-sm">Áp dụng</button>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Loại shop</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="shopee"><label class="form-check-label" for="shopee">Shopee Mall</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="fav"><label class="form-check-label" for="fav">Shop yêu thích</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="shop"><label class="form-check-label" for="shop">Shop thông thường</label></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Tình trạng</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="moi"><label class="form-check-label" for="moi">Mới</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="used"><label class="form-check-label" for="used">Đã sử dụng</label></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Thanh toán</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="spay"><label class="form-check-label" for="spay">Ví ShopeePay</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="tt0"><label class="form-check-label" for="tt0">Trả góp 0%</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="cod"><label class="form-check-label" for="cod">COD</label></div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Đánh giá</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="star5">
+                        <label class="form-check-label" for="star5">
+                            <span class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="star4">
+                        <label class="form-check-label" for="star4">
+                            <span class="star">&#9733;&#9733;&#9733;&#9733;</span>+
+                        </label>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Dịch vụ & KM</label>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="fsx"><label class="form-check-label" for="fsx">Freeship Xtra</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="hxz"><label class="form-check-label" for="hxz">Hoàn xu Xtra</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="flash"><label class="form-check-label" for="flash">Flash Sale</label></div>
+                    <div class="form-check"><input class="form-check-input" type="checkbox" id="voucher"><label class="form-check-label" for="voucher">Voucher</label></div>
+                </div>
+            </aside>
+            <!-- Main Products -->
+            <main class="col-lg-9 col-md-8 pt-1">
+                <!-- Filter/Sort -->
+                <div class="mb-3 d-flex align-items-center flex-wrap">
+                    <div class="filter-btns">
+                        <button class="btn btn-outline-primary active">Phổ biến</button>
+                        <button class="btn btn-outline-primary">Mới nhất</button>
+                        <button class="btn btn-outline-primary">Bán chạy</button>
+                    </div>
+                    <div class="filter-dropdown dropdown ms-2">
+                        <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Giá
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Giá: Thấp -&gt; Cao</a></li>
+                            <li><a class="dropdown-item" href="#">Giá: Cao -&gt; Thấp</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Product Grid -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-3">
+                    <!-- Example product cards (static, repeat as needed) -->
+                    <!-- You can generate these with JS if required -->
+                    <script>
+                        const demoProducts = Array.from({length: 24}, (_,i)=>({
+                            name: `Sản phẩm ${i+1}`,
+                            price: "₫ 199.000",
+                            sold: "Đã bán 2.3k",
+                            discount: "10% giảm giá"
+                        }));
+                        $(function(){
+                            let html = "";
+                            demoProducts.forEach((p,idx)=>{
+                                html += `
+                                <div class="col">
+                                    <div class="product-card h-100 position-relative">
+                                        <span class="flash-badge">Flash</span>
+                                        <div class="product-image-placeholder">Image</div>
+                                        <div class="product-title">${p.name}</div>
+                                        <div class="product-price">${p.price}</div>
+                                        <div class="product-meta d-flex align-items-center">
+                                            <span class="me-2 text-warning">
+                                                <span class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+                                            </span>
+                                            <span class="me-2">${p.sold}</span>
+                                            <span class="text-success">${p.discount}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+                            });
+                            $('.row-cols-lg-4').html(html);
+                        });
+                    </script>
+                </div>
+                <!-- Pagination -->
+                <nav class="mt-4 d-flex justify-content-center">
+                    <ul class="pagination">
+                        <li class="page-item active"><span class="page-link">1</span></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                        <li class="page-item disabled"><span class="page-link">...</span></li>
+                        <li class="page-item"><a class="page-link" href="#">20</a></li>
+                    </ul>
+                </nav>
+            </main>
+        </div>
+        <div class="footer text-center pt-4 pb-2">
+            © Shop 2025
+        </div>
+    </div>
+    <!-- Bootstrap Bundle (Popper + JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

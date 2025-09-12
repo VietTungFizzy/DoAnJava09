@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Type some info">
+  <meta name="author" content="Ecommerce-ui.com">
+
+  <title>Ecommerce-ui.com - Ecommerce website templates html</title>
+
+
+<script>
+	// ***********************
+	// Show/hide dropdown 
+	document.addEventListener("click", function (event) {
+			// Find the closest ancestor with a `data-trigger` attribute (if any)
+			const triggerElement = event.target.closest("[data-toggle]");
+
+			if (triggerElement) {
+					// Get the target ID from the `data-trigger` attribute
+					const targetId = triggerElement.getAttribute("data-toggle");
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						console.log(targetElement.style.display);
+							// Toggle element
+							if (targetElement.style.display === "none" || !targetElement.style.display || targetElement.hasAttribute('hidden')) {
+									targetElement.style.display = "block"; // Show the dropdown
+									targetElement.removeAttribute('hidden');
+							} else {
+									targetElement.style.display = "none"; // Hide the dropdown
+									targetElement.setAttribute('hidden', '');
+							}
+					}
+					// Prevent default action for links (optional)
+					event.preventDefault();
+					return; // Exit, since we handled the trigger click
+			}
+			// Close dropdowns if clicked outside
+			const openedDropdowns = document.querySelectorAll('.dropdown[style*="display: block"]');
+			openedDropdowns.forEach(dropdown => {
+					// Check if the click is inside the dropdown
+					if (!dropdown.contains(event.target)) {
+							dropdown.style.display = "none"; // Close the dropdown
+					}
+			});
+	});
+</script>
+
+
+<!-- FinalCSS -->
+<link href="../css/final.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<header class="border-bottom">
+	<!-- header-top-bar -->
+	<section class="bg-neutral-100 py-2">
+		<div class="container">
+			<div class="d-flex justify-content-between max-sm:text-sm">
+				<p class="text-secondary">Manhattan, New York, USA</p>
+				<div class="gap-4 d-flex">
+					<a href="#" class="text-secondary">Support</a>
+					<a href="#" class="text-secondary">English | USD </a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- header-top-bar end.//-->
+	<!-- header-main-part -->
+	<section>
+		<div class="container max-sm:px-2">
+			<div class="d-flex max-sm:flex-wrap py-3  gap-2 align-items-center justify-content-between">
+				<div class="d-flex align-items-center mr-4">
+					<button class="btn btn-default btn-icon mr-2 sm:d-none">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+							<path d="M4 5L20 5" stroke="currentColor" stroke-width="2"/>
+							<path d="M4 12L20 12" stroke="currentColor" stroke-width="2"/>
+							<path d="M4 19L20 19" stroke="currentColor" stroke-width="2"/>
+						</svg>
+					</button>
+		
+					<a href="https://ecommerce-ui.com" class="d-block flex-shrink-0 hover:opacity-80 d-flex text-decoration-none align-items-center m-0">
+						<img src="../images/logo-shape.svg" height="40">
+						<div style="font-size:24px;" class="max-lg:hidden text-neutral-1000 text-xl font-semibold ml-1">Brand<span class="text-primary">name</span> </div>
+					</a>
+				</div>
+	
+				<div class="relative max-sm:order-3 max-sm:w-full">
+					<button data-toggle="mymenu_1" class="btn btn-default  max-sm:w-full  has-icon-dropdown"> 
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
+						All categories
+					</button>
+					<menu id="mymenu_1" hidden class="dropdown w-100 p-4">
+						<h6 class="mb-2">This is example large menu</h6>
+						<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Totam, reprehenderit unde dolores vitae adipisci commodi, tempore consequuntur explicabo eveniet aut facilis quas sit! Fuga, consequuntur iste harum quos labore dicta.</p>
+					</menu>
+				</div>
+				
+				<!-- header search -->
+				<div class="flex-grow max-sm:order-2 max-sm:w-full lg:mr-5">
+					<form class="d-flex w-full mr-5">
+						<div class="relative w-full">
+							<input type="search" class="form-control  rounded-right-0" list="search_suggest" placeholder="Search country">
+						</div>
+						<button class="rounded-left-0 btn btn-primary btn-icon" style="margin-left:-1px">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+						</button>
+					</form>
+				</div>
+				<!-- header search end.// -->
+
+				<!-- header buttons -->
+				<div class="d-flex gap-1 lg:justify-content-end">	
+	
+					<button class="btn btn-default"> 
+							<span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+							<span class="max-lg:d-none">Sign in </span>	
+					</button>
+	
+					<button class="btn btn-default">  
+							<span> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-heart"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> </span>
+							<span class="max-lg:d-none">Wishlist (0) 	</span>
+					</button>
+	
+					<!-- button with dropdown  -->
+					<div class="relative">
+						<button data-toggle="mycart_1" class="btn btn-default has-icon-dropdown"> 
+								<span>
+									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shopping-cart"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/>
+									</svg>
+								</span>
+								<span>Cart (2) </span>
+						</button>
+						<menu id="mycart_1" class="dropdown right-0 d-none">
+							<p class="text-secondary p-3 text-center min-w-60">
+								Your cart is empty
+							</p>
+						</menu>
+					</div>
+					<!-- button with dropdown .//end  -->
+				</div>
+				<!-- header buttons end.//-->
+			</div>
+		</div> <!-- container end.// -->
+	</section>
+	<!-- header-main-part end.//-->
+	
+	<!-- header-nav-->
+	<section class="py-2 border-top max-sm:hidden">
+		<div class="container">
+			<nav class="nav justify-content-center">
+				<a class="nav-link" href="#"> Hot offers  </a>
+				<a class="nav-link" href="#">Recommends</a>
+				<a class="nav-link" href="#">New arrivals</a>
+				<a class="nav-link" href="#">Bestsellers</a>
+				<a class="nav-link" href="#">Gift boxes</a>
+				<a class="nav-link" href="#">Articles</a>
+				<a class="nav-link" href="#">Resources</a>
+			</nav>
+		</div> 
+		<!-- container end.// -->
+	</section>
+	<!-- header-nav end.//-->
+</header> 
+<!-- section-header end.// -->
+	
+<section class="py-10 bg-secondary min-h-80vh">
+	<div class="container">
+		<p class="text-secondary">Header example 1<br>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	</div> <!-- container end.// -->
+</section>
+
+
+
+</body>
+</html>

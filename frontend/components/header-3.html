@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Type some info">
+  <meta name="author" content="Ecommerce-ui.com">
+
+  <title>Ecommerce-ui.com - Ecommerce website templates html</title>
+
+
+<script>
+	// ***********************
+	// Show/hide dropdown 
+	document.addEventListener("click", function (event) {
+			// Find the closest ancestor with a `data-trigger` attribute (if any)
+			const triggerElement = event.target.closest("[data-toggle]");
+
+			if (triggerElement) {
+					// Get the target ID from the `data-trigger` attribute
+					const targetId = triggerElement.getAttribute("data-toggle");
+					const targetElement = document.getElementById(targetId);
+
+					if (targetElement) {
+						console.log(targetElement.style.display);
+							// Toggle element
+							if (targetElement.style.display === "none" || !targetElement.style.display || targetElement.hasAttribute('hidden')) {
+									targetElement.style.display = "block"; // Show the dropdown
+									targetElement.removeAttribute('hidden');
+							} else {
+									targetElement.style.display = "none"; // Hide the dropdown
+									targetElement.setAttribute('hidden', '');
+							}
+					}
+					// Prevent default action for links (optional)
+					event.preventDefault();
+					return; // Exit, since we handled the trigger click
+			}
+			// Close dropdowns if clicked outside
+			const openedDropdowns = document.querySelectorAll('.dropdown[style*="display: block"]');
+			openedDropdowns.forEach(dropdown => {
+					// Check if the click is inside the dropdown
+					if (!dropdown.contains(event.target)) {
+							dropdown.style.display = "none"; // Close the dropdown
+					}
+			});
+	});
+</script>
+
+
+<!-- FinalCSS -->
+<link href="../css/final.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<header class="border-bottom">
+    <div class="container">
+        <div class="d-flex gap-2 py-2 align-items-center justify-content-between">
+            
+            <div class="d-flex align-items-center mr-3">
+                <button class="btn btn-default btn-icon mr-2 lg:d-none">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+                            <path d="M4 5L20 5" stroke="currentColor" stroke-width="2"/>
+                            <path d="M4 12L20 12" stroke="currentColor" stroke-width="2"/>
+                            <path d="M4 19L20 19" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </button>
+    
+                <a href="https://ecommerce-ui.com" class="d-block flex-shrink-0 hover:opacity-80 d-flex text-decoration-none align-items-center m-0">
+                    <img src="../images/logo-shape.svg" height="40">
+                    <div style="font-size:24px;" class="max-lg:hidden text-neutral-1000 text-xl font-semibold ml-1">Brand<span class="text-primary">name</span> </div>
+                </a>
+            </div>
+            <!-- main nav -->
+            <ul class="nav max-lg:d-none border-left pl-2">
+                <li class="item-nav active"><a href="#" class="nav-link"> Man </a></li>
+                  <li class="item-nav"><a href="#" class="nav-link"> Woman </a></li>
+                  <li class="item-nav"><a href="#" class="nav-link"> Kids </a></li>
+                  <li class="item-nav group">
+                      <a class="nav-link has-icon-dropdown" href="#"> Accessories  </a>
+                      <nav class="dropdown lg:min-w-45 group-hover:d-block d-none">
+                          <a class="dropdown-item" href="#">Example link 1</a>  
+                          <a class="dropdown-item" href="#">Example link 2</a>  
+                          <a class="dropdown-item" href="#">Get Ecomerce UI</a>  
+                      </nav>
+                  </li>
+            </ul>
+            <!-- main nav end.// -->
+
+            <!--  search -->
+            <div class="max-sm:hidden lg:mr-5 ml-auto">
+                <form class="relative d-flex w-full mr-5 rounded-full">
+                    <div class="relative w-full p-1">
+                        <input type="search" class="form-control bg-neutral-100 h-11 pl-4 border-none rounded-full" placeholder="Search">
+                    </div>
+                    <button class="rounded-full btn btn-icon absolute right-2 center-y">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+                    </button>
+                </form>
+            </div>
+            <!--  search end.// -->
+
+            <!-- header buttons -->
+            <div class="d-flex gap-2">	
+                
+                <button title="My Orders" class="btn btn-lg btn-icon btn-neutral  rounded-full">  
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"  stroke="currentColor" fill="none">
+                        <path d="M20.198 3H3.802C3.05147 3 2.6762 3 2.41637 3.17726C2.28768 3.26505 2.18133 3.38109 2.10567 3.51627C1.9529 3.78921 1.99024 4.15793 2.06493 4.89537C2.18958 6.12624 2.2519 6.74168 2.57823 7.18168C2.74084 7.40095 2.94701 7.58519 3.18414 7.72315C3.65999 8 4.28635 8 5.53908 8H18.4609C19.7136 8 20.34 8 20.8159 7.72315C21.053 7.58519 21.2592 7.40095 21.4218 7.18168C21.7481 6.74168 21.8104 6.12624 21.9351 4.89537C22.0098 4.15793 22.0471 3.78921 21.8943 3.51627C21.8187 3.38109 21.7123 3.26505 21.5836 3.17726C21.3238 3 20.9485 3 20.198 3Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M3 8L3 13.0408C3 16.7928 3 18.6688 4.17157 19.8344C5.34315 21 7.22876 21 11 21H13C16.7712 21 18.6569 21 19.8284 19.8344C21 18.6688 21 16.7928 21 13.0408V8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M10 11H14" stroke-width="1.5" stroke-linecap="round"></path>
+                    </svg> 
+                </button>
+
+                <button title="Saved list" class="btn btn-lg btn-icon btn-neutral rounded-full">  
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"  stroke="currentColor" fill="none">
+                        <path d="M12 20.5C12 20.5 2 14.5 2 8.69444C2 5.82563 4.10526 3.5 7 3.5C8.5 3.5 10 4 12 6C14 4 15.5 3.5 17 3.5C19.8947 3.5 22 5.82563 22 8.69444C22 14.5 12 20.5 12 20.5Z"  stroke-width="1.5" />
+                    </svg>
+                </button>
+                
+                <button title="Sign in" class="btn btn-lg btn-icon btn-neutral rounded-full">  
+                    <svg class="w-6 h-6" width="24" height="24" viewBox="0 0 24 24" stroke="currentColor" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6.57757 15.4816C5.1628 16.324 1.45336 18.0441 3.71266 20.1966C4.81631 21.248 6.04549 22 7.59087 22H16.4091C17.9545 22 19.1837 21.248 20.2873 20.1966C22.5466 18.0441 18.8372 16.324 17.4224 15.4816C14.1048 13.5061 9.89519 13.5061 6.57757 15.4816Z" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16.5 6.5C16.5 8.98528 14.4853 11 12 11C9.51472 11 7.5 8.98528 7.5 6.5C7.5 4.01472 9.51472 2 12 2C14.4853 2 16.5 4.01472 16.5 6.5Z" stroke-width="1.5"/>
+                    </svg>
+                </button>
+                
+                <button title="My Cart" class="btn btn-lg btn-icon btn-primary rounded-full">  
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"  stroke="currentColor" fill="none">
+                        <path d="M3.87289 17.0194L2.66933 9.83981C2.48735 8.75428 2.39637 8.21152 2.68773 7.85576C2.9791 7.5 3.51461 7.5 4.58564 7.5H19.4144C20.4854 7.5 21.0209 7.5 21.3123 7.85576C21.6036 8.21152 21.5126 8.75428 21.3307 9.83981L20.1271 17.0194C19.7282 19.3991 19.5287 20.5889 18.7143 21.2945C17.9 22 16.726 22 14.3782 22H9.62182C7.27396 22 6.10003 22 5.28565 21.2945C4.47127 20.5889 4.27181 19.3991 3.87289 17.0194Z" stroke-width="1.5"></path>
+                        <path d="M17.5 7.5C17.5 4.46243 15.0376 2 12 2C8.96243 2 6.5 4.46243 6.5 7.5" stroke-width="1.5"></path>
+                    </svg> 
+                </button>
+
+            </div>
+            <!-- header buttons end.//-->
+        </div>
+    </div> <!-- container end.// -->
+</header> <!-- section-header end.// -->
+	
+<section class="py-10 bg-secondary min-h-80vh">
+	<div class="container">
+		<p class="text-secondary">Header example 3<br>
+		Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+		tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+		quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+		consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+		cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+		proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+	</div> <!-- container end.// -->
+</section>
+
+
+
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Type some info">
+  <meta name="author" content="Ecommerce-ui.com">
+
+  <title>Ecommerce-ui.com - Ecommerce website templates html</title>
+
+
+<!-- FinalCSS -->
+<link href="../css/final.css" rel="stylesheet" type="text/css" />
+
+<style>
+.custom-css-bg-page{ position: relative;}
+.custom-css-bg-page:before{
+	content:"";
+	display: block;
+	background-color:var(--bg-color-secondary);
+	width: 800px;
+	top:0;
+	bottom:0;
+	left:100%;
+	height: 100%;
+	position: absolute;
+	z-index: -1;
+}
+@media (max-width:640px) {
+	.custom-css-bg-page:before{ display:none!important }
+}
+</style>
+</head>
+<body>
+
+<header class="py-3 border-bottom">
+	<div class="container">
+		<div class="d-flex gap-2 align-items-center justify-content-between">
+			
+			<a href="https://ecommerce-ui.com" class="d-block flex-shrink-0 hover:opacity-80 d-flex text-decoration-none align-items-center m-0">
+				<img src="../images/logo-shape.svg" height="40">
+				<div style="font-size:24px;" class="max-lg:hidden text-neutral-1000 text-xl font-semibold ml-1">Brand<span class="text-primary">name</span> </div>
+			</a>
+			
+			<div>		
+				<a href="http://ecommerce-ui.com" target="_blank" class="btn btn-primary-subtle">  Get all templates 	</a>
+			</div>
+
+		</div>
+	</div> <!-- container end.// -->
+</header> 
+
+<!-- ============== SECTION CONTENT  ============== -->
+<section class="overflow-hidden">
+<div class="container">
+<div class="row">
+	<main class="md:col-7">
+		<div class="py-10 md:mr-10">
+			<article class="mb-5">
+				<h4 class="mb-5 text-xl"> Contact information </h4>
+				<fieldset class="row gap-3 mb-6">
+					<div class="md:col-6 mb-3">
+						<label class="form-label">Full name   </label>
+						<input type="text" class="form-control" placeholder="Type here">
+					</div> <!-- col end.// -->
+					<div class="md:col-6 mb-3">
+						<label class="form-label">Phone  </label>
+						<input type="text" value="+1" class="form-control">
+					</div> <!-- col end.// -->
+					<div class="md:col-6 mb-3">
+						<label class="form-label">Email <span class="text-muted">(optional)</span>  </label>
+						<input type="text" class="form-control" placeholder="Type here">
+					</div> <!-- col end.// -->
+					<div class="md:col-6 mb-3">
+						<label class="form-label">Whatsapp <span class="text-muted">(optional)</span> </label>
+						<input type="text" value=""  class="form-control" placeholder="Type here">
+					</div> <!-- col end.// -->
+	
+					<div class="col-12">
+						<label class="col-12 form-check">
+							<input class="form-check-input" type="checkbox" checked="">
+							<span> Email me weekly offers </span>
+						</label>
+					</div><!-- col end.// -->
+				</fieldset> <!-- row.// -->
+				<hr>
+			</article> <!-- card end.// -->
+	
+			<article  class="mb-5">
+				<h4 class="mb-5 text-xl"> Shipping address </h4> 
+				
+				<fieldset class="row gap-3 mb-4">
+					<div class="lg:col-4 mb-3">
+						<label for="" class="form-label">Country</label>
+						<select class="form-select">
+							<option value="">Select country</option>
+							<option value="">United States</option>
+							<option value="">Germany</option>
+							<option value="">Uzbekistan</option>
+						</select>
+					</div> <!-- col end.// -->
+					<div class="lg:col-4 mb-3">
+						<label for="" class="form-label">City</label>
+						<input type="text" class="form-control"  placeholder="Enter city name">
+					</div> <!-- col end.// -->
+					<div class="lg:col-4 mb-3">
+						<label for="" class="form-label">Postal code</label>
+						<input type="text" class="form-control"  placeholder="">
+					</div> <!-- col end.// -->
+					<div class="lg:col-8 mb-3">
+						<label for="" class="form-label">Address</label>
+						<input type="text" class="form-control"  placeholder="Street name, district">
+					</div> <!-- col end.// -->
+					<div class="lg:col-4 mb-3">
+						<label for="" class="form-label">Location</label>
+						<a href="#" class="btn btn-primary-subtle w-full">  Select location from map  </a>
+					</div> <!-- col end.// -->
+					<div class="col-12 mb-3">
+						<label for="" class="form-label">Additional comment</label>
+						<textarea class="form-control" rows="3" placeholder="Have something to say?"></textarea>
+					</div> 
+				</fieldset> <!-- row.// -->
+	
+				<p class="mb-3">  Choose delivery option </p>
+	
+				<fieldset class="d-flex max-sm:flex-col flex-row gap-2">
+					<label class="card-check d-flex p-3 rounded">
+						<input class="form-check-input" name="delivery-type" type="radio" checked value="">
+						<div class="ml-1">
+							<span>Self pick-up</span>
+							<p class="d-block mb-0 text-secondary">From nearest location</p>
+						</div>
+					</label>
+					
+					<label class="card-check d-flex p-3 rounded">
+						<input class="form-check-input" name="delivery-type" type="radio" value="">
+						<div class="ml-1">
+							<span>Standart delivery</span>
+							<p class="d-block mb-0 text-secondary">7-10 days after order</p>
+						</div>
+					</label>
+	
+					<label class="card-check d-flex p-3 rounded">
+						<input class="form-check-input" name="delivery-type" type="radio" value="">
+						<div class="ml-1">
+							<span>Express Delivery</span>
+							<p class="d-block mb-0 text-secondary">1-2 days after order</p>
+						</div>
+					</label>
+	
+				</fieldset>
+			</article>
+			<hr class="my-6">
+			<div class="d-flex justify-content-between">
+				<a href="#" class="btn btn-default"> 
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+						<path d="M8.99996 16.9998L4 11.9997L9 6.99976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+						<path d="M4 12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+					</svg>
+					Back to Cart
+				</a>
+				<a href="#" class="btn btn-primary"> 
+					Continue to Payment 
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+						<path d="M15.0001 17L20 12L15 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+						<path d="M4 12H20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+					</svg>
+				</a>
+			</div>
+		</div>
+	</main> <!-- col.// -->
+	<aside class="md:col-5">
+		<!-- ==============  SUMMARY =============== -->
+			<div class="p-5 md:p-10  bg-secondary h-full custom-css-bg-page">
+				<p class="font-medium mb-6">Order summary</p>
+				<article>
+					<figure class="d-flex gap-2 mb-4">
+						<div class="p-0 flex-none">
+							<img src="placeholder.jpg" class="w-18 h-20 rounded" alt="Item">
+						</div>
+						<figcaption class="p-0 flex-grow">
+							<p class="font-medium">Indian Plov Mandi</p> 
+							<p class="text-secondary">Color: White</p>
+							<p class="text-secondary">Qty: 3 </p>
+						</figcaption>
+						<div class="text-right"> 
+							<var class="text-secondary">$120.50</var>
+						</div>
+					</figure>
+
+					<figure class="d-flex gap-2 mb-4">
+						<div class="p-0 flex-none">
+							<img src="placeholder.jpg" class="w-18 h-20 rounded" alt="Item">
+						</div>
+						<figcaption class="p-0 flex-grow">
+							<p class="font-medium">Cozy Cozy Sofa Bed, Washable Floor</p> 
+							<p class="text-secondary">Color: White</p>
+							<p class="text-secondary">Qty: 1 </p>
+						</figcaption>
+						<div class="text-right"> 
+							<var class="text-secondary">$190.00</var>
+						</div>
+					</figure>
+
+					<figure class="d-flex gap-2 mb-4">
+						<div class="p-0  flex-none">
+							<img src="placeholder.jpg" class="w-18 h-20 rounded" alt="Item">
+						</div>
+						<figcaption class="p-0 flex-grow">
+							<p class="font-medium">Elegant Modern Coffee Table</p> 
+							<p class="text-secondary">Color: White</p>
+							<p class="text-secondary">Qty: 3 </p>
+						</figcaption>
+						<div class="text-right"> 
+							<var class="text-secondary">$12.99</var>
+						</div>
+					</figure>
+
+					<figure class="d-flex gap-2 mb-4">
+						<div class="p-0  flex-none">
+							<img src="placeholder.jpg" class="w-18 h-20 rounded" alt="Item">
+						</div>
+						<figcaption class="p-0 flex-grow">
+							<p class="font-medium">Stylish Accent Chair, Velvet Upholstery</p> 
+							<p class="text-secondary">Size: XXL</p>
+							<p class="text-secondary">Qty: 1 </p>
+						</figcaption>
+						<div class="text-right"> 
+							<var class="text-secondary">$12.99</var>
+						</div>
+					</figure>
+					
+				</article>
+
+				<hr class="my-6">
+				<form action="" class="d-flex gap-2 mb-6">
+					<input class="form-control" type="text" placeholder="Coupon code">
+					<button class="btn btn-default">Apply</button>
+				</form>
+				<ul>
+					<li class="d-flex justify-content-between mb-2">
+						<label>Subtotal:</label> <var>$103.97</var>
+					</li>
+					<li class="d-flex justify-content-between mb-2">
+						<label>Discount</label> <var>- $5.40</var>
+					</li>
+					<li class="d-flex justify-content-between mb-2">
+						<label>Delivery cost:</label> <var>  $9.00</var>
+					</li>
+					<li class="d-flex justify-content-between mb-2">
+						<label>Tax:</label> <var>  $3.90</var>
+					</li>
+					<li class="d-flex justify-content-between mb-2">
+						<label>Tax:</label> <var> $3.90</var>
+					</li>
+				</ul>
+				
+				<hr>
+				<dl class="d-flex justify-content-between">
+					<dt>Total:</dt>
+					<dd class="font-semibold text-xl"> $157.90 </dd>
+				</dl>
+				
+			</div> 
+		<!-- ==============  SUMMARY .// =============== -->
+	</aside> <!-- col.// -->
+</div> <!-- row.// -->
+
+</div> <!-- container .//  -->
+</section>
+
+<!-- ============== SECTION CONTENT end.//  ============== -->
+
+<footer class="py-8 bg-base border-top">
+	<div class="container">
+		<p class="text-center text-secondary">
+			Copyright © 2025 <a href="https://ecommerce-ui.com" target="_blank">Ecommerce-UI</a>. Made with love
+		</p>
+	</div>  <!-- container end.// -->
+</footer>
+
+</body>
+</html>
+	
