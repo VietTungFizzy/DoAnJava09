@@ -71,4 +71,9 @@ public class JwtUtil {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
+
+    // Backward-compatible alias for code that calls isTokenValid
+    public Boolean isTokenValid(String token, UserDetails userDetails) {
+        return validateToken(token, userDetails);
+    }
 }

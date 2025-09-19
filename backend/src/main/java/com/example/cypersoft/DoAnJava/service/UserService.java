@@ -3,7 +3,9 @@ package com.example.cypersoft.DoAnJava.service;
 import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
+import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.entity.User;
+import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Optional;
 import java.time.Duration;
@@ -21,6 +26,8 @@ import java.time.LocalDateTime;
 
 @Service
 public class UserService implements UserDetailsService {
+
+    private static final Logger log = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -33,6 +40,11 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private EmailService emailService;
+    @Value("${app.admin.email:admin@example.com}")
+    private String adminEmail;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -104,7 +116,14 @@ public class UserService implements UserDetailsService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setRole("USER");
+        // Data-first: do not create roles implicitly. Expect role provided or existing.
+        if (user.getRole() == null) {
+            user.setRole(roleRepository.findByName("buyer")
+                .orElseThrow(() -> new RuntimeException("Role 'buyer' is missing. Please provision roles in DB.")));
+        } else if (user.getRole().getName() != null) {
+            user.setRole(roleRepository.findByName(user.getRole().getName())
+                .orElseThrow(() -> new RuntimeException("Role '" + user.getRole().getName() + "' does not exist in DB.")));
+        }
         user.setStatus("active");
         user.setFailedLoginAttempts(0);
         user.setLockedUntil(null);
@@ -119,7 +138,9 @@ public class UserService implements UserDetailsService {
                 "Chào mừng bạn đến với hệ thống",
                 "Xin chào " + (saved.getName() == null ? "bạn" : saved.getName()) + ",\n\nBạn đã đăng ký thành công tài khoản.\n\nTrân trọng."
             );
-        } catch (Exception ignored) {}
+        } catch (Exception ex) {
+            log.warn("Failed to send welcome email to {}: {}", saved.getEmail(), ex.getMessage());
+        }
 
         return saved;
     }
@@ -135,12 +156,13 @@ public class UserService implements UserDetailsService {
 
     public UserProfileResponse getUserProfile() {
         User user = getCurrentUser();
+        String roleName = user.getRole() != null ? user.getRole().getName() : null;
         return new UserProfileResponse(
             user.getId(),
             user.getName(),
             user.getEmail(),
             user.getPhone(),
-            user.getRole(),
+            roleName,
             user.getStatus(),
             user.getCreatedAt()
         );
@@ -205,20 +227,22 @@ public class UserService implements UserDetailsService {
             throw new RuntimeException("Mật khẩu không đúng");
         }
         
-        // Set status to pending deletion
-        user.setStatus("pending_deletion");
+        // Data-first: avoid unsupported status values; use lock instead
+        user.setPermanentlyLocked(true);
         userRepository.save(user);
         
         // Send notification email to admin
         try {
             emailService.sendSimpleMail(
-                "admin@example.com", // Replace with actual admin email
+                adminEmail,
                 "Yêu cầu xóa tài khoản - " + user.getEmail(),
                 "Người dùng " + user.getName() + " (" + user.getEmail() + ") đã yêu cầu xóa tài khoản.\n\n" +
                 "Lý do: " + (reason != null ? reason : "Không có lý do") + "\n\n" +
                 "Vui lòng xem xét và xử lý yêu cầu này."
             );
-        } catch (Exception ignored) {}
+        } catch (Exception ex) {
+            log.warn("Failed to notify admin {} about deletion request from {}: {}", adminEmail, user.getEmail(), ex.getMessage());
+        }
         
         // Send confirmation email to user
         try {
@@ -231,7 +255,9 @@ public class UserService implements UserDetailsService {
                 "Trong thời gian chờ đợi, tài khoản của bạn sẽ bị tạm khóa.\n\n" +
                 "Trân trọng."
             );
-        } catch (Exception ignored) {}
+        } catch (Exception ex) {
+            log.warn("Failed to send deletion confirmation email to {}: {}", user.getEmail(), ex.getMessage());
+        }
         
         return "Yêu cầu xóa tài khoản đã được gửi. Chúng tôi sẽ xử lý trong vòng 24-48 giờ.";
     }
