@@ -34,8 +34,9 @@ public class User implements UserDetails {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    @Column(name = "role")
-    private String role = "USER"; // Mặc định là USER
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 
     @Column(name = "status")
     private String status = "active";
@@ -44,18 +45,19 @@ public class User implements UserDetails {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     // Login lockout controls
-    @Column(name = "failed_login_attempts")
+    @Transient
     private Integer failedLoginAttempts = 0;
 
-    @Column(name = "locked_until")
+    @Transient
     private LocalDateTime lockedUntil; // tạm khóa đến thời điểm này
 
-    @Column(name = "permanently_locked")
+    @Transient
     private Boolean permanentlyLocked = false; // khóa vĩnh viễn, liên hệ admin
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
+        String roleName = (role == null || role.getName() == null) ? "buyer" : role.getName();
+        return List.of(new SimpleGrantedAuthority("ROLE_" + roleName.toUpperCase()));
     }
 
     @Override
