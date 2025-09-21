@@ -151,11 +151,88 @@
 	<div class="container">
 
 		<div class="row gap-8">
-			<main class="md:col-8">
+			<main class="md:col-6">
 				<div class="card shadow-sm mb-5 p-4">
-		
+					<div>
+						<h5 class="mb-3"> Choose delivery option </h5>
+
+						<fieldset class="d-flex flex-col flex-row gap-2">
+
+							<label class="card-check d-flex p-3 rounded">
+								<input class="form-check-input" name="delivery-type" type="radio" value="">
+								<div class="ml-1">
+									<span>Self pick-up</span>
+									<p class="d-block mb-0 text-secondary">From nearest location</p>
+								</div>
+							</label>
+							
+							<label class="card-check d-flex p-3 rounded">
+								<input class="form-check-input" name="delivery-type" type="radio" value="">
+								<div class="ml-1">
+									<span>Standart delivery</span>
+									<p class="d-block mb-0 text-secondary">7-10 days after order</p>
+								</div>
+							</label>
+
+							<label class="card-check d-flex p-3 rounded">
+								<input class="form-check-input" name="delivery-type" type="radio" value="">
+								<div class="ml-1">
+									<span>Express Delivery</span>
+									<p class="d-block mb-0 text-secondary">1-2 days after order</p>
+								</div>
+							</label>
+
+						</fieldset>
+
+					</div>
+				</div> <!-- card.// -->
+
+				<!-- Shipping Address Section -->
+				<div id="shipping-address-section"></div>
+
+				<!-- Payment Method Section -->
+				<div class="card shadow-sm mb-5 p-4">
+					<h5 class="mb-3">Choose payment method</h5>
+					<fieldset class="d-flex flex-col flex-row gap-2">
+						<label class="card-check d-flex p-3 rounded">
+							<input class="form-check-input" name="payment-type" type="radio" value="credit-card" checked>
+							<div class="ml-1">
+								<span>Credit Card (Stripe)</span>
+								<p class="d-block mb-0 text-secondary">Pay securely with your card</p>
+							</div>
+						</label>
+						<label class="card-check d-flex p-3 rounded">
+							<input class="form-check-input" name="payment-type" type="radio" value="cod">
+							<div class="ml-1">
+								<span>Cash on Delivery</span>
+								<p class="d-block mb-0 text-secondary">Pay when you receive the goods</p>
+							</div>
+						</label>
+						<label class="card-check d-flex p-3 rounded">
+							<input class="form-check-input" name="payment-type" type="radio" value="bank-transfer">
+							<div class="ml-1">
+								<span>Bank Transfer</span>
+								<p class="d-block mb-0 text-secondary">Transfer to our bank account</p>
+							</div>
+						</label>
+					</fieldset>
+
+					<!-- Stripe Credit Card Form (hidden unless selected) -->
+					<div id="stripe-card-form" class="mt-4">
+						<form id="payment-form">
+							<div id="payment-element"><!--Stripe.js injects the Payment Element here--></div>
+							<button class="btn btn-primary mt-3" id="submit">Pay</button>
+							<div id="payment-message" class="hidden"></div>
+						</form>
+					</div>
+				</div>
+
+			</main> <!-- col.// -->
+			<aside class="md:col-6">
+                <!-- summary -->
+				<div class="p-5 rounded bg-neutral-100">
 					<!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5 border-bottom">
+					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
                         
                         <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
 							<img src="images/product-basic/1.png" class="ratio-1x1 h-full rounded">
@@ -202,8 +279,10 @@
 					</article> 
 					<!-- ==== item cart ==== .//end -->
 
-                    <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5 border-bottom">
+					<hr>
+
+					<!--  ==== item cart ====  -->
+					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
                         
                         <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
 							<img src="images/product-basic/2.png" class="ratio-1x1 h-full rounded">
@@ -250,8 +329,10 @@
 					</article> 
 					<!-- ==== item cart ==== .//end -->
 
+					<hr>
+
                     <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5 border-bottom">
+					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
                         
                         <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
 							<img src="images/product-basic/3.png" class="ratio-1x1 h-full rounded">
@@ -298,8 +379,10 @@
 					</article> 
 					<!-- ==== item cart ==== .//end -->
 
+					<hr>
+
                     <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5 border-bottom">
+					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
                         
                         <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
 							<img src="images/product-basic/4.png" class="ratio-1x1 h-full rounded">
@@ -345,8 +428,10 @@
 					</article> 
 					<!-- ==== item cart ==== .//end -->
 
+					<hr>
+
                     <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5 border-bottom">
+					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
                         
                         <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
 							<img src="images/product-basic/5.png" class="ratio-1x1 h-full rounded">
@@ -391,58 +476,50 @@
                         </div>
 					</article> 
 					<!-- ==== item cart ==== .//end -->
-					
 
-					<p class="text-right"> <a href="#">Remove all from cart</a> </p>
-						
-				</div> <!-- card.// -->
+					<hr>
 
-			</main> <!-- col.// -->
-			<aside class="md:col-4">
-                <!-- summary -->
-				<div class="p-5 rounded bg-neutral-100">
-                        
-                        <form action="" class="d-flex gap-1 mb-6">
-                            <input type="text" class="form-control bg-white" placeholder="Enter Promocode">
-                            <button class="btn btn-default">Apply</button>
-                        </form>
+					<form action="" class="d-flex gap-1 mb-6">
+						<input type="text" class="form-control bg-white" placeholder="Enter Promocode">
+						<button class="btn btn-default">Apply</button>
+					</form>
 
-						<ul>
-							<li class="d-flex justify-content-between mb-2">
-								<label>5 items:</label> <var>$2,103.97</var>
-							</li>
-							<li class="d-flex justify-content-between mb-2">
-								<label>Discount</label> <var>- $5.40</var>
-							</li>
-							<li class="d-flex justify-content-between mb-2">
-								<label>Delivery cost:</label> <var> $9.00</var>
-							</li>
-							<li class="d-flex justify-content-between mb-2">
-								<label>Tax:</label> <var>$3.90</var>
-							</li>
-						</ul>
-						<hr>
-						<dl class="d-flex justify-content-between">
-							<dt class="">Total:</dt>
-							<dd class="font-semibold text-lg"> $2,157.00 </dd>
-						</dl>
+					<ul>
+						<li class="d-flex justify-content-between mb-2">
+							<label>5 items:</label> <var>$2,103.97</var>
+						</li>
+						<li class="d-flex justify-content-between mb-2">
+							<label>Discount</label> <var>- $5.40</var>
+						</li>
+						<li class="d-flex justify-content-between mb-2">
+							<label>Delivery cost:</label> <var> $9.00</var>
+						</li>
+						<li class="d-flex justify-content-between mb-2">
+							<label>Tax:</label> <var>$3.90</var>
+						</li>
+					</ul>
+					<hr>
+					<dl class="d-flex justify-content-between">
+						<dt class="">Total:</dt>
+						<dd class="font-semibold text-lg"> $2,157.00 </dd>
+					</dl>
 
-						<div class="mt-2">
-							<a href="#" class="btn btn-lg btn-green w-full"> Go to Checkout </a>
-						</div>
+					<div class="mt-2">
+						<a href="#" class="btn btn-lg btn-green w-full"> Go to Checkout </a>
+					</div>
 
-						<figure class="d-flex p-2 bg-neutral-200 border mt-5 rounded">
-							<span class="bg-white rounded p-1 w-10 h-10 d-flex flex-center mr-2">
-								<svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-orange" xmlns="http://www.w3.org/2000/svg">
-									<path d="M19.5 17.5C19.5 18.8807 18.3807 20 17 20C15.6193 20 14.5 18.8807 14.5 17.5C14.5 16.1193 15.6193 15 17 15C18.3807 15 19.5 16.1193 19.5 17.5Z" stroke="currentColor" stroke-width="1.5"/>
-									<path d="M9.5 17.5C9.5 18.8807 8.38071 20 7 20C5.61929 20 4.5 18.8807 4.5 17.5C4.5 16.1193 5.61929 15 7 15C8.38071 15 9.5 16.1193 9.5 17.5Z" stroke="currentColor" stroke-width="1.5"/>
-									<path d="M14.5 17.5H9.49995M15 16V4H1.99996L1.99976 17.5H4.49996M15.5 6.5H18.9998L21.9998 11L22 17.5H19.4998" stroke="currentColor" stroke-width="1.5"/>
-									</svg>
-							</span>
-							<figcaption class="text-sm">
-								Delivered by <br> Fri, May 20, 2024
-							</figcaption>
-						</figure>
+					<figure class="d-flex p-2 bg-neutral-200 border mt-5 rounded">
+						<span class="bg-white rounded p-1 w-10 h-10 d-flex flex-center mr-2">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" class="text-orange" xmlns="http://www.w3.org/2000/svg">
+								<path d="M19.5 17.5C19.5 18.8807 18.3807 20 17 20C15.6193 20 14.5 18.8807 14.5 17.5C14.5 16.1193 15.6193 15 17 15C18.3807 15 19.5 16.1193 19.5 17.5Z" stroke="currentColor" stroke-width="1.5"/>
+								<path d="M9.5 17.5C9.5 18.8807 8.38071 20 7 20C5.61929 20 4.5 18.8807 4.5 17.5C4.5 16.1193 5.61929 15 7 15C8.38071 15 9.5 16.1193 9.5 17.5Z" stroke="currentColor" stroke-width="1.5"/>
+								<path d="M14.5 17.5H9.49995M15 16V4H1.99996L1.99976 17.5H4.49996M15.5 6.5H18.9998L21.9998 11L22 17.5H19.4998" stroke="currentColor" stroke-width="1.5"/>
+								</svg>
+						</span>
+						<figcaption class="text-sm">
+							Delivered by <br> Fri, May 20, 2024
+						</figcaption>
+					</figure>
 				</div> 
                 <!-- summary end .// -->
 
@@ -610,7 +687,7 @@
 </section>
 <!-- =============== SECTION RECOMMEND END// ============== -->
 
-
+<!-- =============== FOOTER ============== -->
 <footer class="bg-neutral-100 border-top">
 	<section class="py-12 links-secondary container d-grid gap-5 grid-cols-2 md:grid-cols-4 lg:grid-cols-5">
 		<div>
@@ -669,7 +746,76 @@
 		<p class="fs-sm text-secondary">Copyright © 1995-2025 Ecommerce-ui Inc. All Rights Reserved </p>
 	</section>
 </footer>
+<!-- =============== FOOTER END // ============== -->
 
+<script src="js/cart.js"></script>
+<!-- Stripe.js -->
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+// Replace with your Stripe publishable key
+const stripePublicKey = "pk_test_12345";
+let stripe = null;
+let elements = null;
+let paymentElement = null;
 
+document.addEventListener('DOMContentLoaded', function() {
+	// Payment method radio logic
+	const paymentRadios = document.getElementsByName('payment-type');
+	const stripeForm = document.getElementById('stripe-card-form');
+	function updateStripeFormVisibility() {
+		const selected = Array.from(paymentRadios).find(r => r.checked);
+		if (selected && selected.value === 'credit-card') {
+			stripeForm.style.display = '';
+		} else {
+			stripeForm.style.display = 'none';
+		}
+	}
+	paymentRadios.forEach(radio => {
+		radio.addEventListener('change', updateStripeFormVisibility);
+	});
+	updateStripeFormVisibility();
+
+	// Stripe initialization
+	stripe = Stripe(stripePublicKey);
+
+	// Fetch payment intent client secret from backend (mocked here)
+	fetch('/create-payment-intent', {
+		method: 'POST',
+		headers: { 'Content-Type': 'application/json' },
+		body: JSON.stringify({})
+	})
+		.then(res => res.json())
+		.then(data => {
+			const clientSecret = data.clientSecret || 'set_your_client_secret_here';
+			elements = stripe.elements({ clientSecret });
+			paymentElement = elements.create('payment');
+			paymentElement.mount('#payment-element');
+		});
+
+	// Handle Stripe form submission
+	const paymentForm = document.getElementById('payment-form');
+	if (paymentForm) {
+		paymentForm.addEventListener('submit', async function(e) {
+			e.preventDefault();
+			if (!stripe || !elements) return;
+			const { error } = await stripe.confirmPayment({
+				elements,
+				confirmParams: {
+					// Return URL after payment
+					return_url: window.location.origin + '/payment-success.html',
+				},
+			});
+			const messageDiv = document.getElementById('payment-message');
+			if (error) {
+				messageDiv.textContent = error.message;
+				messageDiv.classList.remove('hidden');
+			} else {
+				messageDiv.textContent = 'Payment processing...';
+				messageDiv.classList.remove('hidden');
+			}
+		});
+	}
+});
+</script>
 </body>
 </html>
