@@ -34,9 +34,8 @@ public class User implements UserDetails {
     @Column(name = "phone", length = 20)
     private String phone;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @Column(name = "role")
+    private String role = "USER"; // Mặc định là USER
 
     @Column(name = "status")
     private String status = "active";
@@ -56,7 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.toUpperCase()));
     }
 
     @Override
