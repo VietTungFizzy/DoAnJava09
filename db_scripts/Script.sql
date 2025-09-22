@@ -19,6 +19,9 @@ CREATE TABLE users (
   created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at   TIMESTAMP NULL,
+  failed_login_attempts INT DEFAULT 0,
+  locked_until TIMESTAMP NULL,
+  permanently_locked BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
@@ -390,3 +393,8 @@ CREATE TABLE audit_logs (
   INDEX idx_entity (entity, entity_id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+-- Insert required roles
+INSERT INTO roles (name) VALUES ('admin');
+INSERT INTO roles (name) VALUES ('seller');
+INSERT INTO roles (name) VALUES ('buyer');
