@@ -58,16 +58,16 @@
       <fieldset>
         <div class="mb-4">
           <label class="form-label fw-medium">Email or login</label>
-          <input type="text" class="form-control" placeholder="Enter email or username">
+          <input id="email-login" type="text" class="form-control" placeholder="Enter email or username">
         </div>
         <div class="mb-2">
           <label class="form-label fw-medium">Password</label>
-          <input type="text" class="form-control" placeholder="Enter your password">
+          <input id="password-login" type="text" class="form-control" placeholder="Enter your password">
         </div>
         <div class="mb-6">
           <a href="#" class="fs-sm">Forgot password</a>
         </div>
-        <button class="btn btn-primary w-100%">Sign in to account</button>
+        <button id="btn-login" class="btn btn-primary w-100%">Sign in to account</button>
       </fieldset>
 
       <hr class="my-6">
@@ -80,6 +80,9 @@
 
 <!-- store icons - not visible inside the HTML file -->
 <svg xmlns="http://www.w3.org/2000/svg" style="display: none">
+
+  <!-- Account JS -->
+<script src="js/account.js"></script>
 
 <symbol id="icon-google">
   <title>Google</title>
