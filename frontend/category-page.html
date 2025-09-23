@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh mục sản phẩm - Brandname</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="css/category.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-primary fs-3" href="homepage.html">Brandname</a>
+            
+            <div class="d-flex align-items-center flex-grow-1 mx-4">
+                <div class="input-group">
+                    <input class="form-control" type="search" placeholder="Tìm kiếm sản phẩm..." id="searchInput">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="d-flex align-items-center gap-3">
+                <a href="wishlist.html" class="text-dark">
+                    <i class="fas fa-heart fs-5"></i>
+                </a>
+                <a href="#" class="text-dark">
+                    <i class="fas fa-shopping-cart fs-5"></i>
+                </a>
+                <a href="profile.html" class="text-dark">
+                    <i class="fas fa-user fs-5"></i>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container py-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="homepage.html">Trang chủ</a></li>
+                <li class="breadcrumb-item active" id="breadcrumbCategory">Danh mục</li>
+            </ol>
+        </nav>
+    </div>
+
+    <!-- Category Header -->
+    <div class="category-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-8">
+                    <h1 class="category-title" id="categoryTitle">Danh mục sản phẩm</h1>
+                    <p class="category-subtitle" id="categoryDescription">
+                        Khám phá các sản phẩm chất lượng cao với giá cả hợp lý
+                    </p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="category-badge" id="productCount">0 sản phẩm</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Featured Products Section -->
+    <div class="container py-4" id="featuredSection" style="display: none;">
+        <h3 class="mb-4">
+            <i class="fas fa-star text-warning"></i>
+            Sản phẩm nổi bật
+        </h3>
+        <div class="row" id="featuredProducts">
+            <!-- Featured products will be loaded here -->
+        </div>
+    </div>
+
+    <!-- Promotions Banner -->
+    <div class="container py-4" id="promotionsSection">
+        <div class="row">
+            <div class="col-12">
+                <div class="promo-banner bg-gradient text-white rounded-3 p-4 mb-4">
+                    <div class="row align-items-center">
+                        <div class="col-md-8">
+                            <h4 class="mb-2">🎉 Khuyến mãi đặc biệt!</h4>
+                            <p class="mb-0">Giảm giá lên đến 50% cho tất cả sản phẩm trong danh mục này</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <div class="discount-badge">-50%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Sorting -->
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar Filters -->
+            <div class="col-lg-3">
+                <div class="filter-sidebar">
+                    <h5 class="mb-3">Bộ lọc</h5>
+                    
+                    <!-- Price Filter -->
+                    <div class="filter-group mb-4">
+                        <h6>Khoảng giá</h6>
+                        <div class="price-range">
+                            <input type="range" class="form-range" min="0" max="10000000" value="5000000" id="priceRange">
+                            <div class="d-flex justify-content-between">
+                                <span id="minPrice">0đ</span>
+                                <span id="maxPrice">10,000,000đ</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Brand Filter -->
+                    <div class="filter-group mb-4" id="brandFilter">
+                        <h6>Thương hiệu</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic brand options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Size Filter (for shoes/clothing) -->
+                    <div class="filter-group mb-4" id="sizeFilter" style="display: none;">
+                        <h6>Kích thước</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic size options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Color Filter -->
+                    <div class="filter-group mb-4" id="colorFilter">
+                        <h6>Màu sắc</h6>
+                        <div class="color-options">
+                            <!-- Dynamic color options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Material Filter (for specific categories) -->
+                    <div class="filter-group mb-4" id="materialFilter" style="display: none;">
+                        <h6>Chất liệu</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic material options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Gender Filter (for clothing) -->
+                    <div class="filter-group mb-4" id="genderFilter" style="display: none;">
+                        <h6>Giới tính</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic gender options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Season Filter (for clothing) -->
+                    <div class="filter-group mb-4" id="seasonFilter" style="display: none;">
+                        <h6>Mùa</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic season options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Style Filter (for clothing) -->
+                    <div class="filter-group mb-4" id="styleFilter" style="display: none;">
+                        <h6>Phong cách</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic style options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Fit Filter (for clothing) -->
+                    <div class="filter-group mb-4" id="fitFilter" style="display: none;">
+                        <h6>Kiểu dáng</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic fit options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- RAM Filter (for computers) -->
+                    <div class="filter-group mb-4" id="ramFilter" style="display: none;">
+                        <h6>RAM</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic RAM options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- CPU Filter (for computers) -->
+                    <div class="filter-group mb-4" id="cpuFilter" style="display: none;">
+                        <h6>CPU</h6>
+                        <div class="filter-options">
+                            <!-- Dynamic CPU options will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Subcategories -->
+                    <div class="filter-group mb-4" id="subcategoriesFilter">
+                        <h6>Danh mục con</h6>
+                        <div class="subcategories-list">
+                            <!-- Dynamic subcategories will be loaded here -->
+                        </div>
+                    </div>
+
+                    <button class="btn btn-outline-primary w-100" onclick="clearFilters()">
+                        <i class="fas fa-times"></i> Xóa bộ lọc
+                    </button>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-lg-9">
+                <!-- Sorting and View Options -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex align-items-center gap-3">
+                        <select class="form-select" id="sortSelect" style="width: auto;">
+                            <option value="newest">Mới nhất</option>
+                            <option value="price-low">Giá thấp đến cao</option>
+                            <option value="price-high">Giá cao đến thấp</option>
+                            <option value="rating">Đánh giá cao</option>
+                            <option value="popular">Phổ biến</option>
+                        </select>
+                        <span class="text-muted" id="resultCount">0 kết quả</span>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-outline-secondary" id="gridView" onclick="toggleView('grid')">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="btn btn-outline-secondary" id="listView" onclick="toggleView('list')">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div class="products-container" id="productsContainer">
+                    <div class="loading" id="loadingSpinner">
+                        <i class="fas fa-spinner fa-spin"></i> Đang tải sản phẩm...
+                    </div>
+                </div>
+
+                <!-- Pagination -->
+                <nav aria-label="Product pagination" class="mt-5">
+                    <ul class="pagination justify-content-center" id="pagination">
+                        <!-- Pagination will be generated here -->
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-main mt-5">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <h6 class="footer-brand">Brandname</h6>
+                    <p class="text-muted">Chuyên cung cấp các sản phẩm chất lượng cao với giá cả hợp lý.</p>
+                </div>
+                <div class="col-md-2">
+                    <h6>Liên kết</h6>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">Về chúng tôi</a></li>
+                        <li><a href="#" class="text-muted">Liên hệ</a></li>
+                        <li><a href="#" class="text-muted">Hỗ trợ</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3">
+                    <h6>Theo dõi chúng tôi</h6>
+                    <div class="footer-social">
+                        <i class="fab fa-facebook"></i>
+                        <i class="fab fa-twitter"></i>
+                        <i class="fab fa-instagram"></i>
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <h6>Tải ứng dụng</h6>
+                    <div class="footer-app">
+                        <img src="images/logo-payments.png" alt="App Store">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="container">
+                <p>&copy; 2024 Brandname. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Product Modal for Image Carousel -->
+    <div class="modal fade" id="productModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalTitle">Chi tiết sản phẩm</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" id="carouselInner">
+                            <!-- Product images will be loaded here -->
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/category.js"></script>
+</body>
+</html>
