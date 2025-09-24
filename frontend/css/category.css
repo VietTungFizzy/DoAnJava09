@@ -11,6 +11,7 @@
     color: white;
     padding: 60px 0;
     margin-bottom: 40px;
+    text-align: center;
 }
 
 .category-title {
@@ -579,19 +580,12 @@
         margin: 0 5px 20px 5px;
     }
     
-    .category-header {
-        text-align: center;
-    }
     
     .category-badge {
         margin-top: 10px;
     }
 }
 
-.category-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
 
 .category-title {
     font-size: 2.5rem;

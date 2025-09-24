@@ -2,8 +2,11 @@ package com.example.cypersoft.DoAnJava.controller;
 
 import com.example.cypersoft.DoAnJava.dto.CategoryResponse;
 import com.example.cypersoft.DoAnJava.entity.Category;
+import com.example.cypersoft.DoAnJava.exception.CategoryNotFoundException;
+import com.example.cypersoft.DoAnJava.exception.CategoryValidationException;
 import com.example.cypersoft.DoAnJava.service.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +30,7 @@ public class CategoryController {
         try {
             CategoryResponse category = categoryService.getCategoryById(id);
             return ResponseEntity.ok(category);
-        } catch (RuntimeException e) {
+        } catch (CategoryNotFoundException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -49,8 +52,10 @@ public class CategoryController {
         try {
             CategoryResponse createdCategory = categoryService.createCategory(category);
             return ResponseEntity.ok(createdCategory);
-        } catch (Exception e) {
+        } catch (CategoryValidationException e) {
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -59,10 +64,12 @@ public class CategoryController {
         try {
             CategoryResponse updatedCategory = categoryService.updateCategory(id, category);
             return ResponseEntity.ok(updatedCategory);
-        } catch (RuntimeException e) {
+        } catch (CategoryNotFoundException e) {
             return ResponseEntity.notFound().build();
-        } catch (Exception e) {
+        } catch (CategoryValidationException e) {
             return ResponseEntity.badRequest().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
@@ -71,10 +78,10 @@ public class CategoryController {
         try {
             categoryService.deleteCategory(id);
             return ResponseEntity.ok().build();
-        } catch (RuntimeException e) {
+        } catch (CategoryNotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 }

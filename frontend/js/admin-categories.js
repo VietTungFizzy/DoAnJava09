@@ -1,6 +1,6 @@
 class AdminCategoryManager {
     constructor() {
-        this.baseUrl = 'http://localhost:8080/api/categories';
+        this.baseUrl = AppConfig.getCategoriesUrl();
         this.categories = [];
         this.editingCategory = null;
         

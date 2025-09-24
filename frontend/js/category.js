@@ -610,6 +610,30 @@ class CategoryManager {
             </div>
         `;
     }
+
+    handleSearch(keyword) {
+        if (!keyword.trim()) {
+            this.filteredProducts = [...this.products];
+            this.currentPage = 1;
+            this.updateProductCount();
+            this.renderProducts();
+            this.renderPagination();
+            return;
+        }
+
+        const searchTerm = keyword.toLowerCase();
+        this.filteredProducts = this.products.filter(product => 
+            product.name.toLowerCase().includes(searchTerm) ||
+            product.description.toLowerCase().includes(searchTerm) ||
+            product.brand.toLowerCase().includes(searchTerm) ||
+            product.category.toLowerCase().includes(searchTerm)
+        );
+
+        this.currentPage = 1;
+        this.updateProductCount();
+        this.renderProducts();
+        this.renderPagination();
+    }
 }
 
 // Global functions
@@ -679,10 +703,6 @@ function viewProduct(productId) {
     window.location.href = `product-detail.html?id=${productId}`;
 }
 
-function toggleFavorite(productId) {
-    // Implement favorite functionality
-    console.log('Toggle favorite:', productId);
-}
 
 function addToCart(productId) {
     // Implement add to cart functionality
