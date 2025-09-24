@@ -1,10 +1,15 @@
+<<<<<<< Updated upstream
 /* Category Page Styles for Clothing Store */
+=======
+/* Category Page Styles */
+>>>>>>> Stashed changes
 .category-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
+<<<<<<< Updated upstream
 /* Clothing-specific category styles */
 .category-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -588,6 +593,14 @@
 
 
 .category-title {
+=======
+.category-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.category-title {
+>>>>>>> Stashed changes
     font-size: 2.5rem;
     font-weight: bold;
     color: #333;

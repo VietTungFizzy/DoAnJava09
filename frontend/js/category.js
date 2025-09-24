@@ -13,10 +13,15 @@ class CategoryManager {
             sizes: [],
             colors: [],
             materials: [],
+<<<<<<< Updated upstream
             genders: [],
             seasons: [],
             styles: [],
             fits: []
+=======
+            ram: [],
+            cpu: []
+>>>>>>> Stashed changes
         };
         this.sortBy = 'newest';
         
@@ -160,6 +165,7 @@ class CategoryManager {
                 },
                 {
                     id: 4,
+<<<<<<< Updated upstream
                     name: 'Áo thun nam Nike Dri-FIT',
                     price: 450000,
                     originalPrice: 600000,
@@ -237,6 +243,50 @@ class CategoryManager {
                     season: 'Fall',
                     style: 'Casual',
                     fit: 'Slim'
+=======
+                    name: 'Nike Air Max 270',
+                    price: 3200000,
+                    originalPrice: 3800000,
+                    discount: 16,
+                    rating: 4.5,
+                    reviewCount: 2100,
+                    images: [
+                        'images/product-cloth/nike-air-max-1.jpg',
+                        'images/product-cloth/nike-air-max-2.jpg',
+                        'images/product-cloth/nike-air-max-3.jpg'
+                    ],
+                    brand: 'Nike',
+                    color: 'White',
+                    category: 'shoes',
+                    subcategory: 'sneakers',
+                    featured: false,
+                    inStock: true,
+                    description: 'Giày thể thao Nike Air Max 270',
+                    size: ['39', '40', '41', '42', '43'],
+                    material: 'Mesh'
+                },
+                {
+                    id: 5,
+                    name: 'Adidas Ultraboost 22',
+                    price: 4500000,
+                    originalPrice: 5000000,
+                    discount: 10,
+                    rating: 4.6,
+                    reviewCount: 1800,
+                    images: [
+                        'images/product-cloth/adidas-ultraboost-1.jpg',
+                        'images/product-cloth/adidas-ultraboost-2.jpg'
+                    ],
+                    brand: 'Adidas',
+                    color: 'Black',
+                    category: 'shoes',
+                    subcategory: 'running',
+                    featured: false,
+                    inStock: true,
+                    description: 'Giày chạy bộ Adidas Ultraboost 22',
+                    size: ['39', '40', '41', '42', '43', '44'],
+                    material: 'Primeknit'
+>>>>>>> Stashed changes
                 }
             ]
         };
@@ -351,6 +401,7 @@ class CategoryManager {
         // Hide all category-specific filters first
         document.getElementById('sizeFilter').style.display = 'none';
         document.getElementById('materialFilter').style.display = 'none';
+<<<<<<< Updated upstream
         document.getElementById('genderFilter').style.display = 'none';
         document.getElementById('seasonFilter').style.display = 'none';
         document.getElementById('styleFilter').style.display = 'none';
@@ -364,6 +415,18 @@ class CategoryManager {
             document.getElementById('seasonFilter').style.display = 'block';
             document.getElementById('styleFilter').style.display = 'block';
             document.getElementById('fitFilter').style.display = 'block';
+=======
+        document.getElementById('ramFilter').style.display = 'none';
+        document.getElementById('cpuFilter').style.display = 'none';
+
+        // Show relevant filters based on category
+        if (['shoes', 'clothing'].includes(category)) {
+            document.getElementById('sizeFilter').style.display = 'block';
+            document.getElementById('materialFilter').style.display = 'block';
+        } else if (category === 'laptop' || category === 'computer') {
+            document.getElementById('ramFilter').style.display = 'block';
+            document.getElementById('cpuFilter').style.display = 'block';
+>>>>>>> Stashed changes
         }
     }
 
@@ -610,6 +673,7 @@ class CategoryManager {
             </div>
         `;
     }
+<<<<<<< Updated upstream
 
     handleSearch(keyword) {
         if (!keyword.trim()) {
@@ -634,6 +698,8 @@ class CategoryManager {
         this.renderProducts();
         this.renderPagination();
     }
+=======
+>>>>>>> Stashed changes
 }
 
 // Global functions
@@ -684,10 +750,15 @@ function clearFilters() {
         sizes: [],
         colors: [],
         materials: [],
+<<<<<<< Updated upstream
         genders: [],
         seasons: [],
         styles: [],
         fits: []
+=======
+        ram: [],
+        cpu: []
+>>>>>>> Stashed changes
     };
     
     // Reset UI
@@ -703,6 +774,13 @@ function viewProduct(productId) {
     window.location.href = `product-detail.html?id=${productId}`;
 }
 
+<<<<<<< Updated upstream
+=======
+function toggleFavorite(productId) {
+    // Implement favorite functionality
+    console.log('Toggle favorite:', productId);
+}
+>>>>>>> Stashed changes
 
 function addToCart(productId) {
     // Implement add to cart functionality
