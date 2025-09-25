@@ -1,16 +1,11 @@
-<<<<<<< Updated upstream
-/* Category Page Styles for Clothing Store */
-=======
 /* Category Page Styles */
->>>>>>> Stashed changes
 .category-container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
 }
 
-<<<<<<< Updated upstream
-/* Clothing-specific category styles */
+/* Category header styles */
 .category-header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -593,24 +588,15 @@
 
 
 .category-title {
-=======
-.category-header {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.category-title {
->>>>>>> Stashed changes
-    font-size: 2.5rem;
+    font-size: 3rem;
     font-weight: bold;
-    color: #333;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .category-subtitle {
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 30px;
+    font-size: 1.2rem;
+    opacity: 0.9;
+    margin-bottom: 0;
 }
 
 .category-filters {

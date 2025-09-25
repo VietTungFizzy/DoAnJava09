@@ -5,16 +5,19 @@ import com.example.cypersoft.DoAnJava.dto.LoginResponse;
 import com.example.cypersoft.DoAnJava.dto.RegisterRequest;
 import com.example.cypersoft.DoAnJava.entity.User;
 import com.example.cypersoft.DoAnJava.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
+
+    public AuthController(@Lazy UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {

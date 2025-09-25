@@ -13,15 +13,12 @@ class CategoryManager {
             sizes: [],
             colors: [],
             materials: [],
-<<<<<<< Updated upstream
             genders: [],
             seasons: [],
             styles: [],
-            fits: []
-=======
+            fits: [],
             ram: [],
             cpu: []
->>>>>>> Stashed changes
         };
         this.sortBy = 'newest';
         
@@ -165,7 +162,6 @@ class CategoryManager {
                 },
                 {
                     id: 4,
-<<<<<<< Updated upstream
                     name: 'Áo thun nam Nike Dri-FIT',
                     price: 450000,
                     originalPrice: 600000,
@@ -219,31 +215,6 @@ class CategoryManager {
                 },
                 {
                     id: 6,
-                    name: 'Áo khoác nữ Zara',
-                    price: 1800000,
-                    originalPrice: 2200000,
-                    discount: 18,
-                    rating: 4.4,
-                    reviewCount: 650,
-                    images: [
-                        'images/product-cloth/zara-jacket-1.jpg',
-                        'images/product-cloth/zara-jacket-2.jpg',
-                        'images/product-cloth/zara-jacket-3.jpg'
-                    ],
-                    brand: 'Zara',
-                    color: 'Beige',
-                    category: 'clothing',
-                    subcategory: 'jacket',
-                    featured: false,
-                    inStock: true,
-                    description: 'Áo khoác nữ Zara phong cách',
-                    size: ['XS', 'S', 'M', 'L'],
-                    material: 'Polyester',
-                    gender: 'Women',
-                    season: 'Fall',
-                    style: 'Casual',
-                    fit: 'Slim'
-=======
                     name: 'Nike Air Max 270',
                     price: 3200000,
                     originalPrice: 3800000,
@@ -264,29 +235,6 @@ class CategoryManager {
                     description: 'Giày thể thao Nike Air Max 270',
                     size: ['39', '40', '41', '42', '43'],
                     material: 'Mesh'
-                },
-                {
-                    id: 5,
-                    name: 'Adidas Ultraboost 22',
-                    price: 4500000,
-                    originalPrice: 5000000,
-                    discount: 10,
-                    rating: 4.6,
-                    reviewCount: 1800,
-                    images: [
-                        'images/product-cloth/adidas-ultraboost-1.jpg',
-                        'images/product-cloth/adidas-ultraboost-2.jpg'
-                    ],
-                    brand: 'Adidas',
-                    color: 'Black',
-                    category: 'shoes',
-                    subcategory: 'running',
-                    featured: false,
-                    inStock: true,
-                    description: 'Giày chạy bộ Adidas Ultraboost 22',
-                    size: ['39', '40', '41', '42', '43', '44'],
-                    material: 'Primeknit'
->>>>>>> Stashed changes
                 }
             ]
         };
@@ -401,13 +349,14 @@ class CategoryManager {
         // Hide all category-specific filters first
         document.getElementById('sizeFilter').style.display = 'none';
         document.getElementById('materialFilter').style.display = 'none';
-<<<<<<< Updated upstream
         document.getElementById('genderFilter').style.display = 'none';
         document.getElementById('seasonFilter').style.display = 'none';
         document.getElementById('styleFilter').style.display = 'none';
         document.getElementById('fitFilter').style.display = 'none';
+        document.getElementById('ramFilter').style.display = 'none';
+        document.getElementById('cpuFilter').style.display = 'none';
 
-        // Show relevant filters for clothing categories
+        // Show relevant filters based on category
         if (['clothing', 'shoes', 'accessories'].includes(category)) {
             document.getElementById('sizeFilter').style.display = 'block';
             document.getElementById('materialFilter').style.display = 'block';
@@ -415,18 +364,9 @@ class CategoryManager {
             document.getElementById('seasonFilter').style.display = 'block';
             document.getElementById('styleFilter').style.display = 'block';
             document.getElementById('fitFilter').style.display = 'block';
-=======
-        document.getElementById('ramFilter').style.display = 'none';
-        document.getElementById('cpuFilter').style.display = 'none';
-
-        // Show relevant filters based on category
-        if (['shoes', 'clothing'].includes(category)) {
-            document.getElementById('sizeFilter').style.display = 'block';
-            document.getElementById('materialFilter').style.display = 'block';
         } else if (category === 'laptop' || category === 'computer') {
             document.getElementById('ramFilter').style.display = 'block';
             document.getElementById('cpuFilter').style.display = 'block';
->>>>>>> Stashed changes
         }
     }
 
@@ -673,8 +613,6 @@ class CategoryManager {
             </div>
         `;
     }
-<<<<<<< Updated upstream
-
     handleSearch(keyword) {
         if (!keyword.trim()) {
             this.filteredProducts = [...this.products];
@@ -698,8 +636,6 @@ class CategoryManager {
         this.renderProducts();
         this.renderPagination();
     }
-=======
->>>>>>> Stashed changes
 }
 
 // Global functions
@@ -750,15 +686,12 @@ function clearFilters() {
         sizes: [],
         colors: [],
         materials: [],
-<<<<<<< Updated upstream
         genders: [],
         seasons: [],
         styles: [],
-        fits: []
-=======
+        fits: [],
         ram: [],
         cpu: []
->>>>>>> Stashed changes
     };
     
     // Reset UI
@@ -774,13 +707,6 @@ function viewProduct(productId) {
     window.location.href = `product-detail.html?id=${productId}`;
 }
 
-<<<<<<< Updated upstream
-=======
-function toggleFavorite(productId) {
-    // Implement favorite functionality
-    console.log('Toggle favorite:', productId);
-}
->>>>>>> Stashed changes
 
 function addToCart(productId) {
     // Implement add to cart functionality

@@ -2,16 +2,19 @@ package com.example.cypersoft.DoAnJava.controller;
 
 import com.example.cypersoft.DoAnJava.dto.*;
 import com.example.cypersoft.DoAnJava.service.UserService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
-@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
+
+    public UserController(@Lazy UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/profile")
     public ResponseEntity<UserProfileResponse> getUserProfile() {

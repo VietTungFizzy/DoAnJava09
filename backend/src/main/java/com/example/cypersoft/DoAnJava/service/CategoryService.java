@@ -22,27 +22,27 @@ public class CategoryService {
     public List<CategoryResponse> getAllCategories() {
         List<Category> categories = categoryRepository.findByParentIdIsNullAndIsActiveTrueOrderBySortOrder();
         return categories.stream()
-                .map(this::convertToResponse)
+                .map(this::convertToResponseWithSubcategories)
                 .collect(Collectors.toList());
     }
 
     public List<CategoryResponse> getSubcategories(Integer parentId) {
         List<Category> subcategories = categoryRepository.findByParentIdAndIsActiveTrueOrderBySortOrder(parentId);
         return subcategories.stream()
-                .map(this::convertToResponse)
+                .map(this::convertToResponse) // Không load subcategories của subcategories
                 .collect(Collectors.toList());
     }
 
     public CategoryResponse getCategoryById(Integer id) {
         Category category = categoryRepository.findByIdAndIsActiveTrue(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
-        return convertToResponse(category);
+        return convertToResponseWithSubcategories(category);
     }
 
     public List<CategoryResponse> searchCategories(String keyword) {
         List<Category> categories = categoryRepository.findByNameContainingIgnoreCase(keyword);
         return categories.stream()
-                .map(this::convertToResponse)
+                .map(this::convertToResponseWithSubcategories)
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +52,7 @@ public class CategoryService {
         category.setUpdatedAt(LocalDateTime.now());
         category.setIsActive(true);
         Category savedCategory = categoryRepository.save(category);
-        return convertToResponse(savedCategory);
+        return convertToResponseWithSubcategories(savedCategory);
     }
 
     public CategoryResponse updateCategory(Integer id, Category categoryData) {
@@ -70,7 +70,7 @@ public class CategoryService {
         category.setUpdatedAt(LocalDateTime.now());
         
         Category savedCategory = categoryRepository.save(category);
-        return convertToResponse(savedCategory);
+        return convertToResponseWithSubcategories(savedCategory);
     }
 
     public void deleteCategory(Integer id) {
@@ -94,15 +94,24 @@ public class CategoryService {
         response.setCreatedAt(category.getCreatedAt());
         response.setUpdatedAt(category.getUpdatedAt());
 
-        // Set default product count
+        // Set default product count (can be enhanced later with actual product count)
         response.setProductCount(0L);
 
+        return response;
+    }
+    
+    private CategoryResponse convertToResponseWithSubcategories(Category category) {
+        CategoryResponse response = convertToResponse(category);
+        
         // Get subcategories if this is a parent category
         if (category.getParentId() == null) {
-            List<CategoryResponse> subcategories = getSubcategories(category.getId());
-            response.setSubcategories(subcategories);
+            List<Category> subcategories = categoryRepository.findByParentIdAndIsActiveTrueOrderBySortOrder(category.getId());
+            List<CategoryResponse> subcategoryResponses = subcategories.stream()
+                    .map(this::convertToResponse) // Không load subcategories của subcategories
+                    .collect(Collectors.toList());
+            response.setSubcategories(subcategoryResponses);
         }
-
+        
         return response;
     }
     
