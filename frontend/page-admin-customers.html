@@ -1,0 +1,583 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Ecommerce UI - Admin Customer Management"/>
+  <meta name="author" content="Final CSS">
+
+  <title>Admin - Customer Management</title>
+
+	<!-- FinalCSS -->
+	<link href="css/final.css" rel="stylesheet" type="text/css" />
+	<link href="css/admin-customers.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+<!-- Mobile Menu Dialog -->
+<dialog id="dialog_menu_mobile" class="dialog p-1 max-w-100">
+	<div class="dialog-body p-3">
+		<button class="btn-close-dialog" onclick="document.getElementById('dialog_menu_mobile').close()"> ✕ </button>
+		<h5>Admin</h5>
+		<hr>
+		<style>
+			#mobile_nav_container .nav-link:not(:hover){ background:var(--neutral-100); }
+		</style>
+		<nav id="mobile_nav_container"> </nav>
+	</div>
+</dialog>
+
+<!-- Add/Edit User Modal -->
+<dialog id="dialog_user_form" class="dialog p-1">
+	<div class="dialog-body p-5" style="width: 500px;">
+		<header class="d-flex justify-content-between align-items-center mb-4">
+			<h5 id="modal_title">Add New User</h5>
+			<button class="btn-close-dialog" onclick="closeUserModal()"> ✕ </button>
+		</header>
+		
+		<form id="userForm" class="mb-4">
+			<input type="hidden" id="user_id" name="user_id">
+			
+			<div class="mb-3 text-center">
+				<div class="avatar-upload">
+					<img id="avatar_preview" src="images/no-avatar.png" alt="Avatar" class="rounded-circle" width="80" height="80">
+					<input type="file" id="avatar_input" accept="image/*" style="display: none;">
+					<button type="button" class="btn btn-sm btn-primary mt-2" onclick="document.getElementById('avatar_input').click()">
+						Change Avatar
+					</button>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Full Name *</label>
+				<input type="text" id="user_name" class="form-control" placeholder="Enter full name" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Email *</label>
+				<input type="email" id="user_email" class="form-control" placeholder="Enter email address" required>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Phone</label>
+				<input type="tel" id="user_phone" class="form-control" placeholder="Enter phone number">
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Role *</label>
+				<select id="user_role" class="form-select" required>
+					<option value="">Select Role</option>
+					<option value="BUYER">Buyer</option>
+					<option value="SELLER">Seller</option>
+					<option value="ADMIN">Admin</option>
+				</select>
+			</div>
+
+			<div class="mb-3" id="password_section">
+				<label class="form-label">Password *</label>
+				<input type="password" id="user_password" class="form-control" placeholder="Enter password">
+				<small class="text-muted">Leave blank to keep current password (when editing)</small>
+			</div>
+
+			<div class="d-flex gap-2">
+				<button type="submit" class="btn btn-primary flex-fill">Save User</button>
+				<button type="button" class="btn btn-secondary" onclick="closeUserModal()">Cancel</button>
+			</div>
+		</form>
+	</div>
+</dialog>
+
+<!-- Delete Confirmation Modal -->
+<dialog id="dialog_delete_confirm" class="dialog p-1">
+	<div class="dialog-body p-4" style="width: 400px;">
+		<h5 class="mb-3">Confirm Delete</h5>
+		<p>Are you sure you want to delete this user? This action cannot be undone.</p>
+		<div class="d-flex gap-2 mt-4">
+			<button class="btn btn-danger flex-fill" onclick="alert('User deleted! (This is a demo)'); document.getElementById('dialog_delete_confirm').close();">Delete</button>
+			<button class="btn btn-secondary flex-fill" onclick="document.getElementById('dialog_delete_confirm').close()">Cancel</button>
+		</div>
+	</div>
+</dialog>
+
+<div class="lg:d-flex w-100% min-h-100vh">
+	<!-- Sidebar -->
+	<aside class="d-none lg:d-block bg-neutral-100 border-right flex-grow-0 flex-shrink-0 lg:w-60 w-40">
+		<header class="d-flex align-items-center px-3 border-bottom h-14">
+			<a href="page-admin.html" class="d-block flex-shrink-0 hover:opacity-80 d-flex text-decoration-none align-items-center m-0">
+				<img src="images/logo-shape.svg" height="38">
+				<div style="font-size:20px;" class="max-lg:hidden text-dark font-semibold ml-2"> Admin </div>
+			</a>
+		</header>
+		<nav class="p-2 mt-1">
+			<ul class="nav nav-col" id="nav_aside">
+				<li>
+					<a class="nav-link" href="page-admin.html">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="page-admin-orders.html">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+					All orders
+				</a>
+				</li>
+				<li>
+					<a class="nav-link" href="page-admin-products.html">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package2-icon lucide-package-2"><path d="M12 3v6"/><path d="M16.76 3a2 2 0 0 1 1.8 1.1l2.23 4.479a2 2 0 0 1 .21.891V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.472a2 2 0 0 1 .211-.894L5.45 4.1A2 2 0 0 1 7.24 3z"/><path d="M3.054 9.013h17.893"/></svg>
+					Products
+					</a>
+				</li>
+				<li>
+					<a class="nav-link active" href="page-admin-customers.html">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
+						Customers
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-spreadsheet-icon lucide-file-spreadsheet"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
+						Invoices
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+					Finance
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+						Discounts
+					</a>
+				</li>
+				<li class="border-top border-color-neutral-300 mt-2 pt-2">
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+						Settings
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</aside>
+
+	<!-- Main Content -->
+	<main class="flex-grow">
+		<!-- Header -->
+		<header class="d-flex p-3 lg:px-5 align-items-center border-bottom h-14">
+			<button class="btn btn-default btn-icon mr-3 lg:d-none" onclick="open_dialog('dialog_menu_mobile')">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+				    <path d="M4 5L20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				    <path d="M4 12L20 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				    <path d="M4 19L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+
+			<h5 class="m-0 text-xl max-sm:d-none">Customer Management</h5>
+			<div class="d-flex align-items-center gap-2 ml-auto">
+				<button class="btn btn-primary" onclick="openAddUserModal()"
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+						<circle cx="9" cy="7" r="4"/>
+						<line x1="19" x2="19" y1="8" y2="14"/>
+						<line x1="22" x2="16" y1="11" y2="11"/>
+					</svg>
+					Add User
+				</button>
+			</div>
+		</header>
+
+		<!-- Content -->
+		<div class="p-3 lg:p-5">
+			<!-- Stats Cards -->
+			<section class="mb-5 d-grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+				<div class="card bg-neutral-100 p-4">
+					<div class="d-flex justify-content-between align-items-center">
+						<div>
+							<p class="mb-1 text-sm text-muted">Total Users</p>
+							<h4 class="mb-0">8</h4>
+						</div>
+						<div class="bg-primary text-white p-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+								<circle cx="9" cy="7" r="4"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-neutral-100 p-4">
+					<div class="d-flex justify-content-between align-items-center">
+						<div>
+							<p class="mb-1 text-sm text-muted">Buyers</p>
+							<h4 class="mb-0">4</h4>
+						</div>
+						<div class="bg-success text-white p-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M9 12l2 2 4-4"/>
+								<path d="M21 12c.552 0 1-.448 1-1V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v6c0 .552.448 1 1 1"/>
+								<path d="M3 10v6a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-6"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-neutral-100 p-4">
+					<div class="d-flex justify-content-between align-items-center">
+						<div>
+							<p class="mb-1 text-sm text-muted">Sellers</p>
+							<h4 class="mb-0">3</h4>
+						</div>
+						<div class="bg-warning text-white p-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+								<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="card bg-neutral-100 p-4">
+					<div class="d-flex justify-content-between align-items-center">
+						<div>
+							<p class="mb-1 text-sm text-muted">Admins</p>
+							<h4 class="mb-0">1</h4>
+						</div>
+						<div class="bg-danger text-white p-2 rounded">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+								<path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+							</svg>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Filters and Search -->
+			<section class="mb-4">
+				<div class="card p-4">
+					<div class="d-flex flex-wrap gap-3 align-items-center">
+						<div>
+							<label class="form-label">Filter by Role:</label>
+							<select class="form-select">
+								<option value="">All Roles</option>
+								<option value="BUYER">Buyer</option>
+								<option value="SELLER">Seller</option>
+								<option value="ADMIN">Admin</option>
+							</select>
+						</div>
+						<div class="flex-fill">
+							<label class="form-label">Search:</label>
+							<input type="search" class="form-control" placeholder="Search by name, email, or phone...">
+						</div>
+						<div class="d-flex align-items-end">
+							<button class="btn btn-secondary" onclick="alert('Export feature coming soon!')"
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+									<polyline points="7,10 12,15 17,10"/>
+									<line x1="12" x2="12" y1="15" y2="3"/>
+								</svg>
+								Export
+							</button>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<!-- Users Table -->
+			<section>
+				<div class="card">
+					<div class="card-header d-flex justify-content-between align-items-center p-4 border-bottom">
+						<h6 class="mb-0">Users List</h6>
+						<small class="text-muted">8 total users</small>
+					</div>
+					
+					<div class="table-responsive">
+						<table class="table table-hover mb-0">
+							<thead class="bg-light">
+								<tr>
+									<th>ID</th>
+									<th>Avatar</th>
+									<th>Name</th>
+									<th>Email</th>
+									<th>Phone</th>
+									<th>Role</th>
+									<th>Created Date</th>
+									<th class="text-center">Actions</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>#001</td>
+									<td>
+										<img src="images/avatar.png" alt="John Doe" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">John Doe</div>
+									</td>
+									<td>john.doe@example.com</td>
+									<td>+1234567890</td>
+									<td>
+										<span class="badge bg-success">BUYER</span>
+									</td>
+									<td>15/01/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#002</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Jane Smith" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Jane Smith</div>
+									</td>
+									<td>jane.smith@example.com</td>
+									<td>+1987654321</td>
+									<td>
+										<span class="badge bg-warning">SELLER</span>
+									</td>
+									<td>20/01/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#003</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Mike Johnson" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Mike Johnson</div>
+									</td>
+									<td>mike.johnson@example.com</td>
+									<td>+1122334455</td>
+									<td>
+										<span class="badge bg-danger">ADMIN</span>
+									</td>
+									<td>10/01/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#004</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Sarah Wilson" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Sarah Wilson</div>
+									</td>
+									<td>sarah.wilson@example.com</td>
+									<td>+1556677889</td>
+									<td>
+										<span class="badge bg-success">BUYER</span>
+									</td>
+									<td>01/02/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#005</td>
+									<td>
+										<img src="images/no-avatar.png" alt="David Brown" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">David Brown</div>
+									</td>
+									<td>david.brown@example.com</td>
+									<td>+1667788990</td>
+									<td>
+										<span class="badge bg-warning">SELLER</span>
+									</td>
+									<td>05/02/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#006</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Alice Johnson" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Alice Johnson</div>
+									</td>
+									<td>alice.johnson@example.com</td>
+									<td>+1234567891</td>
+									<td>
+										<span class="badge bg-success">BUYER</span>
+									</td>
+									<td>10/02/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#007</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Robert Lee" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Robert Lee</div>
+									</td>
+									<td>robert.lee@example.com</td>
+									<td>+1987654322</td>
+									<td>
+										<span class="badge bg-warning">SELLER</span>
+									</td>
+									<td>15/02/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>#008</td>
+									<td>
+										<img src="images/no-avatar.png" alt="Emma Davis" class="rounded-circle" width="40" height="40">
+									</td>
+									<td>
+										<div class="fw-medium">Emma Davis</div>
+									</td>
+									<td>emma.davis@example.com</td>
+									<td>-</td>
+									<td>
+										<span class="badge bg-success">BUYER</span>
+									</td>
+									<td>20/02/2024</td>
+									<td class="text-center">
+										<div class="btn-group btn-group-sm">
+											<button class="btn btn-outline-primary" title="Edit">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+												</svg>
+											</button>
+											<button class="btn btn-outline-danger" title="Delete">
+												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+													<polyline points="3,6 5,6 21,6"/>
+													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+												</svg>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="card-footer p-4 border-top">
+						<div class="d-flex justify-content-between align-items-center">
+							<span class="text-muted">Showing 1-8 of 8 users</span>
+							<nav>
+								<div class="d-flex gap-2">
+									<button class="btn btn-outline-secondary btn-sm" disabled>Previous</button>
+									<span class="btn btn-outline-secondary btn-sm disabled">Page 1 of 1</span>
+									<button class="btn btn-outline-secondary btn-sm" disabled>Next</button>
+								</div>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</section>
+		</div>
+	</main>
+</div>
+
+
+
+</body>
+</html>

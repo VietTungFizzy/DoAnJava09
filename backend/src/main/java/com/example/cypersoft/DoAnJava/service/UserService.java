@@ -9,6 +9,7 @@ import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +34,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    @Lazy
     private PasswordEncoder passwordEncoder;
 
     @Autowired
