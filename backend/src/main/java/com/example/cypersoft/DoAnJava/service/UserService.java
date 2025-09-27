@@ -2,9 +2,10 @@ package com.example.cypersoft.DoAnJava.service;
 
 import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
+import com.example.cypersoft.DoAnJava.dto.UserDTO;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
-import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.entity.User;
+import com.example.cypersoft.DoAnJava.mapper.UserMapper;
 import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.util.JwtUtil;
@@ -21,8 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
 import java.util.Optional;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
@@ -263,4 +264,13 @@ public class UserService implements UserDetailsService {
         
         return "Yêu cầu xóa tài khoản đã được gửi. Chúng tôi sẽ xử lý trong vòng 24-48 giờ.";
     }
+
+
+
+    public List<UserDTO> getAllUsers() {
+        return userRepository.findAll().stream().map(UserMapper::toDTO).toList();
+    }
+
+
+
 }

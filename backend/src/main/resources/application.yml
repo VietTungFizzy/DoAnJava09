@@ -9,7 +9,7 @@ spring:
 #    password: admin123
     url: jdbc:mysql://localhost:3307/marketplace_db
     username: root
-    password:
+    password: ductu2004
   jpa:
     hibernate:
       ddl-auto: none
