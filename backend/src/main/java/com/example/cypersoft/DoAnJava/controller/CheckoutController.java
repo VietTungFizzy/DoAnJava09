@@ -23,12 +23,12 @@ public class CheckoutController {
 
     @PostMapping("/create-session")
     public Map<String, String> createCheckoutSession(@RequestParam Long productId, @RequestParam Long quantity) throws Exception {
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
-
-        if (quantity == null || quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than 0");
-        }
+//        Product product = productRepository.findById(productId)
+//                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+//
+//        if (quantity == null || quantity <= 0) {
+//            throw new IllegalArgumentException("Quantity must be greater than 0");
+//        }
 
         SessionCreateParams params =
                 SessionCreateParams.builder()
@@ -37,14 +37,14 @@ public class CheckoutController {
                         .setCancelUrl(baseDomain + "/cancel")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
-                                        .setQuantity(quantity)
+                                        .setQuantity(1L)
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
-                                                        .setCurrency(product.getCurrency())
-                                                        .setUnitAmount(product.getPrice())
+                                                        .setCurrency("VND")
+                                                        .setUnitAmount(50000L)
                                                         .setProductData(
                                                                 SessionCreateParams.LineItem.PriceData.ProductData.builder()
-                                                                        .setName(product.getName())
+                                                                        .setName("T-shirt")
                                                                         .build()
                                                         )
                                                         .build()
