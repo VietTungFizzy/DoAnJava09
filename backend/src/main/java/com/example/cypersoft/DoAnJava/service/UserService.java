@@ -3,7 +3,6 @@ package com.example.cypersoft.DoAnJava.service;
 import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
-import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.entity.User;
 import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
@@ -22,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Optional;
-import java.time.Duration;
 import java.time.LocalDateTime;
 
 @Service
@@ -41,6 +39,7 @@ public class UserService implements UserDetailsService {
     private JwtUtil jwtUtil;
 
     @Autowired
+    @Lazy
     private EmailService emailService;
     @Value("${app.admin.email:admin@example.com}")
     private String adminEmail;
