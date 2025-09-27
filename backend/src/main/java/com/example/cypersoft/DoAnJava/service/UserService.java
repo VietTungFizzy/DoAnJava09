@@ -32,6 +32,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    @Lazy
     private PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -124,6 +125,8 @@ public class UserService implements UserDetailsService {
             user.setRole(roleRepository.findByName(user.getRole().getName())
                 .orElseThrow(() -> new RuntimeException("Role '" + user.getRole().getName() + "' does not exist in DB.")));
         }
+        // Remove the hardcoded role override - it was overwriting the properly set role above
+
         user.setStatus("active");
         user.setFailedLoginAttempts(0);
         user.setLockedUntil(null);
@@ -262,3 +265,4 @@ public class UserService implements UserDetailsService {
         return "Yêu cầu xóa tài khoản đã được gửi. Chúng tôi sẽ xử lý trong vòng 24-48 giờ.";
     }
 }
+
