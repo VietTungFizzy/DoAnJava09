@@ -19,9 +19,6 @@ CREATE TABLE users (
   created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   updated_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   deleted_at   TIMESTAMP NULL,
-  failed_login_attempts INT DEFAULT 0,
-  locked_until TIMESTAMP NULL,
-  permanently_locked BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
@@ -398,3 +395,9 @@ CREATE TABLE audit_logs (
 INSERT INTO roles (name) VALUES ('admin');
 INSERT INTO roles (name) VALUES ('seller');
 INSERT INTO roles (name) VALUES ('buyer');
+
+-- Add columes for user table
+ALTER TABLE users
+  ADD COLUMN failed_login_attempts INT DEFAULT 0,
+  ADD COLUMN locked_until TIMESTAMP NULL,
+  ADD COLUMN permanently_locked BOOLEAN DEFAULT FALSE;
