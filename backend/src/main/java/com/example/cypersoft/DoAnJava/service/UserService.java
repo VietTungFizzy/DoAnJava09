@@ -1,5 +1,6 @@
 package com.example.cypersoft.DoAnJava.service;
 
+import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
@@ -32,6 +33,9 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+
+    @Autowired
     @Lazy
     private PasswordEncoder passwordEncoder;
 
@@ -55,8 +59,6 @@ public class UserService implements UserDetailsService {
         }
         return user.get();
     }
-
-    // registerUser implemented below with email sending and lock fields initialization
 
     public String authenticateUser(String email, String password) {
         User user = getUserByEmail(email);
@@ -117,6 +119,17 @@ public class UserService implements UserDetailsService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        
+        // Set default role to USER
+        Role userRole = roleRepository.findByName("USER")
+                .orElseGet(() -> {
+                    Role newRole = new Role();
+                    newRole.setName("USER");
+                    return roleRepository.save(newRole);
+                });
+        user.setRole(userRole);
+        
+
         // Data-first: do not create roles implicitly. Expect role provided or existing.
         if (user.getRole() == null) {
             user.setRole(roleRepository.findByName("buyer")
@@ -147,6 +160,7 @@ public class UserService implements UserDetailsService {
 
         return saved;
     }
+}
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -266,3 +280,4 @@ public class UserService implements UserDetailsService {
     }
 }
 
+ 
