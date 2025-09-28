@@ -9,7 +9,14 @@ public class UserMapper {
         userDTO.setId(user.getId());
         userDTO.setName(user.getName());
         userDTO.setEmail(user.getEmail());
-        userDTO.setRoleName(user.getRole() != null ? user.getRole().getName() : null);
+        
+        // Kiểm tra null để tránh NullPointerException
+        if (user.getRole() != null) {
+            userDTO.setRoleId(user.getRole().getId());
+        } else {
+            userDTO.setRoleId(0); // hoặc giá trị default khác
+        }
+        
         userDTO.setPassword(user.getPassword());
         userDTO.setPhone(user.getPhone());
         userDTO.setStatus(user.getStatus());

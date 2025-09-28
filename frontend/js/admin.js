@@ -10,15 +10,24 @@ $(document).ready(function () {
 	})
 	.done(function (users) {
 		var html = "";
+         var roleName ="";
 		for (var i = 0; i < users.length; i++) {
 			var user = users[i];
+           
+            if (user.roleId === 1) {
+                roleName = "Admin";
+            } else if (user.roleId === 2) {
+                roleName = "Seller";
+            } else if (user.roleId === 3) {
+                roleName = "Buyer";
+            } 
 			html += `<tr>
 				<td>#${String(user.id).padStart(3, '0')}</td>
 				<td><img src="images/no-avatar.png" alt="${user.name}" class="rounded-circle" width="40" height="40"></td>
 				<td><div class="fw-medium">${user.name}</div></td>
 				<td>${user.email}</td>
 				<td>${user.phone || '-'}</td>
-				<td><span class="badge bg-success">${user.roleName}</span></td>
+				<td><span class="badge bg-success"> ${roleName}</span></td>
 				<td>${user.createdAt ? (new Date(user.createdAt)).toLocaleDateString('en-GB') : '-'}</td>
 				<td class="text-center">
 					<div class="btn-group btn-group-sm">
