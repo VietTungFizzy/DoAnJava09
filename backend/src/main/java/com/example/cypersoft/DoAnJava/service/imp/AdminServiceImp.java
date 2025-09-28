@@ -17,11 +17,11 @@ import java.util.Optional;
 
 @Service
 public class AdminServiceImp implements AdminService {
-  @Autowired
-  private AdminRepository adminRepository;
+    @Autowired
+    private AdminRepository adminRepository;
 
-  @Autowired
-  private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -32,7 +32,7 @@ public class AdminServiceImp implements AdminService {
     @Transactional
     public Boolean deleteUser(Integer id) {
         Optional<User> userOpt = adminRepository.findById(id);
-        if (userOpt.isPresent()){
+        if (userOpt.isPresent()) {
             adminRepository.deleteById(id);
             return true;
         }
@@ -41,8 +41,14 @@ public class AdminServiceImp implements AdminService {
 
     @Override
     @Transactional
-    public Integer UpdateUser(UpdateUserResponse updateUser) {
+    public Integer updateUser(UpdateUserResponse updateUser) {
         try {
+            // Validate input
+            if (updateUser == null || updateUser.getId() <= 0) {
+                System.err.println("Invalid user data");
+                return 0;
+            }
+
             // Kiểm tra user có tồn tại không
             Optional<User> userOpt = adminRepository.findById(updateUser.getId());
             if (userOpt.isEmpty()) {
@@ -59,23 +65,32 @@ public class AdminServiceImp implements AdminService {
                 return 0;
             }
 
+            // Kiểm tra email unique (nếu email thay đổi)
+            if (!user.getEmail().equals(updateUser.getEmail())) {
+                Optional<User> existingUser = adminRepository.findByEmail(updateUser.getEmail());
+                if (existingUser.isPresent()) {
+                    System.err.println("Email already exists: " + updateUser.getEmail());
+                    return 0;
+                }
+            }
+
             // Update user fields
             user.setName(updateUser.getName());
             user.setEmail(updateUser.getEmail());
             user.setPhone(updateUser.getPhone());
-            user.setRole(roleOpt.get()); // Sử dụng role đã tồn tại từ DB
+            user.setRole(roleOpt.get());
 
             User savedUser = adminRepository.save(user);
             System.out.println("User updated successfully: " + savedUser.getId());
             return savedUser.getId();
 
         } catch (Exception e) {
-            // Log error để debug
             System.err.println("Error updating user: " + e.getMessage());
             e.printStackTrace();
             return 0;
         }
     }
+
 
 }
 

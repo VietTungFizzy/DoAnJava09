@@ -8,6 +8,6 @@ import java.util.List;
 public interface AdminService {
     List<UserDTO> getAllUsers();
     Boolean deleteUser(Integer id);
-    Integer UpdateUser(UpdateUserResponse updateUser);
+    Integer updateUser(UpdateUserResponse updateUser);
 
 }

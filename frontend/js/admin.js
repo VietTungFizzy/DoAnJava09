@@ -22,7 +22,7 @@ $(document).ready(function () {
                 roleName = "Buyer";
             } 
 			html += `<tr>
-				<td>#${String(user.id).padStart(3, '0')}</td>
+				<td>#${user.id}</td>
 				<td><img src="images/no-avatar.png" alt="${user.name}" class="rounded-circle" width="40" height="40"></td>
 				<td><div class="fw-medium">${user.name}</div></td>
 				<td>${user.email}</td>
@@ -31,8 +31,8 @@ $(document).ready(function () {
 				<td>${user.createdAt ? (new Date(user.createdAt)).toLocaleDateString('en-GB') : '-'}</td>
 				<td class="text-center">
 					<div class="btn-group btn-group-sm">
-						<button class="btn btn-outline-primary" title="Edit">Sửa</button>
-						<button class="btn btn-outline-danger" title="Delete">Xóa</button>
+						<button id="btn-edit-${user.id}" class="btn btn-outline-primary" title="Edit">Sửa</button>
+						<button id="btn-delete-${user.id}" class="btn btn-outline-danger" title="Delete">Xóa</button>
 					</div>
 				</td>
 			</tr>`;
@@ -43,4 +43,9 @@ $(document).ready(function () {
 	.fail(function (xhr, status, error) {
 		$("#users-table tbody").html('<tr><td colspan="8" class="text-center text-danger">Không thể tải danh sách user</td></tr>');
 	});
+
+    
+   // xử lí sự kiện cho nút delete
+   
+
 });

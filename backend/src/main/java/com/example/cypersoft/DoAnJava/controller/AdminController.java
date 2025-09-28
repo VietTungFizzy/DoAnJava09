@@ -39,7 +39,7 @@ public class AdminController {
     @PutMapping("/updateUser")
     public ResponseEntity<?> updateUser(@RequestBody UpdateUserResponse updateUser) {
         try {
-            Integer result = adminService.UpdateUser(updateUser);
+            Integer result = adminService.updateUser(updateUser);
             if (result > 0) {
                 return ResponseEntity.ok("Cập nhật user thành công với ID: " + result);
             } else {
