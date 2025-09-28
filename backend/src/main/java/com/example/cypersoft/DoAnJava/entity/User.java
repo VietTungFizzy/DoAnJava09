@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -45,13 +46,13 @@ public class User implements UserDetails {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     // Login lockout controls
-    @Transient
+    @Column(name = "failed_login_attempts")
     private Integer failedLoginAttempts = 0;
 
-    @Transient
+    @Column(name = "locked_until")
     private LocalDateTime lockedUntil; // tạm khóa đến thời điểm này
 
-    @Transient
+    @Column(name = "permanently_locked")
     private Boolean permanentlyLocked = false; // khóa vĩnh viễn, liên hệ admin
 
     @Override

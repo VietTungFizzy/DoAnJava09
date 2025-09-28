@@ -176,7 +176,7 @@
 
 			<h5 class="m-0 text-xl max-sm:d-none">Customer Management</h5>
 			<div class="d-flex align-items-center gap-2 ml-auto">
-				<button class="btn btn-primary" onclick="openAddUserModal()"
+				<button class="btn btn-primary" onclick="openAddUserModal()">
 					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 						<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
 						<circle cx="9" cy="7" r="4"/>
@@ -271,7 +271,7 @@
 							<input type="search" class="form-control" placeholder="Search by name, email, or phone...">
 						</div>
 						<div class="d-flex align-items-end">
-							<button class="btn btn-secondary" onclick="alert('Export feature coming soon!')"
+							<button class="btn btn-secondary" onclick="alert('Export feature coming soon!')">
 								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 									<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
 									<polyline points="7,10 12,15 17,10"/>
@@ -293,7 +293,7 @@
 					</div>
 					
 					<div class="table-responsive">
-						<table class="table table-hover mb-0">
+						<table class="table table-hover mb-0" id="users-table">
 							<thead class="bg-light">
 								<tr>
 									<th>ID</th>
@@ -308,250 +308,10 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td>#001</td>
-									<td>
-										<img src="images/avatar.png" alt="John Doe" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">John Doe</div>
-									</td>
-									<td>john.doe@example.com</td>
-									<td>+1234567890</td>
-									<td>
-										<span class="badge bg-success">BUYER</span>
-									</td>
-									<td>15/01/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#002</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Jane Smith" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Jane Smith</div>
-									</td>
-									<td>jane.smith@example.com</td>
-									<td>+1987654321</td>
-									<td>
-										<span class="badge bg-warning">SELLER</span>
-									</td>
-									<td>20/01/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#003</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Mike Johnson" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Mike Johnson</div>
-									</td>
-									<td>mike.johnson@example.com</td>
-									<td>+1122334455</td>
-									<td>
-										<span class="badge bg-danger">ADMIN</span>
-									</td>
-									<td>10/01/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#004</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Sarah Wilson" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Sarah Wilson</div>
-									</td>
-									<td>sarah.wilson@example.com</td>
-									<td>+1556677889</td>
-									<td>
-										<span class="badge bg-success">BUYER</span>
-									</td>
-									<td>01/02/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#005</td>
-									<td>
-										<img src="images/no-avatar.png" alt="David Brown" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">David Brown</div>
-									</td>
-									<td>david.brown@example.com</td>
-									<td>+1667788990</td>
-									<td>
-										<span class="badge bg-warning">SELLER</span>
-									</td>
-									<td>05/02/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#006</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Alice Johnson" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Alice Johnson</div>
-									</td>
-									<td>alice.johnson@example.com</td>
-									<td>+1234567891</td>
-									<td>
-										<span class="badge bg-success">BUYER</span>
-									</td>
-									<td>10/02/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#007</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Robert Lee" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Robert Lee</div>
-									</td>
-									<td>robert.lee@example.com</td>
-									<td>+1987654322</td>
-									<td>
-										<span class="badge bg-warning">SELLER</span>
-									</td>
-									<td>15/02/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
-										</div>
-									</td>
-								</tr>
-								<tr>
-									<td>#008</td>
-									<td>
-										<img src="images/no-avatar.png" alt="Emma Davis" class="rounded-circle" width="40" height="40">
-									</td>
-									<td>
-										<div class="fw-medium">Emma Davis</div>
-									</td>
-									<td>emma.davis@example.com</td>
-									<td>-</td>
-									<td>
-										<span class="badge bg-success">BUYER</span>
-									</td>
-									<td>20/02/2024</td>
-									<td class="text-center">
-										<div class="btn-group btn-group-sm">
-											<button class="btn btn-outline-primary" title="Edit">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-													<path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-												</svg>
-											</button>
-											<button class="btn btn-outline-danger" title="Delete">
-												<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-													<polyline points="3,6 5,6 21,6"/>
-													<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-												</svg>
-											</button>
+									<td colspan="8" class="text-center p-4">
+										<div class="d-flex justify-content-center align-items-center">
+											<div class="spinner-border spinner-border-sm me-2" role="status"></div>
+											Loading users...
 										</div>
 									</td>
 								</tr>
@@ -577,7 +337,11 @@
 	</main>
 </div>
 
+<!-- jQuery (required for admin functionality) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Admin JavaScript -->
+<script src="js/admin.js"></script>
 
 </body>
 </html>

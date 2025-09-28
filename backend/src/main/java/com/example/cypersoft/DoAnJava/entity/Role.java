@@ -1,9 +1,12 @@
+
 package com.example.cypersoft.DoAnJava.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "roles")
@@ -17,6 +20,9 @@ public class Role {
 
     @Column(name = "name", unique = true, length = 50)
     private String name;
+    @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
+    private List<User> users;
 }
+
 
 

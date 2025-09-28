@@ -267,9 +267,6 @@ public class UserService implements UserDetailsService {
 
 
 
-    public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(UserMapper::toDTO).toList();
-    }
 
 
 

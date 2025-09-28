@@ -1,52 +1,249 @@
-/* Additional styles for admin customer management */
+/* Enhanced styles for admin customer management */
 
-/* Avatar upload styling */
+/* Modern color scheme */
+:root {
+    --primary-color: #4f46e5;
+    --success-color: #10b981;
+    --warning-color: #f59e0b;
+    --danger-color: #ef4444;
+    --secondary-color: #6b7280;
+    --light-bg: #f8fafc;
+    --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* Enhanced avatar upload styling */
 .avatar-upload {
     position: relative;
     display: inline-block;
+    cursor: pointer;
 }
 
 .avatar-upload img {
-    border: 3px solid #e9ecef;
+    border: 3px solid #e5e7eb;
     transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .avatar-upload:hover img {
-    border-color: #007bff;
+    border-color: var(--primary-color);
+    transform: scale(1.05);
 }
 
-/* Table enhancements */
+/* Enhanced table styling */
+.table {
+    background: white;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
 .table th {
     font-weight: 600;
-    background-color: #f8f9fa;
-    border-bottom: 2px solid #dee2e6;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-bottom: none;
+    padding: 1rem 0.75rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+    text-transform: uppercase;
 }
 
 .table td {
     vertical-align: middle;
+    padding: 1rem 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
+    font-size: 0.9rem;
 }
 
-/* Badge styling */
+.table tbody tr {
+    transition: all 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8fafc;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced badge styling */
 .badge {
     font-size: 0.75rem;
-    font-weight: 500;
-    padding: 0.375rem 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
-/* Button group styling */
+.badge.bg-success {
+    background: linear-gradient(135deg, var(--success-color), #059669) !important;
+    box-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
+}
+
+.badge.bg-warning {
+    background: linear-gradient(135deg, var(--warning-color), #d97706) !important;
+    box-shadow: 0 2px 4px rgba(245, 158, 11, 0.3);
+}
+
+.badge.bg-danger {
+    background: linear-gradient(135deg, var(--danger-color), #dc2626) !important;
+    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+}
+
+/* Enhanced button group styling */
 .btn-group .btn {
-    border-radius: 0.375rem;
-    margin-left: 2px;
+    border-radius: 0.5rem;
+    margin-left: 4px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-group .btn:first-child {
     margin-left: 0;
 }
 
+.btn-group .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
 /* Loading spinner */
 .spinner-border-sm {
     width: 1rem;
     height: 1rem;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to { transform: rotate(360deg); }
+}
+
+/* Loading state */
+.loading-row {
+    background-color: #f8f9fa;
+}
+
+/* Error state */
+.error-message {
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Enhanced form controls */
+.form-select, .form-control {
+    border-radius: 0.75rem;
+    border: 2px solid #e5e7eb;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    background: white;
+    transition: all 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    transform: translateY(-1px);
+}
+
+.form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Enhanced stats card styling */
+.card {
+    background: white;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--card-shadow-hover);
+}
+
+/* Stats card specific styling */
+.card.bg-neutral-100 {
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%) !important;
+    border-left: 4px solid var(--primary-color);
+}
+
+/* Icon background enhancements */
+.card .bg-primary {
+    background: linear-gradient(135deg, var(--primary-color), #3730a3) !important;
+    border-radius: 0.75rem;
+    padding: 0.75rem !important;
+}
+
+.card .bg-success {
+    background: linear-gradient(135deg, var(--success-color), #059669) !important;
+    border-radius: 0.75rem;
+    padding: 0.75rem !important;
+}
+
+.card .bg-warning {
+    background: linear-gradient(135deg, var(--warning-color), #d97706) !important;
+    border-radius: 0.75rem;
+    padding: 0.75rem !important;
+}
+
+.card .bg-danger {
+    background: linear-gradient(135deg, var(--danger-color), #dc2626) !important;
+    border-radius: 0.75rem;
+    padding: 0.75rem !important;
+}
+
+/* Enhanced mobile responsive design */
+@media (max-width: 768px) {
+    .table-responsive {
+        font-size: 0.875rem;
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    
+    .btn-group-sm .btn {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.75rem;
+        border-radius: 0.5rem;
+    }
+    
+    .card {
+        margin-bottom: 1rem;
+    }
+    
+    /* Stack stats cards vertically on mobile */
+    .d-grid.gap-4 {
+        gap: 1rem !important;
+    }
+    
+    /* Adjust padding for mobile */
+    .p-3.lg\:p-5 {
+        padding: 1rem !important;
+    }
+}
+
+/* User table row hover effect */
+.table tbody tr:hover {
+    background-color: #f8f9fa;
 }
 
 /* Dialog enhancements */
@@ -119,17 +316,68 @@
     box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
 }
 
-/* Button hover effects */
-.btn:hover {
-    transform: translateY(-1px);
-    transition: transform 0.1s ease;
+/* Enhanced button styling */
+.btn {
+    border-radius: 0.75rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Navigation active state */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #3730a3);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #3730a3, #312e81);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-outline-danger {
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+    background: transparent;
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Enhanced navigation */
 .nav-link.active {
-    background-color: rgba(13, 110, 253, 0.1);
-    color: #0d6efd;
-    border-radius: 0.375rem;
+    background: linear-gradient(135deg, var(--primary-color), #3730a3);
+    color: white !important;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 4px rgba(79, 70, 229, 0.3);
+}
+
+.nav-link {
+    border-radius: 0.5rem;
+    transition: all 0.2s ease;
+    margin-bottom: 0.25rem;
+}
+
+.nav-link:hover:not(.active) {
+    background-color: #f1f5f9;
+    transform: translateX(4px);
 }
 
 /* Pagination styling */
@@ -171,7 +419,173 @@
         gap: 1rem;
     }
     
-    .card p-4 {
+    .card.p-4 {
         padding: 1rem;
+    }
+}
+
+/* Additional enhancements */
+body {
+    background-color: #f8fafc;
+}
+
+/* Header enhancements */
+header {
+    background: white !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar enhancements */
+aside {
+    background: white !important;
+    border-right: 1px solid #e5e7eb !important;
+    box-shadow: 2px 0 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Content area spacing */
+main {
+    background-color: #f8fafc;
+}
+
+/* Dialog enhancements */
+.dialog {
+    border-radius: 1rem;
+    border: none;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    backdrop-filter: blur(4px);
+}
+
+.dialog-body {
+    background: white;
+    border-radius: 1rem;
+}
+
+/* Loading state improvements */
+.spinner-border {
+    color: var(--primary-color);
+}
+
+/* Text improvements */
+h5, h6 {
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.text-muted {
+    color: #6b7280 !important;
+}
+
+/* Card header styling */
+.card-header {
+    background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%) !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    font-weight: 600;
+}
+
+.card-footer {
+    background: #f8fafc !important;
+    border-top: 1px solid #e5e7eb !important;
+}
+
+/* Avatar improvements */
+.rounded-circle {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    border: 2px solid white;
+}
+
+/* Success/Error states */
+.text-danger {
+    color: var(--danger-color) !important;
+    font-weight: 500;
+}
+
+.text-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100px;
+}
+
+/* Enhanced user interaction states */
+.table tbody tr:nth-child(even) {
+    background-color: rgba(248, 250, 252, 0.5);
+}
+
+.table tbody tr:hover:nth-child(even),
+.table tbody tr:hover:nth-child(odd) {
+    background-color: #f1f5f9 !important;
+}
+
+/* Focus states for accessibility */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.loading-row td {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hover effects for interactive elements */
+.card-header:hover {
+    background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%) !important;
+}
+
+/* Add some subtle animations */
+.card,
+.btn,
+.form-control,
+.form-select,
+.nav-link {
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar for table */
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+    background: #f1f5f9;
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}
+
+/* Print styles */
+@media print {
+    .btn, .nav-link, header, aside {
+        display: none !important;
+    }
+    
+    .table {
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+    
+    .badge {
+        background: transparent !important;
+        color: #000 !important;
+        border: 1px solid #000;
     }
 }

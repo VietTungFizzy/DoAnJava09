@@ -52,10 +52,7 @@ public class UserController {
             return ResponseEntity.status(400).body(e.getMessage());
         }
     }
-    @GetMapping("/alluser")
-    public ResponseEntity<?> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
-    }
+
 
 
 }
