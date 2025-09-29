@@ -390,3 +390,14 @@ CREATE TABLE audit_logs (
   INDEX idx_entity (entity, entity_id),
   FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+-- Insert required roles
+INSERT INTO roles (name) VALUES ('admin');
+INSERT INTO roles (name) VALUES ('seller');
+INSERT INTO roles (name) VALUES ('buyer');
+
+-- Add columes for user table
+ALTER TABLE users
+  ADD COLUMN failed_login_attempts INT DEFAULT 0,
+  ADD COLUMN locked_until TIMESTAMP NULL,
+  ADD COLUMN permanently_locked BOOLEAN DEFAULT FALSE;

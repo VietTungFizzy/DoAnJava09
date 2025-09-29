@@ -1,15 +1,13 @@
 server:
   port: 8080
+  port: 8081
 spring:
   application:
     name: DoAnJava
   datasource:
-#    url: jdbc:mysql://database-1.cgxq828ugpr9.us-east-1.rds.amazonaws.com:3306/marketplace_db
-#    username: root
-#    password: admin123
-    url: jdbc:mysql://localhost:3307/marketplace_db
+    url: jdbc:mysql://database-1.cgxq828ugpr9.us-east-1.rds.amazonaws.com:3306/marketplace_db
     username: root
-    password: ductu2004
+    password: admin123
   jpa:
     hibernate:
       ddl-auto: none
