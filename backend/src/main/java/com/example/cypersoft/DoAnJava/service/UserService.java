@@ -1,10 +1,11 @@
 package com.example.cypersoft.DoAnJava.service;
 
-import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
+import com.example.cypersoft.DoAnJava.dto.UserDTO;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
 import com.example.cypersoft.DoAnJava.entity.User;
+import com.example.cypersoft.DoAnJava.mapper.UserMapper;
 import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.util.JwtUtil;
@@ -21,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.util.List;
 import java.util.Optional;
 import java.time.LocalDateTime;
 
@@ -33,9 +35,6 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
     @Lazy
     private PasswordEncoder passwordEncoder;
 
@@ -43,7 +42,6 @@ public class UserService implements UserDetailsService {
     private JwtUtil jwtUtil;
 
     @Autowired
-    @Lazy
     private EmailService emailService;
     @Value("${app.admin.email:admin@example.com}")
     private String adminEmail;
@@ -59,6 +57,8 @@ public class UserService implements UserDetailsService {
         }
         return user.get();
     }
+
+    // registerUser implemented below with email sending and lock fields initialization
 
     public String authenticateUser(String email, String password) {
         User user = getUserByEmail(email);
@@ -119,17 +119,6 @@ public class UserService implements UserDetailsService {
         }
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        
-        // Set default role to USER
-        Role userRole = roleRepository.findByName("USER")
-                .orElseGet(() -> {
-                    Role newRole = new Role();
-                    newRole.setName("USER");
-                    return roleRepository.save(newRole);
-                });
-        user.setRole(userRole);
-        
-
         // Data-first: do not create roles implicitly. Expect role provided or existing.
         if (user.getRole() == null) {
             user.setRole(roleRepository.findByName("buyer")
@@ -138,8 +127,6 @@ public class UserService implements UserDetailsService {
             user.setRole(roleRepository.findByName(user.getRole().getName())
                 .orElseThrow(() -> new RuntimeException("Role '" + user.getRole().getName() + "' does not exist in DB.")));
         }
-        // Remove the hardcoded role override - it was overwriting the properly set role above
-
         user.setStatus("active");
         user.setFailedLoginAttempts(0);
         user.setLockedUntil(null);
@@ -160,7 +147,6 @@ public class UserService implements UserDetailsService {
 
         return saved;
     }
-}
 
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -278,6 +264,10 @@ public class UserService implements UserDetailsService {
         
         return "Yêu cầu xóa tài khoản đã được gửi. Chúng tôi sẽ xử lý trong vòng 24-48 giờ.";
     }
-}
 
- 
+
+
+
+
+
+}
