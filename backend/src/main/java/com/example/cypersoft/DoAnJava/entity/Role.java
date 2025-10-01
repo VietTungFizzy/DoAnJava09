@@ -1,4 +1,3 @@
-
 package com.example.cypersoft.DoAnJava.entity;
 
 import jakarta.persistence.*;
@@ -18,14 +17,9 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", unique = true)
-    private String name;
-}
     @Column(name = "name", unique = true, length = 50)
     private String name;
+
     @OneToMany(mappedBy = "role", fetch = FetchType.LAZY)
     private List<User> users;
 }
-
-
-

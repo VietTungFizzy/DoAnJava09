@@ -1,6 +1,8 @@
 package com.example.cypersoft.DoAnJava.controller;
 
+import com.example.cypersoft.DoAnJava.dto.RegisterRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateUserResponse;
+import com.example.cypersoft.DoAnJava.entity.User;
 import com.example.cypersoft.DoAnJava.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin")
 public class AdminController {
 
-     @Autowired
-     private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/listUsers")
     public ResponseEntity<?> getAllUsers() {
@@ -47,6 +49,16 @@ public class AdminController {
             }
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Lỗi khi cập nhật user: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/addUser")
+    public ResponseEntity<?> addUser(@RequestBody RegisterRequest registerRequest) {
+        try {
+            User savedUser = adminService.saveUser(registerRequest);
+            return ResponseEntity.ok("Thêm user thành công với ID: " + savedUser.getId());
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Lỗi khi thêm user: " + e.getMessage());
         }
     }
 

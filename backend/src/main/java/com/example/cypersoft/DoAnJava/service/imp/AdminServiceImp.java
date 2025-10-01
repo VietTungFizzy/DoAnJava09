@@ -1,5 +1,6 @@
 package com.example.cypersoft.DoAnJava.service.imp;
 
+import com.example.cypersoft.DoAnJava.dto.RegisterRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateUserResponse;
 import com.example.cypersoft.DoAnJava.dto.UserDTO;
 import com.example.cypersoft.DoAnJava.entity.Role;
@@ -9,6 +10,7 @@ import com.example.cypersoft.DoAnJava.repository.AdminRepository;
 import com.example.cypersoft.DoAnJava.repository.RoleRepository;
 import com.example.cypersoft.DoAnJava.service.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,9 @@ public class AdminServiceImp implements AdminService {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDTO> getAllUsers() {
@@ -89,6 +94,35 @@ public class AdminServiceImp implements AdminService {
             e.printStackTrace();
             return 0;
         }
+    }
+
+    @Override
+    public User saveUser(RegisterRequest registerRequest) {
+
+        if (registerRequest == null) {
+            System.err.println("Register request is null");
+            return null;
+        }
+        Optional<User> existUser = adminRepository.findByEmail(registerRequest.getEmail());
+        if (existUser.isPresent()) {
+            System.err.println("Email already exists: " + registerRequest.getEmail());
+            return null;
+        }
+        User user = new User();
+        user.setName(registerRequest.getName());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setPhone(registerRequest.getPhone());
+        // Mặc định role là "buyer" nếu không có roleId trong request
+        Role role = roleRepository.findByName("buyer").orElse(null);
+        user.setRole(role);
+
+        user.setStatus("active");
+        user.setFailedLoginAttempts(0);
+        user.setLockedUntil(null);
+        user.setPermanentlyLocked(false);
+
+        return adminRepository.save(user);
     }
 
 

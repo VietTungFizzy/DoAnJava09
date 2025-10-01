@@ -25,7 +25,6 @@ public class AuthController {
             String token = userService.authenticateUser(request.getEmail(), request.getPassword());
             User user = userService.getUserByEmail(request.getEmail());
 
-            return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().getName(), "Đăng nhập thành công"));
 
             String roleName = user.getRole() != null ? user.getRole().getName() : null;
             return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), roleName, "Đăng nhập thành công"));
