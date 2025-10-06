@@ -1,0 +1,193 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Ecommerce UIis a utility-first and component library for building modern websites without leaving your HTML"/>
+
+  <meta name="author" content="Final CSS">
+
+  <title>Ecommerce UI - Example Admin template </title>
+
+	<!-- FinalCSS -->
+	<link href="css/final.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<dialog id="dialog_menu_mobile" class="dialog p-1 max-w-100">
+	<div class="dialog-body p-3">
+		<button class="btn-close-dialog" onclick="document.getElementById('dialog_menu_mobile').close()"> ✕ </button>
+		<h5>Admin</h5>
+		<hr>
+		<style>
+			#mobile_nav_container .nav-link:not(:hover){ background:var(--neutral-100); }
+		</style>
+		<nav id="mobile_nav_container"> </nav>
+	</div>
+</dialog>
+
+<div class="lg:d-flex w-100% min-h-100vh">
+	<aside class="d-none lg:d-block bg-neutral-100 border-right flex-grow-0 flex-shrink-0 lg:w-60 w-40">
+		<header class="d-flex align-items-center px-3 border-bottom h-14">
+			
+			<a href="https://ecommerce-ui.com" class="d-block flex-shrink-0 hover:opacity-80 d-flex text-decoration-none align-items-center m-0">
+				<img src="images/logo-shape.svg" height="38">
+				<div style="font-size:20px;" class="max-lg:hidden text-dark font-semibold ml-2"> Admin  </div>
+			</a>
+
+		</header>
+		<nav class="p-2 mt-1">
+			<ul class="nav nav-col" id="nav_aside">
+				<li>
+					<a class="nav-link" href="page-admin.html">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-house-icon lucide-house"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+						Dashboard
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="page-admin-orders.html">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"/><path d="M15 18H9"/><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"/><circle cx="17" cy="18" r="2"/><circle cx="7" cy="18" r="2"/></svg>
+					All orders
+				</a>
+				</li>
+				<li>
+					<a class="nav-link" href="page-admin-products.html">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package2-icon lucide-package-2"><path d="M12 3v6"/><path d="M16.76 3a2 2 0 0 1 1.8 1.1l2.23 4.479a2 2 0 0 1 .21.891V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9.472a2 2 0 0 1 .211-.894L5.45 4.1A2 2 0 0 1 7.24 3z"/><path d="M3.054 9.013h17.893"/></svg>
+					Products
+					</a>
+				</li>
+				<li>
+					<a class="nav-link active" href="page-admin-invoice.html">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-spreadsheet-icon lucide-file-spreadsheet"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h2"/><path d="M14 13h2"/><path d="M8 17h2"/><path d="M14 17h2"/></svg>
+					Invoices
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-dollar-sign-icon lucide-circle-dollar-sign"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 18V6"/></svg>
+					Finance
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users-icon lucide-users"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><path d="M16 3.128a4 4 0 0 1 0 7.744"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></svg>
+						Customers
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-tag-icon lucide-tag"><path d="M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z"/><circle cx="7.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+						Discounts
+					</a>
+				</li>
+				<li>
+					<a class="nav-link" href="#">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chart-column-big-icon lucide-chart-column-big"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><rect x="15" y="5" width="4" height="12" rx="1"/><rect x="7" y="8" width="4" height="9" rx="1"/></svg>
+					Reports
+					</a>
+				</li>
+				<li class="border-top border-color-neutral-300 mt-2 pt-2">
+					<a class="nav-link" href="#">
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+						Settings
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</aside>
+	<main class="flex-grow">
+
+		<header class="d-flex p-3 lg:px-5 align-items-center border-bottom h-14">
+			
+			<button class="btn btn-default btn-icon mr-3 lg:d-none" onclick="open_dialog('dialog_menu_mobile')">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" color="currentColor" fill="none">
+				    <path d="M4 5L20 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				    <path d="M4 12L20 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				    <path d="M4 19L20 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+				</svg>
+			</button>
+
+			<h5 class="m-0 text-xl max-sm:d-none">Products </h5>
+			<div class="d-flex align-items-center gap-2 ml-auto">
+				<form>
+					<input type="search" class="form-control" list="search_suggest" placeholder="Search">
+				</form>
+				<button class="btn btn-neutral btn-icon">
+					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell-icon lucide-bell"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></svg>
+				</button>
+				<a class="btn btn-neutral" href="#"> 
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" fill="#000" color="var(--neutral-600)">
+						<path d="M17.8063 14.8372C17.9226 14.9064 18.0663 14.9875 18.229 15.0793C18.9418 15.4814 20.0193 16.0893 20.7575 16.8118C21.2191 17.2637 21.6578 17.8592 21.7375 18.5888C21.8223 19.3646 21.4839 20.0927 20.8048 20.7396C19.6334 21.8556 18.2276 22.75 16.4093 22.75H7.59104C5.77274 22.75 4.36695 21.8556 3.1955 20.7396C2.51649 20.0927 2.17802 19.3646 2.26283 18.5888C2.34257 17.8592 2.78123 17.2637 3.2429 16.8118C3.98106 16.0893 5.05857 15.4814 5.77139 15.0793C5.93404 14.9875 6.07773 14.9064 6.19404 14.8372C9.74809 12.7209 14.2523 12.7209 17.8063 14.8372Z" fill="currentColor"></path>
+						<path d="M6.75018 6.5C6.75018 3.6005 9.10068 1.25 12.0002 1.25C14.8997 1.25 17.2502 3.6005 17.2502 6.5C17.2502 9.39949 14.8997 11.75 12.0002 11.75C9.10068 11.75 6.75018 9.39949 6.75018 6.5Z" fill="currentColor"></path>
+					</svg>
+					My account
+				</a>
+				
+			</div>
+		</header>
+
+		<div class="p-3 lg:p-5">
+		<!-- ========== Content ========= -->
+			<header class="d-flex gap-2 mb-5">
+				<div>
+					<form class="lg:ml-auto d-flex  gap-2">
+						<input class="form-control lg:min-w-100" type="search" placeholder="Search item" name="">
+					</form>
+				</div>
+				<div>
+					<select name="" class="form-select lg:min-w-50">
+						<option value="">All time</option>
+						<option value="">This week</option>
+						<option value="">Last 30 days</option>
+						<option value="">This year</option>
+					</select>
+				</div>
+
+				<div class="ml-auto d-flex gap-2">
+					<button class="btn btn-default">Import file</button>
+					<a href="page-admin-form.html" class="btn btn-primary">
+						 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+						 Add invoice</a>
+				</div>
+			</header>
+
+			<div class="table-responsive border-top">
+				
+                <article class="p-5 lg:p-10 text-center mx-auto lg:mt-30" style="max-width: 720px;">
+                    <svg class="text-muted mb-4" xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-search-icon lucide-file-search"><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M4.268 21a2 2 0 0 0 1.727 1H18a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v3"/><path d="m9 18-1.5-1.5"/><circle cx="5" cy="14" r="3"/></svg>
+                    <h5 class="my-1">Nothing here yet</h5>
+                    <p class="mb-5 text-secondary">There is no any data found yet</p>
+                    <a href="#" class="btn btn-primary">Create new</a>
+                </article>
+			</div>  <!-- table-responsive end.// -->
+
+
+		<!-- ========== Content ./end ========= -->
+		</div>
+	</main>
+</div>
+
+
+<script>
+	function open_dialog(dialog_id){
+			document.getElementById(dialog_id).showModal();	
+	}
+
+	// Clone sidebar menu into dialog for mobile view
+	const nav_aside = document.getElementById("nav_aside");
+	const mobile_nav_container = document.getElementById("mobile_nav_container");
+	const cloned_nav_aside = nav_aside.cloneNode(true); // Deep clone (includes children)
+	mobile_nav_container.appendChild(cloned_nav_aside);
+
+	//Optional: Close the dialog if the user clicks outside of it (backdrop click)
+	document.addEventListener("click", (event) => {
+		if (event.target === document.querySelector('dialog')) { // Check if the backdrop was clicked
+			document.querySelector('dialog').close();
+		}
+	});
+</script>
+
+
+</body>
+</html>
