@@ -12,16 +12,14 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
     
-    List<Category> findByParentIdIsNullAndIsActiveTrueOrderBySortOrder();
+    List<Category> findByParentIdIsNull();
     
-    List<Category> findByParentIdAndIsActiveTrueOrderBySortOrder(Integer parentId);
+    List<Category> findByParentId(Integer parentId);
     
-    Optional<Category> findByIdAndIsActiveTrue(Integer id);
-    
-    @Query("SELECT c FROM Category c WHERE c.isActive = true AND c.name LIKE %:keyword%")
+    @Query("SELECT c FROM Category c WHERE c.name LIKE %:keyword%")
     List<Category> findByNameContainingIgnoreCase(@Param("keyword") String keyword);
     
-    @Query("SELECT c FROM Category c WHERE c.isActive = true ORDER BY c.sortOrder, c.name")
-    List<Category> findAllActiveOrderBySortOrder();
+    @Query("SELECT c FROM Category c ORDER BY c.name")
+    List<Category> findAllOrderByName();
 }
 
