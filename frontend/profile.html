@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap CSS & jQuery CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="css/profile.css">
 </head>
 <body>
@@ -22,24 +23,24 @@
                             <form id="profileForm" autocomplete="off">
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Họ và tên</label>
-                                    <input type="text" class="form-control" value="Nguyễn Văn A" required>
+                                    <input type="text" id="name" name="name" class="form-control" value="Nguyễn Văn A" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Số điện thoại</label>
-                                    <input type="tel" class="form-control" value="+84 912 345 678" required>
+                                    <input type="tel" id="phone" name="phone" class="form-control" value="+84 912 345 678" required>
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label fw-semibold">Email</label>
-                                    <input type="email" class="form-control" value="nguyenvana@gmail.com" required>
+                                    <input type="email" id="email" name="email" class="form-control" value="nguyenvana@gmail.com" required>
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label fw-semibold d-block">Giới tính</label>
-                                    <div class="form-check form-check-inline custom-checkbox">
-                                        <input class="form-check-input" type="checkbox" id="nam" checked>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="nam" value="male" checked>
                                         <label class="form-check-label" for="nam">Nam</label>
                                     </div>
-                                    <div class="form-check form-check-inline custom-checkbox">
-                                        <input class="form-check-input" type="checkbox" id="nu">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="nu" value="female">
                                         <label class="form-check-label" for="nu">Nữ</label>
                                     </div>
                                 </div>
@@ -57,8 +58,138 @@
                             <div class="text-center text-secondary small">Chỉnh sửa avatar</div>
                         </div>
                     </div>
+                    
+                    <!-- User Summary Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5 class="fw-bold mb-3">Thống kê tài khoản</h5>
+                            <div class="row">
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="stat-card bg-primary text-white p-3 rounded">
+                                        <h6 class="mb-1">Tổng đơn hàng</h6>
+                                        <h4 id="totalOrders">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="stat-card bg-success text-white p-3 rounded">
+                                        <h6 class="mb-1">Tổng chi tiêu</h6>
+                                        <h4 id="totalSpent">0₫</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="stat-card bg-warning text-white p-3 rounded">
+                                        <h6 class="mb-1">Sản phẩm yêu thích</h6>
+                                        <h4 id="favoriteProducts">0</h4>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-6 mb-3">
+                                    <div class="stat-card bg-info text-white p-3 rounded">
+                                        <h6 class="mb-1">Điểm tích lũy</h6>
+                                        <h4 id="loyaltyPoints">0</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Addresses Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold mb-0">Địa chỉ của tôi</h5>
+                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addAddressModal">
+                                    <i class="fas fa-plus"></i> Thêm địa chỉ
+                                </button>
+                            </div>
+                            <div id="addressesList">
+                                <!-- Addresses will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Add Address Modal -->
+    <div class="modal fade" id="addAddressModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm địa chỉ mới</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addAddressForm">
+                        <div class="mb-3">
+                            <label class="form-label">Nhãn địa chỉ</label>
+                            <input type="text" class="form-control" name="label" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Họ và tên</label>
+                            <input type="text" class="form-control" name="fullName" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input type="tel" class="form-control" name="phone" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ</label>
+                            <input type="text" class="form-control" name="addressLine1" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Phường/Xã</label>
+                                <input type="text" class="form-control" name="ward" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Quận/Huyện</label>
+                                <input type="text" class="form-control" name="district" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Tỉnh/Thành phố</label>
+                                <input type="text" class="form-control" name="city" required>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" name="isDefault" id="isDefault">
+                            <label class="form-check-label" for="isDefault">
+                                Đặt làm địa chỉ mặc định
+                            </label>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="submit" form="addAddressForm" class="btn btn-primary">Lưu địa chỉ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm Delete Address Modal -->
+    <div class="modal fade" id="confirmDeleteAddressModal" tabindex="-1">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Xác nhận xóa</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Bạn có chắc chắn muốn xóa địa chỉ này?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteAddressBtn">Xóa</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner position-fixed top-50 start-50 translate-middle d-none" style="z-index: 9999;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
         </div>
     </div>
 
