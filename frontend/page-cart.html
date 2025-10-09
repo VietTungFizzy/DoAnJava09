@@ -505,7 +505,7 @@
 					</dl>
 
 					<div class="mt-2">
-						<a href="#" class="btn btn-lg btn-green w-full"> Go to Checkout </a>
+						<a href="#" id="checkout-button" class="btn btn-lg btn-green w-full"> Go to Checkout </a>
 					</div>
 
 					<figure class="d-flex p-2 bg-neutral-200 border mt-5 rounded">
@@ -779,7 +779,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	stripe = Stripe(stripePublicKey);
 
 	// Handle Stripe Checkout button click
-	const checkoutBtn = document.getElementById('stripe-checkout-btn');
+	const checkoutBtn = document.getElementById('checkout-button');
 	const messageDiv = document.getElementById('payment-message');
 	
 	if (checkoutBtn) {
@@ -797,16 +797,18 @@ document.addEventListener('DOMContentLoaded', function() {
 				const shippingAddress = getSelectedShippingAddress(); // You'll need to implement this function
 				
 				// Create checkout session on your backend
-				const response = await fetch('/create-checkout-session', {
+				const response = await fetch('http://localhost:8080/api/checkout/create-session', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
 					},
 					body: JSON.stringify({
-						items: cartItems,
-						shipping: shippingAddress,
-						success_url: window.location.origin + '/payment-success.html?session_id={CHECKOUT_SESSION_ID}',
-						cancel_url: window.location.origin + '/page-cart.html'
+						// items: cartItems,
+						// shipping: shippingAddress,
+						quantity: 1,
+						productId: cartItems[0].id, // Example: sending first product ID
+						successUrl: window.location.origin + '/payment-success.html',
+						cancelUrl: window.location.origin + '/page-cart.html'
 					}),
 				});
 

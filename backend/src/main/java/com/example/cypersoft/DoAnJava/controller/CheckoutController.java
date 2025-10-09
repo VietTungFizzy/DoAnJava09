@@ -1,6 +1,6 @@
 package com.example.cypersoft.DoAnJava.controller;
 
-import com.example.cypersoft.DoAnJava.entity.Product;
+import com.example.cypersoft.DoAnJava.dto.CheckoutRequest;
 import com.example.cypersoft.DoAnJava.repository.ProductRepository;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -13,6 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/checkout")
+@CrossOrigin
 public class CheckoutController {
 
     @Value("${app.base-domain}")
@@ -22,14 +23,15 @@ public class CheckoutController {
     private ProductRepository productRepository;
 
     @PostMapping("/create-session")
-    public Map<String, String> createCheckoutSession(@RequestParam Long productId, @RequestParam Long quantity) throws Exception {
-//        Product product = productRepository.findById(productId)
-//                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
-//
-//        if (quantity == null || quantity <= 0) {
-//            throw new IllegalArgumentException("Quantity must be greater than 0");
-//        }
-
+    public Map<String, String> createCheckoutSession(@RequestBody CheckoutRequest request) throws Exception {
+        // Convert int to Long for Stripe API and other usages
+        Long productId = Long.valueOf(request.getProductId());
+        Long quantity = Long.valueOf(request.getQuantity());
+        // Product product = productRepository.findById(productId)
+        //         .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        // if (quantity == null || quantity <= 0) {
+        //     throw new IllegalArgumentException("Quantity must be greater than 0");
+        //
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -37,7 +39,7 @@ public class CheckoutController {
                         .setCancelUrl(baseDomain + "/cancel")
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
-                                        .setQuantity(1L)
+                                        .setQuantity(quantity)
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("VND")
@@ -55,6 +57,7 @@ public class CheckoutController {
 
         Session session = Session.create(params);
 
+        System.out.println(session.getRawJsonObject().toString());
         Map<String, String> response = new HashMap<>();
         response.put("id", session.getId());
         response.put("url", session.getUrl());
