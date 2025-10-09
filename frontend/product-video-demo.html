@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm - Video Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Bootstrap CSS & Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        .product-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 0;
+        }
+        
+        .video-section {
+            background: #f8f9fa;
+            padding: 60px 0;
+        }
+        
+        .product-info {
+            padding: 40px 0;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .product-rating {
+            color: #f39c12;
+            margin: 15px 0;
+        }
+        
+        .product-features {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+            margin: 30px 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin: 15px 0;
+        }
+        
+        .feature-item i {
+            color: #28a745;
+            margin-right: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .related-videos {
+            padding: 60px 0;
+            background: white;
+        }
+        
+        .video-thumbnail {
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .video-thumbnail:hover {
+            transform: scale(1.05);
+        }
+        
+        .video-thumbnail img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .video-thumbnail:hover .video-overlay {
+            opacity: 1;
+        }
+        
+        .play-button {
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .video-stats {
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Product Hero Section -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 fw-bold mb-4">iPhone 15 Pro Max</h1>
+                    <p class="lead mb-4">Trải nghiệm công nghệ tiên tiến nhất với chip A17 Pro, camera 48MP và thiết kế titanium cao cấp.</p>
+                    <div class="product-rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span class="ms-2">4.8 (2,847 đánh giá)</span>
+                    </div>
+                    <div class="product-price mb-4">29.999.000₫</div>
+                    <div class="d-flex gap-3">
+                        <button class="btn btn-light btn-lg px-4">
+                            <i class="fas fa-cart-plus me-2"></i>Thêm vào giỏ
+                        </button>
+                        <button class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-heart me-2"></i>Yêu thích
+                        </button>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/product-tech/iphone-15-pro-max.png" alt="iPhone 15 Pro Max" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section class="video-section">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-5">
+                        <h2 class="fw-bold">Video Demo Sản Phẩm</h2>
+                        <p class="text-muted">Xem chi tiết tính năng và cách sử dụng iPhone 15 Pro Max</p>
+                    </div>
+                    
+                    <!-- Video Player Component -->
+                    <div id="mainVideoPlayer">
+                        <!-- Video player will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Information -->
+    <section class="product-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="product-features">
+                        <h3 class="fw-bold mb-4">Tính năng nổi bật</h3>
+                        <div class="feature-item">
+                            <i class="fas fa-microchip"></i>
+                            <div>
+                                <strong>Chip A17 Pro</strong>
+                                <p class="mb-0 text-muted">Hiệu suất vượt trội với công nghệ 3nm tiên tiến</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-camera"></i>
+                            <div>
+                                <strong>Camera 48MP</strong>
+                                <p class="mb-0 text-muted">Hệ thống camera chuyên nghiệp với khả năng zoom 5x</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-shield-alt"></i>
+                            <div>
+                                <strong>Thiết kế Titanium</strong>
+                                <p class="mb-0 text-muted">Vật liệu cao cấp, bền bỉ và nhẹ hơn</p>
+                            </div>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-battery-full"></i>
+                            <div>
+                                <strong>Pin cả ngày</strong>
+                                <p class="mb-0 text-muted">Thời lượng pin lên đến 29 giờ phát video</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="product-features">
+                        <h4 class="fw-bold mb-3">Thông số kỹ thuật</h4>
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Màn hình:</strong></td>
+                                <td>6.7" Super Retina XDR</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Chip:</strong></td>
+                                <td>A17 Pro</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Camera:</strong></td>
+                                <td>48MP + 12MP + 12MP</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Bộ nhớ:</strong></td>
+                                <td>256GB / 512GB / 1TB</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Pin:</strong></td>
+                                <td>4441 mAh</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Trọng lượng:</strong></td>
+                                <td>221g</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Related Videos Section -->
+    <section class="related-videos">
+        <div class="container">
+            <h3 class="fw-bold text-center mb-5">Video liên quan</h3>
+            <div class="row" id="relatedVideos">
+                <!-- Related videos will be loaded here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/video-player.js"></script>
+    
+    <script>
+        // Initialize video player when page loads
+        document.addEventListener('DOMContentLoaded', async function() {
+            // Load video player HTML
+            await loadVideoPlayerHTML();
+            
+            // Initialize the video player
+            const videoPlayer = new ProductVideoPlayer('mainVideoPlayer', {
+                apiBaseUrl: CONFIG.API_BASE_URL,
+                autoPlay: false,
+                muted: true,
+                enableHotspots: true,
+                enableAnalytics: true
+            });
+
+            // Load main product demo video (ID: 1 for example)
+            await videoPlayer.loadVideo(1);
+            
+            // Store globally for access
+            window.currentVideoPlayer = videoPlayer;
+
+            // Load related videos
+            loadRelatedVideos();
+        });
+
+        async function loadVideoPlayerHTML() {
+            try {
+                const response = await fetch('components/video-player.html');
+                const html = await response.text();
+                document.getElementById('mainVideoPlayer').innerHTML = html;
+            } catch (error) {
+                console.error('Error loading video player:', error);
+                // Fallback HTML
+                document.getElementById('mainVideoPlayer').innerHTML = `
+                    <div class="alert alert-warning text-center">
+                        <h5>Không thể tải video player</h5>
+                        <p>Vui lòng tải lại trang hoặc thử lại sau.</p>
+                    </div>
+                `;
+            }
+        }
+
+        async function loadRelatedVideos() {
+            try {
+                const response = await fetch(`${CONFIG.API_BASE_URL}/videos/category/Technology?page=0&size=4`);
+                if (!response.ok) throw new Error('Failed to load related videos');
+                
+                const data = await response.json();
+                const videos = data.content || [];
+                
+                const container = document.getElementById('relatedVideos');
+                container.innerHTML = '';
+
+                videos.forEach(video => {
+                    const videoCard = createVideoCard(video);
+                    container.appendChild(videoCard);
+                });
+
+            } catch (error) {
+                console.error('Error loading related videos:', error);
+                document.getElementById('relatedVideos').innerHTML = `
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Không thể tải video liên quan</p>
+                    </div>
+                `;
+            }
+        }
+
+        function createVideoCard(video) {
+            const col = document.createElement('div');
+            col.className = 'col-lg-3 col-md-6 mb-4';
+            
+            col.innerHTML = `
+                <div class="video-thumbnail" onclick="playRelatedVideo(${video.id})">
+                    <img src="${video.thumbnailUrl || video.posterImageUrl || 'images/placeholder.jpg'}" 
+                         alt="${video.title}">
+                    <div class="video-overlay">
+                        <button class="play-button">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                    <div class="video-stats">
+                        <i class="fas fa-eye"></i> ${formatNumber(video.viewCount)}
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <h6 class="fw-bold">${video.title}</h6>
+                    <p class="text-muted small mb-1">${video.formattedDuration}</p>
+                    <p class="text-muted small">${formatNumber(video.viewCount)} lượt xem</p>
+                </div>
+            `;
+            
+            return col;
+        }
+
+        async function playRelatedVideo(videoId) {
+            if (window.currentVideoPlayer) {
+                await window.currentVideoPlayer.loadVideo(videoId);
+                
+                // Scroll to video player
+                document.getElementById('mainVideoPlayer').scrollIntoView({ 
+                    behavior: 'smooth' 
+                });
+            }
+        }
+
+        function formatNumber(num) {
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        // Add to cart function (can be called from video hotspots)
+        window.addToCart = async function(productId) {
+            try {
+                // Mock add to cart functionality
+                console.log('Adding product to cart:', productId);
+                
+                // Show success notification
+                showNotification('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+                
+                // Update cart count in UI if exists
+                const cartCount = document.querySelector('.cart-count');
+                if (cartCount) {
+                    cartCount.textContent = parseInt(cartCount.textContent) + 1;
+                }
+                
+                return true;
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showNotification('Không thể thêm vào giỏ hàng', 'error');
+                throw error;
+            }
+        };
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type === 'error' ? 'danger' : type} position-fixed`;
+            notification.style.cssText = 'top: 20px; right: 20px; z-index: 9999; min-width: 300px;';
+            notification.innerHTML = `
+                ${message}
+                <button type="button" class="btn-close float-end" onclick="this.parentElement.remove()"></button>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
+        }
+    </script>
+</body>
+</html>

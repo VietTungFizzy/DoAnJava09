@@ -4,6 +4,7 @@ import com.example.cypersoft.DoAnJava.dto.ChangePasswordRequest;
 import com.example.cypersoft.DoAnJava.dto.UpdateProfileRequest;
 import com.example.cypersoft.DoAnJava.dto.UserDTO;
 import com.example.cypersoft.DoAnJava.dto.UserProfileResponse;
+import com.example.cypersoft.DoAnJava.entity.Role;
 import com.example.cypersoft.DoAnJava.entity.User;
 import com.example.cypersoft.DoAnJava.mapper.UserMapper;
 import com.example.cypersoft.DoAnJava.repository.RoleRepository;
