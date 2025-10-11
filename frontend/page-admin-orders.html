@@ -7,10 +7,14 @@
 
   <meta name="author" content="Final CSS">
 
-  <title>Ecommerce UI - Example Admin template </title>
+  <title>Admin Orders Management - Ecommerce</title>
 
 	<!-- FinalCSS -->
 	<link href="css/final.css" rel="stylesheet" type="text/css" />
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+	<!-- Admin Orders CSS -->
+	<link href="css/admin-orders.css" rel="stylesheet" type="text/css" />
 
 </head>
 <body>
@@ -130,237 +134,70 @@
 		<div class="p-3 lg:p-5"> 
         <!-- ========== Content ========= -->
 
-        <header class="d-flex gap-2 mb-5">
-            <div>
-                <input class="form-control min-w-20" type="search" placeholder="Search by product" name="">
+        <header class="d-flex gap-2 mb-4 filter-section">
+            <div class="flex-grow-1">
+                <input class="form-control" type="search" placeholder="🔍 Tìm theo mã đơn hoặc tên khách hàng" name="search">
             </div>
             <div>
-                <select name="" class="form-select">
-                    <option value="">Status: any</option>
-                    <option value="">Active</option>
-                    <option value="">Archived</option>
-                    <option value="">Drafts</option>
+                <select name="statusFilter" class="form-select">
+                    <option value="all">Trạng thái: Tất cả</option>
+                    <option value="PENDING">⏱️ Chờ xử lý</option>
+                    <option value="PROCESSING">🔄 Đang xử lý</option>
+                    <option value="SHIPPED">🚚 Đang giao</option>
+                    <option value="DELIVERED">✅ Đã giao</option>
+                    <option value="CANCELLED">❌ Đã hủy</option>
                 </select>
             </div>
             
-            <div class="ml-auto d-flex gap-2">
-                <a href="#" class="btn btn-primary">Create order </a>
+            <div class="d-flex gap-2">
+                <button class="btn btn-neutral btn-refresh" onclick="loadAllOrders()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/>
+                    </svg>
+                    Làm mới
+                </button>
             </div>
         </header>
 
 
-        <div class="table-responsive">
-            <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Date</th>
-                            <th>Order by</th>
-                            <th>Status</th>
-                            <th class="text-right">Total sum</th>
-                            <th class="text-right">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                    <div class="d-flex text-primary align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                        <a href="#" class="font-medium ml-2">#192001</a>
+        <div class="table-container">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Khách hàng</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end">Tổng tiền</th>
+                                <th class="text-end">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Orders will be loaded here dynamically -->
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <div class="loading-spinner">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Đang tải...</span>
+                                        </div>
+                                        <p class="mt-3 text-muted">Đang tải danh sách đơn hàng...</p>
                                     </div>
-                            </td>
-                            <td>
-                                <span>July 12, 2024</span>
-                            </td>
-                            <td>Alex John</td>
-                            <td>  
-                                <b role="status" class="badge badge-green"> 
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 -960 960 960" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"></path></svg> 
-                                    Completed 
-                                </b> 
-                            </td>
-                            <td class="text-right"> <b class="font-sm text-muted">USD</b> 312,231.00</td>
-                            <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                    <div class="d-flex text-primary align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                        <a href="#" class="font-medium ml-2">#234232</a>
-                                    </div>
-                            </td>
-                            <td>
-                                <span>July 12, 2024</span>
-                            </td>
-                            <td>Alex John</td>
-                            <td>  
-                                <b role="status" class="badge badge-orange">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none"> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle> <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </svg>
-                                    Pending 
-                                </b> 
-                            </td>
-                            <td class="text-right"> <b class="font-sm text-muted">USD</b> 1,912,902.99</td>
-                            <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                    <div class="d-flex text-primary align-items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                        <a href="#" class="font-medium ml-2">#092001</a>
-                                    </div>
-                            </td>
-                            <td>
-                                <span>July 12, 2024</span>
-                            </td>
-                            <td>Michael George</td>
-                            <td>  
-                                <b role="status" class="badge badge-orange"> 
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none"> <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"></circle>
-                                        <path d="M12 8V12L14 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    Pending
-                                </b> 
-                            </td>
-                            <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                            <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                        </tr>
-                        <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#192009</a>
-                                        </div>
                                 </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-red"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none">
-                                            <path d="M19.0005 4.99988L5.00049 18.9999M5.00049 4.99988L19.0005 18.9999" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                            Rejected
-                                    </b> 
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
                             </tr>
-                            <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#192001</a>
-                                        </div>
-                                </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-green"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 -960 960 960" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"></path></svg> 
-                                        Completed
-                                    </b> 
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#192001</a>
-                                        </div>
-                                </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-neutral"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none">
-                                            <path d="M13 21.5V21C13 18.1716 13 16.7574 13.8787 15.8787C14.7574 15 16.1716 15 19 15H19.5M20 13.3431V10C20 6.22876 20 4.34315 18.8284 3.17157C17.6569 2 15.7712 2 12 2C8.22877 2 6.34315 2 5.17157 3.17157C4 4.34314 4 6.22876 4 10L4 14.5442C4 17.7892 4 19.4117 4.88607 20.5107C5.06508 20.7327 5.26731 20.9349 5.48933 21.1139C6.58831 22 8.21082 22 11.4558 22C12.1614 22 12.5141 22 12.8372 21.886C12.9044 21.8623 12.9702 21.835 13.0345 21.8043C13.3436 21.6564 13.593 21.407 14.0919 20.9081L18.8284 16.1716C19.4065 15.5935 19.6955 15.3045 19.8478 14.9369C20 14.5694 20 14.1606 20 13.3431Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                        Draft
-                                    </b> 
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#192001</a>
-                                        </div>
-                                </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-neutral"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" color="currentColor" fill="none">
-                                            <path d="M13 21.5V21C13 18.1716 13 16.7574 13.8787 15.8787C14.7574 15 16.1716 15 19 15H19.5M20 13.3431V10C20 6.22876 20 4.34315 18.8284 3.17157C17.6569 2 15.7712 2 12 2C8.22877 2 6.34315 2 5.17157 3.17157C4 4.34314 4 6.22876 4 10L4 14.5442C4 17.7892 4 19.4117 4.88607 20.5107C5.06508 20.7327 5.26731 20.9349 5.48933 21.1139C6.58831 22 8.21082 22 11.4558 22C12.1614 22 12.5141 22 12.8372 21.886C12.9044 21.8623 12.9702 21.835 13.0345 21.8043C13.3436 21.6564 13.593 21.407 14.0919 20.9081L18.8284 16.1716C19.4065 15.5935 19.6955 15.3045 19.8478 14.9369C20 14.5694 20 14.1606 20 13.3431Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                        </svg>
-                                        Draft
-                                    </b>
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#192001</a>
-                                        </div>
-                                </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-green"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 -960 960 960" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"></path></svg> 
-                                        Completed
-                                    </b> 
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 350.90</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                        <div class="d-flex text-primary align-items-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-truck-icon lucide-truck"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>
-                                            <a href="#" class="font-medium ml-2">#66201</a>
-                                        </div>
-                                </td>
-                                <td>
-                                    <span>July 12, 2024</span>
-                                </td>
-                                <td>Alex John</td>
-                                <td>  
-                                    <b role="status" class="badge badge-green"> 
-                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 -960 960 960" fill="currentColor"><path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"></path></svg> 
-                                        Completed
-                                    </b> 
-                                </td>
-                                <td class="text-right"> <b class="font-sm text-muted">USD</b> 12,450.00</td>
-                                <td class="text-right"> <a href="#" class="btn btn-default">View detail</a> </td>
-                            </tr>
-                    </tbody>
-            </table>
-        </div>  <!-- table-responsive end.// -->
-
-        <a href="#" class="btn btn-default">View all orders</a>
-        <br><br>
-
-        <!-- ========== Content ./end ========= -->
+                        </tbody>
+                </table>
+            </div>
+        </div>
 		</div>
 	</main>
 </div>
 
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Admin Orders JS -->
+<script src="js/admin-orders.js"></script>
 
 <script>
 	function open_dialog(dialog_id){
