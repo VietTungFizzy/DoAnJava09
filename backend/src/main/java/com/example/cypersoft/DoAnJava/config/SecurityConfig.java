@@ -2,10 +2,8 @@ package com.example.cypersoft.DoAnJava.config;
 
 import com.example.cypersoft.DoAnJava.filter.JwtAuthenticationFilter;
 import com.example.cypersoft.DoAnJava.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -25,10 +23,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
-
-    public SecurityConfig(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    public SecurityConfig() {
     }
 
 
@@ -55,6 +50,18 @@ public class SecurityConfig {
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/api/orders/**").permitAll()
                         // Protected endpoints - ĐẶT SAU
+                        .requestMatchers("/api/videos/public/**").permitAll()
+                        .requestMatchers("/api/videos/featured").permitAll()
+                        .requestMatchers("/api/videos/categories").permitAll()
+                        .requestMatchers("/api/videos/search").permitAll()
+                        .requestMatchers("/api/videos/category/**").permitAll()
+                        .requestMatchers("/api/videos/tag/**").permitAll()
+                        .requestMatchers("/api/videos/most-viewed").permitAll()
+                        .requestMatchers("/api/videos/most-liked").permitAll()
+                        .requestMatchers("/api/videos/recent").permitAll()
+                        .requestMatchers("/api/videos/user/**").permitAll()
+                        .requestMatchers("/api/videos/*/view").permitAll()
+                        .requestMatchers("/api/videos/*").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
