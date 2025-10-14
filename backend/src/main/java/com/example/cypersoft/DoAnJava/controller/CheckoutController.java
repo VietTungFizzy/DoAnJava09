@@ -35,8 +35,8 @@ public class CheckoutController {
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
-                        .setSuccessUrl(baseDomain + "/success")
-                        .setCancelUrl(baseDomain + "/cancel")
+                        .setSuccessUrl(request.getSuccessUrl())
+                        .setCancelUrl(request.getCancelUrl())
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
                                         .setQuantity(quantity)
