@@ -46,7 +46,10 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
+                        // Public endpoints - PHẢI ĐẶT TRƯỚC
                         .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/orders/**").permitAll()
+                        // Protected endpoints - ĐẶT SAU
                         .requestMatchers("/api/videos/public/**").permitAll()
                         .requestMatchers("/api/videos/featured").permitAll()
                         .requestMatchers("/api/videos/categories").permitAll()
