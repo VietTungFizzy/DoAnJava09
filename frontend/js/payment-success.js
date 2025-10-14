@@ -2,6 +2,7 @@
  * Payment Success Page JavaScript
  * Handles dynamic content loading and user interactions
  */
+
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the page
     initializePaymentSuccessPage();
