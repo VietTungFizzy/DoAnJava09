@@ -6,6 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Bootstrap CSS CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body { background: #f7f7f7; }
     .brand-logo { font-size: 2rem; font-weight: bold; color: #0070f3; }
@@ -33,11 +35,210 @@
     .footer-social i { font-size: 1.3rem; margin-right: 1rem; color: #0070f3;}
     .footer-app img { height: 36px; margin-right: 0.5rem;}
     .footer-bottom { background: #e9e9e9; color: #666; font-size: 0.9rem; text-align: center; padding: 1rem 0;}
+    
+    /* Video Section Styles */
+    .video-section {
+      margin: 2rem 0;
+    }
+    
+    .video-container {
+      max-width: 100%;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    }
+    
+    .video-player-container {
+      position: relative;
+      background: #000;
+    }
+    
+    .video-wrapper {
+      position: relative;
+      background: #000;
+    }
+    
+    .video-wrapper video {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-height: 400px;
+      object-fit: cover;
+    }
+    
+    .video-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      z-index: 5;
+    }
+    
+    .overlay-content {
+      text-align: center;
+      max-width: 500px;
+      padding: 2rem;
+    }
+    
+    .overlay-content h3 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 1rem;
+    }
+    
+    .overlay-content p {
+      font-size: 1.2rem;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+      margin-bottom: 1.5rem;
+    }
+    
+    .overlay-content .btn {
+      pointer-events: all;
+      box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .overlay-content .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+    }
+    
+    .video-controls {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      padding: 20px 15px 15px;
+      transition: opacity 0.3s ease;
+    }
+    
+    .video-wrapper:hover .video-controls {
+      opacity: 1 !important;
+    }
+    
+    .progress-container {
+      margin-bottom: 10px;
+    }
+    
+    .progress-bar {
+      position: relative;
+      height: 4px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+      cursor: pointer;
+    }
+    
+    .progress-filled {
+      height: 100%;
+      background: #007bff;
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+    
+    .progress-handle {
+      position: absolute;
+      top: -6px;
+      width: 16px;
+      height: 16px;
+      background: #007bff;
+      border-radius: 50%;
+      left: 0%;
+      transform: translateX(-50%);
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .progress-bar:hover .progress-handle {
+      opacity: 1;
+    }
+    
+    .time-display {
+      text-align: right;
+      color: white;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+    
+    .control-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .btn-control {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 3px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .btn-control:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    
+    .volume-control {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .volume-slider {
+      width: 60px;
+      height: 4px;
+      background: rgba(255,255,255,0.3);
+      outline: none;
+      border-radius: 2px;
+    }
+    
+    .video-loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 20;
+    }
+    
     @media (max-width: 768px) {
       .promo-banner { flex-direction: column; align-items: flex-start; }
       .promo-banner img { margin: 1rem 0 0 0; }
       .brand-cards { flex-direction: column; }
       .brand-card { width: 100%; }
+      
+      .video-wrapper video {
+        min-height: 250px;
+      }
+      
+      .overlay-content h3 {
+        font-size: 1.8rem;
+      }
+      
+      .overlay-content p {
+        font-size: 1rem;
+      }
+      
+      .overlay-content {
+        padding: 1rem;
+      }
+      
+      .volume-control {
+        display: none;
+      }
     }
   </style>
 </head>
@@ -117,6 +318,81 @@
         <div class="mt-2">Jackets</div>
       </div>
     </div>
+    <!-- Video Section with Autoplay -->
+    <div class="video-section mb-4">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="fw-bold text-center mb-3">Featured Video</h4>
+          <div class="video-container">
+            <div class="video-player-container" id="homepageVideoPlayer">
+              <div class="video-wrapper position-relative">
+                <!-- Video Element -->
+                <video id="homepageVideo" 
+                       class="w-100 h-auto" 
+                       preload="metadata"
+                       poster="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+                       playsinline
+                       webkit-playsinline
+                       autoplay
+                       muted
+                       loop>
+                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
+                  <p>Your browser does not support the video tag.</p>
+                </video>
+
+                <!-- Video Overlay Content -->
+                <div class="video-overlay">
+                  <div class="overlay-content text-center text-white">
+                    <h3 class="mb-3">Discover Amazing Products</h3>
+                    <p class="mb-4">Watch our featured video to see what's new</p>
+                    <button class="btn btn-primary btn-lg" onclick="scrollToProducts()">Shop Now</button>
+                  </div>
+                </div>
+
+                <!-- Custom Controls (Hidden by default for autoplay) -->
+                <div class="video-controls" id="homepageVideoControls" style="opacity: 0;">
+                  <div class="progress-container">
+                    <div class="progress-bar">
+                      <div class="progress-filled" id="homepageProgressFilled"></div>
+                      <div class="progress-handle" id="homepageProgressHandle"></div>
+                    </div>
+                    <div class="time-display">
+                      <span id="homepageCurrentTime">00:00</span> / <span id="homepageTotalTime">00:00</span>
+                    </div>
+                  </div>
+                  
+                  <div class="control-buttons">
+                    <button class="btn-control" id="homepagePlayPauseBtn">
+                      <i class="fas fa-play" id="homepagePlayIcon"></i>
+                      <i class="fas fa-pause d-none" id="homepagePauseIcon"></i>
+                    </button>
+                    
+                    <div class="volume-control">
+                      <button class="btn-control" id="homepageMuteBtn">
+                        <i class="fas fa-volume-mute" id="homepageVolumeIcon"></i>
+                      </button>
+                      <input type="range" class="volume-slider" id="homepageVolumeSlider" min="0" max="1" step="0.1" value="0">
+                    </div>
+                    
+                    <button class="btn-control" id="homepageFullscreenBtn">
+                      <i class="fas fa-expand"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Loading Overlay -->
+                <div class="video-loading d-none" id="homepageVideoLoading">
+                  <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="brand-cards mb-4">
       <div class="brand-card">Brand Video</div>
       <div class="brand-card live">Brand LiveStream</div>
@@ -274,6 +550,211 @@
     $('.fav-btn').on('click', function() {
       $(this).toggleClass('text-danger');
     });
+
+    // Homepage Video Player
+    class HomepageVideoPlayer {
+      constructor() {
+        this.video = document.getElementById('homepageVideo');
+        this.controls = document.getElementById('homepageVideoControls');
+        this.playPauseBtn = document.getElementById('homepagePlayPauseBtn');
+        this.playIcon = document.getElementById('homepagePlayIcon');
+        this.pauseIcon = document.getElementById('homepagePauseIcon');
+        this.muteBtn = document.getElementById('homepageMuteBtn');
+        this.volumeIcon = document.getElementById('homepageVolumeIcon');
+        this.volumeSlider = document.getElementById('homepageVolumeSlider');
+        this.fullscreenBtn = document.getElementById('homepageFullscreenBtn');
+        this.progressFilled = document.getElementById('homepageProgressFilled');
+        this.progressHandle = document.getElementById('homepageProgressHandle');
+        this.currentTimeEl = document.getElementById('homepageCurrentTime');
+        this.totalTimeEl = document.getElementById('homepageTotalTime');
+        this.progressBar = document.querySelector('#homepageVideoControls .progress-bar');
+        
+        this.init();
+      }
+
+      init() {
+        this.setupEventListeners();
+        this.setupAutoplay();
+      }
+
+      setupEventListeners() {
+        // Video events
+        this.video.addEventListener('loadedmetadata', () => this.onVideoLoaded());
+        this.video.addEventListener('timeupdate', () => this.onTimeUpdate());
+        this.video.addEventListener('play', () => this.onPlay());
+        this.video.addEventListener('pause', () => this.onPause());
+        this.video.addEventListener('ended', () => this.onVideoEnded());
+        this.video.addEventListener('volumechange', () => this.onVolumeChange());
+
+        // Control events
+        this.playPauseBtn.addEventListener('click', () => this.togglePlayPause());
+        this.muteBtn.addEventListener('click', () => this.toggleMute());
+        this.volumeSlider.addEventListener('input', (e) => this.setVolume(e.target.value));
+        this.fullscreenBtn.addEventListener('click', () => this.toggleFullscreen());
+        this.progressBar.addEventListener('click', (e) => this.seekTo(e));
+
+        // Mouse events for showing/hiding controls
+        const videoWrapper = this.video.closest('.video-wrapper');
+        videoWrapper.addEventListener('mouseenter', () => this.showControls());
+        videoWrapper.addEventListener('mouseleave', () => this.hideControls());
+        videoWrapper.addEventListener('mousemove', () => this.showControls());
+
+        // Click on overlay to unmute and show controls
+        const overlay = document.querySelector('.video-overlay');
+        overlay.addEventListener('click', () => this.unmuteAndShowControls());
+      }
+
+      setupAutoplay() {
+        // Ensure video is muted for autoplay (browser requirement)
+        this.video.muted = true;
+        this.volumeSlider.value = 0;
+        this.updateVolumeIcon();
+
+        // Try to autoplay
+        this.video.play().catch(e => {
+          console.log('Autoplay failed:', e);
+          // If autoplay fails, show play button
+          this.showPlayButton();
+        });
+      }
+
+      onVideoLoaded() {
+        const duration = this.video.duration;
+        this.totalTimeEl.textContent = this.formatTime(duration);
+        this.updateProgress();
+      }
+
+      onTimeUpdate() {
+        this.updateProgress();
+      }
+
+      onPlay() {
+        this.playIcon.classList.add('d-none');
+        this.pauseIcon.classList.remove('d-none');
+        this.hideOverlay();
+      }
+
+      onPause() {
+        this.playIcon.classList.remove('d-none');
+        this.pauseIcon.classList.add('d-none');
+      }
+
+      onVideoEnded() {
+        this.onPause();
+        // Restart video for loop
+        this.video.currentTime = 0;
+        this.video.play();
+      }
+
+      onVolumeChange() {
+        this.updateVolumeIcon();
+      }
+
+      updateProgress() {
+        const progress = (this.video.currentTime / this.video.duration) * 100;
+        this.progressFilled.style.width = progress + '%';
+        this.progressHandle.style.left = progress + '%';
+        this.currentTimeEl.textContent = this.formatTime(this.video.currentTime);
+      }
+
+      updateVolumeIcon() {
+        if (this.video.muted || this.video.volume === 0) {
+          this.volumeIcon.className = 'fas fa-volume-mute';
+        } else if (this.video.volume < 0.5) {
+          this.volumeIcon.className = 'fas fa-volume-down';
+        } else {
+          this.volumeIcon.className = 'fas fa-volume-up';
+        }
+      }
+
+      togglePlayPause() {
+        if (this.video.paused) {
+          this.video.play();
+        } else {
+          this.video.pause();
+        }
+      }
+
+      toggleMute() {
+        this.video.muted = !this.video.muted;
+        this.volumeSlider.value = this.video.muted ? 0 : this.video.volume;
+        this.updateVolumeIcon();
+      }
+
+      setVolume(value) {
+        this.video.volume = value;
+        this.video.muted = value == 0;
+        this.updateVolumeIcon();
+      }
+
+      toggleFullscreen() {
+        const container = this.video.closest('.video-player-container');
+        if (document.fullscreenElement) {
+          document.exitFullscreen();
+        } else {
+          container.requestFullscreen();
+        }
+      }
+
+      seekTo(event) {
+        const rect = this.progressBar.getBoundingClientRect();
+        const percent = (event.clientX - rect.left) / rect.width;
+        this.video.currentTime = percent * this.video.duration;
+      }
+
+      showControls() {
+        this.controls.style.opacity = '1';
+        clearTimeout(this.controlsTimeout);
+        this.controlsTimeout = setTimeout(() => this.hideControls(), 3000);
+      }
+
+      hideControls() {
+        if (!this.video.paused) {
+          this.controls.style.opacity = '0';
+        }
+      }
+
+      showPlayButton() {
+        // Show play button if autoplay fails
+        const overlay = document.querySelector('.video-overlay');
+        overlay.style.display = 'flex';
+      }
+
+      hideOverlay() {
+        // Hide overlay when video starts playing
+        const overlay = document.querySelector('.video-overlay');
+        overlay.style.display = 'none';
+      }
+
+      unmuteAndShowControls() {
+        // Unmute video and show controls when user interacts
+        this.video.muted = false;
+        this.volumeSlider.value = 0.5;
+        this.video.volume = 0.5;
+        this.updateVolumeIcon();
+        this.showControls();
+        this.hideOverlay();
+      }
+
+      formatTime(seconds) {
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+      }
+    }
+
+    // Initialize video player when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+      window.homepageVideoPlayer = new HomepageVideoPlayer();
+    });
+
+    // Function to scroll to products section
+    function scrollToProducts() {
+      const productsSection = document.querySelector('.trending-tabs');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   </script>
 </body>
 </html>
