@@ -8,6 +8,9 @@ import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.hibernate.LazyInitializationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +25,8 @@ import com.example.cypersoft.DoAnJava.entity.Sku;
 import com.example.cypersoft.DoAnJava.filter.ProductFilterChain;
 import com.example.cypersoft.DoAnJava.repository.ProductRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class ProductService {
 
@@ -30,6 +35,8 @@ public class ProductService {
     
     @Autowired
     private ProductFilterChain productFilterChain;
+
+    private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
     public Page<ProductResponse> listProducts(String keyword, String status, int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -77,7 +84,7 @@ public class ProductService {
                 name, keyword, brandName, minPrice, maxPrice, categoryIdList, status, pageable);
         
         // Debug: Log số lượng products
-        System.out.println("Found " + products.getTotalElements() + " products");
+        log.info("Found {} products", products.getTotalElements());
         
         // Load SKUs for all products in this page
         List<Integer> productIds = products.getContent().stream()
@@ -122,7 +129,7 @@ public class ProductService {
                 name, keyword, brandName, minPrice, maxPrice, categoryIdList, status, sort);
         
         // Debug: Log số lượng products
-        System.out.println("Found " + products.size() + " products (all)");
+        log.info("Found {} products (all)", products.size());
         
         // Load SKUs for all products
         List<Integer> productIds = products.stream()
@@ -202,8 +209,12 @@ public class ProductService {
             if (p.getBrand() != null) {
                 brandName = p.getBrand().getName();
             }
-        } catch (Exception e) {
+        } catch (LazyInitializationException | EntityNotFoundException e) {
             // Brand is not loaded, set to null
+            log.warn("Brand not initialized for product {}: {}", p.getId(), e.toString());
+            brandName = null;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing brand for product {}", p.getId(), e);
             brandName = null;
         }
         
@@ -214,15 +225,19 @@ public class ProductService {
                         .map(category -> category.getName())
                         .collect(Collectors.toSet());
             }
-        } catch (Exception e) {
+        } catch (LazyInitializationException | EntityNotFoundException e) {
             // Categories are not loaded, set to null
+            log.warn("Categories not initialized for product {}: {}", p.getId(), e.toString());
+            categoryNames = null;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing categories for product {}", p.getId(), e);
             categoryNames = null;
         }
         
         try {
             // Safely access SKUs - they should be loaded now
             if (p.getSkus() != null && !p.getSkus().isEmpty()) {
-                System.out.println("Product " + p.getId() + " has " + p.getSkus().size() + " SKUs");
+                log.debug("Product {} has {} SKUs", p.getId(), p.getSkus().size());
                 Sku firstActiveSku = p.getSkus().stream()
                         .filter(sku -> "active".equals(sku.getStatus()))
                         .findFirst()
@@ -231,21 +246,25 @@ public class ProductService {
                 if (firstActiveSku != null) {
                     price = firstActiveSku.getPrice();
                     stock = 0; // This should be populated from inventory table
-                    System.out.println("Product " + p.getId() + " price: " + price);
+                    log.debug("Product {} price: {}", p.getId(), price);
                 } else {
-                    System.out.println("Product " + p.getId() + " has no active SKU");
+                    log.debug("Product {} has no active SKU", p.getId());
                     price = BigDecimal.ZERO;
                     stock = 0;
                 }
             } else {
                 // No SKUs found
-                System.out.println("Product " + p.getId() + " has no SKUs");
+                log.debug("Product {} has no SKUs", p.getId());
                 price = BigDecimal.ZERO;
                 stock = 0;
             }
-        } catch (Exception e) {
-            // SKUs are not loaded or error occurred
-            System.out.println("Error accessing SKUs for product " + p.getId() + ": " + e.getMessage());
+        } catch (LazyInitializationException | EntityNotFoundException e) {
+            // SKUs are not loaded or entity not found
+            log.warn("Accessing SKUs failed for product {}: {}", p.getId(), e.toString());
+            price = BigDecimal.ZERO;
+            stock = 0;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing SKUs for product {}", p.getId(), e);
             price = BigDecimal.ZERO;
             stock = 0;
         }
@@ -280,7 +299,11 @@ public class ProductService {
             if (p.getBrand() != null) {
                 brandName = p.getBrand().getName();
             }
-        } catch (Exception e) {
+        } catch (LazyInitializationException | EntityNotFoundException e) {
+            log.warn("Brand not initialized for product {}: {}", p.getId(), e.toString());
+            brandName = null;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing brand for product {}", p.getId(), e);
             brandName = null;
         }
         
@@ -291,17 +314,21 @@ public class ProductService {
                         .map(category -> category.getName())
                         .collect(Collectors.toSet());
             }
-        } catch (Exception e) {
+        } catch (LazyInitializationException | EntityNotFoundException e) {
+            log.warn("Categories not initialized for product {}: {}", p.getId(), e.toString());
             categoryNames = null;
+        } catch (RuntimeException e) {
+            categoryNames = null;
+            log.error("Unexpected error accessing categories for product {}", p.getId(), e);
         }
         
         // Use the provided SKU
         if (sku != null) {
             price = sku.getPrice();
             stock = 0; // This should be populated from inventory table
-            System.out.println("Product " + p.getId() + " price from SKU: " + price);
+            log.debug("Product {} price from SKU: {}", p.getId(), price);
         } else {
-            System.out.println("Product " + p.getId() + " has no SKU provided");
+            log.debug("Product {} has no SKU provided", p.getId());
         }
         
         return new ProductResponse(

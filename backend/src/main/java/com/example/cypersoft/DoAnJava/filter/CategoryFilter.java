@@ -18,13 +18,23 @@ public class CategoryFilter implements ProductFilter {
             if (queryBuilder.length() > 0) {
                 queryBuilder.append(" AND ");
             }
-            
-            // Parse category IDs from comma-separated string
+
+            // Validate and parse category IDs from comma-separated string
             List<Integer> categoryIdList = Arrays.stream(parameters.getCategoryIds().split(","))
                     .map(String::trim)
+                    .filter(token -> !token.isEmpty())
+                    .peek(token -> {
+                        if (!token.matches("\\d+")) {
+                            throw new IllegalArgumentException("Invalid categoryIds: must be comma-separated integers");
+                        }
+                    })
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
-            
+
+            if (categoryIdList.isEmpty()) {
+                return queryBuilder; // nothing to filter by after validation
+            }
+
             queryBuilder.append("c.id IN :categoryIds");
         }
         return queryBuilder;
