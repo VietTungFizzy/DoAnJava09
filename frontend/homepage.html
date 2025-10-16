@@ -256,7 +256,11 @@
       </form>
       <div class="user-actions d-flex align-items-center">
         <i class="bi bi-bag"> Orders</i>
-        <i class="bi bi-heart ms-2"> Saved</i>
+        <a href="wishlist.html" class="text-decoration-none">
+          <i class="bi bi-heart ms-2 wishlist-toggle" id="wishlist-icon" title="Wishlist">
+            <span class="wishlist-count badge bg-danger ms-1" style="font-size: 0.7rem;">0</span>
+          </i>
+        </a>
         <i class="bi bi-cart ms-2"> My cart</i>
         <i class="bi bi-person ms-2"> Sign In</i>
       </div>
@@ -271,6 +275,9 @@
       <a class="text-decoration-none text-dark" href="#">Bestsellers</a>
       <a class="text-decoration-none text-dark" href="#">Gift boxes</a>
       <a class="text-decoration-none text-dark" href="#">Articles</a>
+      <a class="text-decoration-none text-dark" href="wishlist.html">
+        <i class="fas fa-heart me-1"></i>Wishlist
+      </a>
       <a class="text-decoration-none text-dark" href="#">More</a>
     </div>
   </div>
@@ -330,13 +337,13 @@
                 <video id="homepageVideo" 
                        class="w-100 h-auto" 
                        preload="metadata"
-                       poster="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+                       data-poster="https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=800&q=80"
+                       data-video-src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                        playsinline
                        webkit-playsinline
                        autoplay
                        muted
                        loop>
-                  <source src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4">
                   <p>Your browser does not support the video tag.</p>
                 </video>
 
@@ -418,7 +425,9 @@
           <div class="row row-cols-1 row-cols-md-4 g-4">
             <div class="col">
               <div class="product-card">
-                <button class="fav-btn">&#9829;</button>
+                <button class="fav-btn wishlist-toggle" data-product-id="1" title="Add to Wishlist">
+                  <i class="far fa-heart"></i>
+                </button>
                 <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=120&q=80" alt="Jacket">
                 <div class="fw-bold mb-1">Slim Lyocell Trousers</div>
                 <div class="text-muted" style="font-size:0.9rem;">Men's Jacket</div>
@@ -427,7 +436,9 @@
             </div>
             <div class="col">
               <div class="product-card">
-                <button class="fav-btn">&#9829;</button>
+                <button class="fav-btn wishlist-toggle" data-product-id="2" title="Add to Wishlist">
+                  <i class="far fa-heart"></i>
+                </button>
                 <img src="https://images.unsplash.com/photo-1465101178521-c1a9136a3a18?auto=format&fit=crop&w=120&q=80" alt="Shorts">
                 <div class="fw-bold mb-1">Slim Lyocell Trousers</div>
                 <div class="text-muted" style="font-size:0.9rem;">Men's Jacket</div>
@@ -436,7 +447,9 @@
             </div>
             <div class="col">
               <div class="product-card">
-                <button class="fav-btn">&#9829;</button>
+                <button class="fav-btn wishlist-toggle" data-product-id="3" title="Add to Wishlist">
+                  <i class="far fa-heart"></i>
+                </button>
                 <img src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?auto=format&fit=crop&w=120&q=80" alt="Backpack">
                 <div class="fw-bold mb-1">Slim Lyocell Trousers</div>
                 <div class="text-muted" style="font-size:0.9rem;">Men's Jacket</div>
@@ -445,7 +458,9 @@
             </div>
             <div class="col">
               <div class="product-card">
-                <button class="fav-btn">&#9829;</button>
+                <button class="fav-btn wishlist-toggle" data-product-id="4" title="Add to Wishlist">
+                  <i class="far fa-heart"></i>
+                </button>
                 <img src="https://images.unsplash.com/photo-1511367461989-f85a21fda167?auto=format&fit=crop&w=120&q=80" alt="Polo">
                 <div class="fw-bold mb-1">Slim Lyocell Trousers</div>
                 <div class="text-muted" style="font-size:0.9rem;">Men's Jacket</div>
@@ -545,14 +560,18 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <!-- Bootstrap icons (optional) -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <!-- Wishlist functionality -->
+  <script src="js/wishlist.js"></script>
   <script>
-    // (Optional) Like button toggle
-    $('.fav-btn').on('click', function() {
-      $(this).toggleClass('text-danger');
-    });
+    // Messages container for wishlist notifications
+    $('body').prepend('<div class="messages-container position-fixed top-0 end-0 p-3" style="z-index: 9999;"></div>');
 
     // Homepage Video Player
     class HomepageVideoPlayer {
+      // Class constants for better maintainability
+      static CONTROLS_TIMEOUT = 3000; // 3 seconds
+      static DEFAULT_VOLUME = 0.5;
+      
       constructor() {
         this.video = document.getElementById('homepageVideo');
         this.controls = document.getElementById('homepageVideoControls');
@@ -573,8 +592,23 @@
       }
 
       init() {
+        this.setupVideoSource();
         this.setupEventListeners();
         this.setupAutoplay();
+      }
+
+      setupVideoSource() {
+        // Set video source and poster from data attributes
+        const videoSrc = this.video.dataset.videoSrc;
+        const posterSrc = this.video.dataset.poster;
+        
+        if (videoSrc) {
+          this.video.src = videoSrc;
+        }
+        
+        if (posterSrc) {
+          this.video.poster = posterSrc;
+        }
       }
 
       setupEventListeners() {
@@ -683,7 +717,7 @@
 
       setVolume(value) {
         this.video.volume = value;
-        this.video.muted = value == 0;
+        this.video.muted = value === 0;
         this.updateVolumeIcon();
       }
 
@@ -705,7 +739,7 @@
       showControls() {
         this.controls.style.opacity = '1';
         clearTimeout(this.controlsTimeout);
-        this.controlsTimeout = setTimeout(() => this.hideControls(), 3000);
+        this.controlsTimeout = setTimeout(() => this.hideControls(), HomepageVideoPlayer.CONTROLS_TIMEOUT);
       }
 
       hideControls() {
@@ -729,8 +763,8 @@
       unmuteAndShowControls() {
         // Unmute video and show controls when user interacts
         this.video.muted = false;
-        this.volumeSlider.value = 0.5;
-        this.video.volume = 0.5;
+        this.volumeSlider.value = HomepageVideoPlayer.DEFAULT_VOLUME;
+        this.video.volume = HomepageVideoPlayer.DEFAULT_VOLUME;
         this.updateVolumeIcon();
         this.showControls();
         this.hideOverlay();
