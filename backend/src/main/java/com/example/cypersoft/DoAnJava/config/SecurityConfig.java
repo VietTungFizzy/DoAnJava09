@@ -1,7 +1,7 @@
 package com.example.cypersoft.DoAnJava.config;
 
-import java.util.Arrays;
-
+import com.example.cypersoft.DoAnJava.filter.JwtAuthenticationFilter;
+import com.example.cypersoft.DoAnJava.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,8 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.example.cypersoft.DoAnJava.filter.JwtAuthenticationFilter;
-import com.example.cypersoft.DoAnJava.service.UserService;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -26,6 +25,7 @@ public class SecurityConfig {
 
     public SecurityConfig() {
     }
+
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService, PasswordEncoder passwordEncoder) {
@@ -47,15 +47,8 @@ public class SecurityConfig {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints - PHẢI ĐẶT TRƯỚC
-                        .requestMatchers("/").permitAll() // Thêm lại root endpoint
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/products/**").permitAll() // Thêm lại - QUAN TRỌNG
-                        .requestMatchers("/api/categories/**").permitAll() // Thêm cho CategoryController
-                        .requestMatchers("/test/**").permitAll() // Thêm lại cho TestController
-                        .requestMatchers("/public/**").permitAll() // Thêm lại cho PublicController
-                        .requestMatchers("/simple/**").permitAll() // Thêm cho SimpleController
-                        .requestMatchers("/debug/**").permitAll() // Thêm cho DebugController
-                        .requestMatchers("/api/orders/**").permitAll() // Giữ nguyên (có thể dùng sau)
+                        .requestMatchers("/api/orders/**").permitAll()
                         // Protected endpoints - ĐẶT SAU
                         .requestMatchers("/api/videos/public/**").permitAll()
                         .requestMatchers("/api/videos/featured").permitAll()
@@ -71,7 +64,6 @@ public class SecurityConfig {
                         .requestMatchers("/api/videos/*").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/vouchers/**").authenticated() // Thêm bảo vệ cho VoucherController
                         .requestMatchers("/api/checkout/create-session").permitAll()
                         .anyRequest().authenticated()
                 )
