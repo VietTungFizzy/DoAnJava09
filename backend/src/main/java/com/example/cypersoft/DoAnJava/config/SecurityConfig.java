@@ -24,6 +24,8 @@ import com.example.cypersoft.DoAnJava.service.UserService;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    public SecurityConfig() {
+    }
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserService userService, PasswordEncoder passwordEncoder) {
@@ -44,13 +46,33 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/").permitAll() // Allow root endpoint
+                        // Public endpoints - PHẢI ĐẶT TRƯỚC
+                        .requestMatchers("/").permitAll() // Thêm lại root endpoint
                         .requestMatchers("/auth/**").permitAll()
-                        .requestMatchers("/api/products/**").permitAll() // Allow public access to products API
-                        .requestMatchers("/test/**").permitAll() // Allow test endpoints
-                        .requestMatchers("/public/**").permitAll() // Allow public endpoints
+                        .requestMatchers("/api/products/**").permitAll() // Thêm lại - QUAN TRỌNG
+                        .requestMatchers("/api/categories/**").permitAll() // Thêm cho CategoryController
+                        .requestMatchers("/test/**").permitAll() // Thêm lại cho TestController
+                        .requestMatchers("/public/**").permitAll() // Thêm lại cho PublicController
+                        .requestMatchers("/simple/**").permitAll() // Thêm cho SimpleController
+                        .requestMatchers("/debug/**").permitAll() // Thêm cho DebugController
+                        .requestMatchers("/api/orders/**").permitAll() // Giữ nguyên (có thể dùng sau)
+                        // Protected endpoints - ĐẶT SAU
+                        .requestMatchers("/api/videos/public/**").permitAll()
+                        .requestMatchers("/api/videos/featured").permitAll()
+                        .requestMatchers("/api/videos/categories").permitAll()
+                        .requestMatchers("/api/videos/search").permitAll()
+                        .requestMatchers("/api/videos/category/**").permitAll()
+                        .requestMatchers("/api/videos/tag/**").permitAll()
+                        .requestMatchers("/api/videos/most-viewed").permitAll()
+                        .requestMatchers("/api/videos/most-liked").permitAll()
+                        .requestMatchers("/api/videos/recent").permitAll()
+                        .requestMatchers("/api/videos/user/**").permitAll()
+                        .requestMatchers("/api/videos/*/view").permitAll()
+                        .requestMatchers("/api/videos/*").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/vouchers/**").authenticated() // Thêm bảo vệ cho VoucherController
+                        .requestMatchers("/api/checkout/create-session").permitAll()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

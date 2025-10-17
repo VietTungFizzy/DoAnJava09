@@ -1,21 +1,19 @@
 server:
-  port: 8087
+  port: 8080
 spring:
   application:
     name: DoAnJava
   datasource:
-    url: jdbc:mysql://localhost:3307/marketplace_db2?useSSL=false&serverTimezone=Asia/Ho_Chi_Minh&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://database-1.cgxq828ugpr9.us-east-1.rds.amazonaws.com:3306/marketplace_db2
     username: root
     password: admin123
-    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
-    database-platform: org.hibernate.dialect.MySQLDialect
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQLDialect
+  flyway:
+    enabled: false
+    locations: classpath:db/migration
   mail:
     host: smtp.gmail.com
     port: 587
@@ -30,4 +28,12 @@ spring:
 
 jwt:
   secret: mySecretKey123456789012345678901234567890
-  expiration: 86400000
+  expiration: 86400000  
+
+app:
+  admin:
+    email: admin@example.com
+  base-domain: http://localhost:3000
+
+stripe:
+  api-key: sk_test_51S9SX3L9RJOfTfprx3DuvELYlakO3fbRRL6B2BYyZJVnUB074iBTAaUPAujoDnNfl4C7OQRoWDhB8OJMWIPik3I0004xlmoyuB
