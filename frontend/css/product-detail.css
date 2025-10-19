@@ -1,0 +1,130 @@
+/* Product Detail Page Styles */
+
+body {
+    background: #fafafa;
+    font-family: Arial, sans-serif;
+}
+
+.custom-header {
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 8px 0;
+}
+
+.custom-header input[type="text"] {
+    border: 1px solid #d1d1d1;
+    border-radius: 3px;
+    padding: 4px 10px;
+    width: 280px;
+    margin-left: 12px;
+}
+
+.custom-header .header-actions {
+    float: right;
+    font-size: 15px;
+}
+
+.breadcrumb {
+    background: transparent;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.product-image-main {
+    width: 100%;
+    border-radius: 4px;
+    border: 1px solid #eee;
+    max-width: 400px;
+}
+
+.product-thumbnails img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    margin-right: 6px;
+    border: 1px solid #dcdcdc;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.product-thumbnails img.selected {
+    border: 2px solid #ff6600;
+}
+
+.product-title {
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.product-rating {
+    color: #ffc107;
+    font-size: 15px;
+}
+
+.product-price {
+    color: #ff3333;
+    font-size: 26px;
+    font-weight: 700;
+    margin-top: 6px;
+}
+
+.product-sale {
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.ship-label {
+    font-size: 13px;
+    color: #888;
+}
+
+.btn-add-cart {
+    background: #ff6600;
+    color: #fff;
+}
+
+.btn-buy-now {
+    background: #3399ff;
+    color: #fff;
+}
+
+.fav-checkbox {
+    margin-right: 6px;
+    accent-color: #ff6600;
+}
+
+.nav-tabs .nav-link.active {
+    border-bottom: 2px solid #ff6600;
+}
+
+.tab-content {
+    background: #fafafa;
+    border: 1px solid #ececec;
+    border-top: none;
+    padding: 20px;
+}
+
+.similar-product img {
+    width: 140px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 4px;
+    border: 1px solid #dcdcdc;
+    margin-bottom: 8px;
+}
+
+.similar-product {
+    text-align: center;
+    margin-right: 8px;
+}
+
+@media (max-width: 992px) {
+    .product-detail-row {
+        flex-direction: column;
+    }
+    .product-detail-row > div {
+        width: 100% !important;
+        margin-bottom: 16px;
+    }
+}

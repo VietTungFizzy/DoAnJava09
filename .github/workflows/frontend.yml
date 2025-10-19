@@ -1,0 +1,28 @@
+name: deploy-frontend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - uses: shinyinc/action-aws-cli@v1.2
+      - run: aws s3 sync . s3://${{ secrets.AWS_S3_BUCKET_NAME }}/frontend/latest/
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: "us-east-1"
+
