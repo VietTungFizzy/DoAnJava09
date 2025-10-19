@@ -24,6 +24,11 @@ const AppConfig = {
     // Get categories API URL
     getCategoriesUrl: function() {
         return this.getApiUrl(this.api.endpoints.categories);
+    },
+
+    // Separate backend (port 8087) for product listing used on category page
+    getAllProductsUrl: function() {
+        return 'http://localhost:8087/api/products/all';
     }
 };
 

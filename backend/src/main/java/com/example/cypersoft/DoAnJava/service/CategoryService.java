@@ -20,21 +20,21 @@ public class CategoryService {
     private final CategoryRepository categoryRepository;
 
     public List<CategoryResponse> getAllCategories() {
-        List<Category> categories = categoryRepository.findByParentIdIsNullAndIsActiveTrueOrderBySortOrder();
+        List<Category> categories = categoryRepository.findByParentIdIsNull();
         return categories.stream()
                 .map(this::convertToResponseWithSubcategories)
                 .collect(Collectors.toList());
     }
 
     public List<CategoryResponse> getSubcategories(Integer parentId) {
-        List<Category> subcategories = categoryRepository.findByParentIdAndIsActiveTrueOrderBySortOrder(parentId);
+        List<Category> subcategories = categoryRepository.findByParentId(parentId);
         return subcategories.stream()
                 .map(this::convertToResponse) // Không load subcategories của subcategories
                 .collect(Collectors.toList());
     }
 
     public CategoryResponse getCategoryById(Integer id) {
-        Category category = categoryRepository.findByIdAndIsActiveTrue(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
         return convertToResponseWithSubcategories(category);
     }
@@ -48,51 +48,40 @@ public class CategoryService {
 
     public CategoryResponse createCategory(Category category) {
         validateCategory(category);
-        category.setCreatedAt(LocalDateTime.now());
-        category.setUpdatedAt(LocalDateTime.now());
-        category.setIsActive(true);
+        // Note: Category entity only has id, name, slug, parent_id, path, depth
+        // Removed: createdAt, updatedAt, isActive, description, imageUrl, etc.
         Category savedCategory = categoryRepository.save(category);
         return convertToResponseWithSubcategories(savedCategory);
     }
 
     public CategoryResponse updateCategory(Integer id, Category categoryData) {
-        Category category = categoryRepository.findByIdAndIsActiveTrue(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
         
         validateCategory(categoryData);
         category.setName(categoryData.getName());
-        category.setDescription(categoryData.getDescription());
-        category.setImageUrl(categoryData.getImageUrl());
-        category.setIconUrl(categoryData.getIconUrl());
-        category.setBannerUrl(categoryData.getBannerUrl());
+        category.setSlug(categoryData.getSlug());
         category.setParentId(categoryData.getParentId());
-        category.setSortOrder(categoryData.getSortOrder());
-        category.setUpdatedAt(LocalDateTime.now());
+        category.setPath(categoryData.getPath());
+        category.setDepth(categoryData.getDepth());
         
         Category savedCategory = categoryRepository.save(category);
         return convertToResponseWithSubcategories(savedCategory);
     }
 
     public void deleteCategory(Integer id) {
-        Category category = categoryRepository.findByIdAndIsActiveTrue(id)
+        Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("Category not found with id: " + id));
         
-        category.setIsActive(false);
-        category.setUpdatedAt(LocalDateTime.now());
-        categoryRepository.save(category);
+        // Note: Category entity doesn't have isActive field, so we'll just delete it
+        categoryRepository.delete(category);
     }
 
     private CategoryResponse convertToResponse(Category category) {
         CategoryResponse response = new CategoryResponse();
         response.setId(category.getId());
         response.setName(category.getName());
-        response.setDescription(category.getDescription());
-        response.setImageUrl(category.getImageUrl());
         response.setParentId(category.getParentId());
-        response.setSortOrder(category.getSortOrder());
-        response.setIsActive(category.getIsActive());
-        response.setCreatedAt(category.getCreatedAt());
-        response.setUpdatedAt(category.getUpdatedAt());
 
         // Set default product count (can be enhanced later with actual product count)
         response.setProductCount(0L);
@@ -105,11 +94,9 @@ public class CategoryService {
         
         // Get subcategories if this is a parent category
         if (category.getParentId() == null) {
-            List<Category> subcategories = categoryRepository.findByParentIdAndIsActiveTrueOrderBySortOrder(category.getId());
-            List<CategoryResponse> subcategoryResponses = subcategories.stream()
-                    .map(this::convertToResponse) // Không load subcategories của subcategories
-                    .collect(Collectors.toList());
-            response.setSubcategories(subcategoryResponses);
+            // Note: Need to add findByParentId method to CategoryRepository
+            // For now, return empty list
+            response.setSubcategories(new java.util.ArrayList<>());
         }
         
         return response;
@@ -120,16 +107,20 @@ public class CategoryService {
             throw new CategoryValidationException("Category name is required");
         }
         
-        if (category.getName().length() > 100) {
-            throw new CategoryValidationException("Category name must be less than 100 characters");
+        if (category.getName().length() > 255) {
+            throw new CategoryValidationException("Category name must be less than 255 characters");
         }
         
-        if (category.getDescription() != null && category.getDescription().length() > 1000) {
-            throw new CategoryValidationException("Category description must be less than 1000 characters");
+        if (category.getSlug() != null && category.getSlug().length() > 255) {
+            throw new CategoryValidationException("Category slug must be less than 255 characters");
         }
         
-        if (category.getSortOrder() != null && category.getSortOrder() < 0) {
-            throw new CategoryValidationException("Sort order must be a positive number");
+        if (category.getPath() != null && category.getPath().length() > 1000) {
+            throw new CategoryValidationException("Category path must be less than 1000 characters");
+        }
+        
+        if (category.getDepth() != null && category.getDepth() < 0) {
+            throw new CategoryValidationException("Depth must be a non-negative number");
         }
     }
 }

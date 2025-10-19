@@ -1,5 +1,8 @@
 package com.example.cypersoft.DoAnJava.controller;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +22,7 @@ import com.example.cypersoft.DoAnJava.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -27,12 +30,38 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<Page<ProductResponse>> list(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "brandName", required = false) String brandName,
             @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+            @RequestParam(value = "categoryIds", required = false) String categoryIds,
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
             @RequestParam(value = "status", required = false) String status,
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        return ResponseEntity.ok(productService.listProducts(keyword, status, page, size));
+        return ResponseEntity.ok(productService.listProductsWithFilters(
+                name, brandName, keyword, minPrice, maxPrice, categoryIds, 
+                sortBy, sortDirection, status, page, size));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<ProductResponse>> getAllProducts(
+            @RequestParam(value = "name", required = false) String name,
+            @RequestParam(value = "brandName", required = false) String brandName,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            @RequestParam(value = "minPrice", required = false) BigDecimal minPrice,
+            @RequestParam(value = "maxPrice", required = false) BigDecimal maxPrice,
+            @RequestParam(value = "categoryIds", required = false) String categoryIds,
+            @RequestParam(value = "sortBy", required = false) String sortBy,
+            @RequestParam(value = "sortDirection", required = false) String sortDirection,
+            @RequestParam(value = "status", required = false) String status
+    ) {
+        return ResponseEntity.ok(productService.getAllProductsWithFilters(
+                name, brandName, keyword, minPrice, maxPrice, categoryIds, 
+                sortBy, sortDirection, status));
     }
 
     @GetMapping("/{id}")

@@ -10,6 +10,7 @@ class CategoryManager {
         this.filters = {
             priceRange: [0, 10000000],
             brands: [],
+            categories: [],
             sizes: [],
             colors: [],
             materials: [],
@@ -18,7 +19,9 @@ class CategoryManager {
             styles: [],
             fits: [],
             ram: [],
-            cpu: []
+            cpu: [],
+            inStockOnly: false,
+            ratingMin: 0
         };
         this.sortBy = 'newest';
         
@@ -67,9 +70,46 @@ class CategoryManager {
         });
 
         // Price range
-        document.getElementById('priceRange').addEventListener('input', (e) => {
-            this.updatePriceRange(e.target.value);
+        const priceRangeEl = document.getElementById('priceRange');
+        if (priceRangeEl) {
+            priceRangeEl.addEventListener('input', (e) => {
+                this.updatePriceRange(e.target.value);
+            });
+        }
+
+        const priceMinInput = document.getElementById('priceMinInput');
+        const priceMaxInput = document.getElementById('priceMaxInput');
+        const applyPriceBtn = document.getElementById('applyPriceBtn');
+        if (applyPriceBtn) {
+            applyPriceBtn.addEventListener('click', () => {
+                const min = parseInt(priceMinInput.value || '0');
+                const max = parseInt(priceMaxInput.value || '100000000');
+                this.filters.priceRange = [Math.max(0, min), Math.max(min, max)];
+                document.getElementById('minPrice').textContent = this.formatPrice(this.filters.priceRange[0]);
+                document.getElementById('maxPrice').textContent = this.formatPrice(this.filters.priceRange[1]);
+                this.applyFiltersAndSort();
+            });
+        }
+
+        const inStockEl = document.getElementById('inStockFilter');
+        if (inStockEl) {
+            inStockEl.addEventListener('change', (e) => {
+                this.filters.inStockOnly = e.target.checked;
+                this.applyFiltersAndSort();
+            });
+        }
+
+        document.querySelectorAll('input[name="ratingMin"]').forEach(r => {
+            r.addEventListener('change', (e) => {
+                this.filters.ratingMin = parseInt(e.target.value);
+                this.applyFiltersAndSort();
+            });
         });
+
+        const brandSearchInput = document.getElementById('brandSearchInput');
+        if (brandSearchInput) {
+            brandSearchInput.addEventListener('input', (e) => this.filterBrandList(e.target.value));
+        }
     }
 
     async loadProducts() {
@@ -93,151 +133,40 @@ class CategoryManager {
     }
 
     async fetchProducts() {
-        // Mock data - replace with actual API call
-        return {
-            products: [
-                {
-                    id: 1,
-                    name: 'iPhone 15 Pro Max',
-                    price: 29990000,
-                    originalPrice: 32990000,
-                    discount: 9,
-                    rating: 4.8,
-                    reviewCount: 1250,
-                    images: [
-                        'images/product-tech/iphone-15-1.jpg',
-                        'images/product-tech/iphone-15-2.jpg',
-                        'images/product-tech/iphone-15-3.jpg'
-                    ],
-                    brand: 'Apple',
-                    color: 'Titanium',
-                    category: 'smartphone',
-                    subcategory: 'iphone',
-                    featured: true,
-                    inStock: true,
-                    description: 'iPhone 15 Pro Max với chip A17 Pro mạnh mẽ'
-                },
-                {
-                    id: 2,
-                    name: 'Samsung Galaxy S24 Ultra',
-                    price: 24990000,
-                    originalPrice: 27990000,
-                    discount: 11,
-                    rating: 4.7,
-                    reviewCount: 980,
-                    images: [
-                        'images/product-tech/galaxy-s24-1.jpg',
-                        'images/product-tech/galaxy-s24-2.jpg'
-                    ],
-                    brand: 'Samsung',
-                    color: 'Black',
-                    category: 'smartphone',
-                    subcategory: 'android',
-                    featured: true,
-                    inStock: true,
-                    description: 'Galaxy S24 Ultra với camera 200MP'
-                },
-                {
-                    id: 3,
-                    name: 'MacBook Pro M3',
-                    price: 45990000,
-                    originalPrice: 49990000,
-                    discount: 8,
-                    rating: 4.9,
-                    reviewCount: 650,
-                    images: [
-                        'images/product-tech/macbook-pro-1.jpg',
-                        'images/product-tech/macbook-pro-2.jpg',
-                        'images/product-tech/macbook-pro-3.jpg'
-                    ],
-                    brand: 'Apple',
-                    color: 'Space Gray',
-                    category: 'laptop',
-                    subcategory: 'macbook',
-                    featured: false,
-                    inStock: true,
-                    description: 'MacBook Pro với chip M3 Pro hiệu năng cao',
-                    ram: '16GB',
-                    cpu: 'M3 Pro'
-                },
-                {
-                    id: 4,
-                    name: 'Áo thun nam Nike Dri-FIT',
-                    price: 450000,
-                    originalPrice: 600000,
-                    discount: 25,
-                    rating: 4.6,
-                    reviewCount: 850,
-                    images: [
-                        'images/product-cloth/nike-tshirt-1.jpg',
-                        'images/product-cloth/nike-tshirt-2.jpg',
-                        'images/product-cloth/nike-tshirt-3.jpg'
-                    ],
-                    brand: 'Nike',
-                    color: 'Black',
-                    category: 'clothing',
-                    subcategory: 'tshirt',
-                    featured: true,
-                    inStock: true,
-                    description: 'Áo thun thể thao Nike Dri-FIT thoáng khí',
-                    size: ['S', 'M', 'L', 'XL', 'XXL'],
-                    material: 'Polyester',
-                    gender: 'Men',
-                    season: 'All-season',
-                    style: 'Sport',
-                    fit: 'Regular'
-                },
-                {
-                    id: 5,
-                    name: 'Quần jeans nữ Levi\'s 501',
-                    price: 1200000,
-                    originalPrice: 1500000,
-                    discount: 20,
-                    rating: 4.7,
-                    reviewCount: 1200,
-                    images: [
-                        'images/product-cloth/levis-jeans-1.jpg',
-                        'images/product-cloth/levis-jeans-2.jpg'
-                    ],
-                    brand: 'Levi\'s',
-                    color: 'Blue',
-                    category: 'clothing',
-                    subcategory: 'jeans',
-                    featured: false,
-                    inStock: true,
-                    description: 'Quần jeans classic Levi\'s 501',
-                    size: ['24', '25', '26', '27', '28', '29', '30'],
-                    material: 'Denim',
-                    gender: 'Women',
-                    season: 'All-season',
-                    style: 'Casual',
-                    fit: 'Regular'
-                },
-                {
-                    id: 6,
-                    name: 'Nike Air Max 270',
-                    price: 3200000,
-                    originalPrice: 3800000,
-                    discount: 16,
-                    rating: 4.5,
-                    reviewCount: 2100,
-                    images: [
-                        'images/product-cloth/nike-air-max-1.jpg',
-                        'images/product-cloth/nike-air-max-2.jpg',
-                        'images/product-cloth/nike-air-max-3.jpg'
-                    ],
-                    brand: 'Nike',
-                    color: 'White',
-                    category: 'shoes',
-                    subcategory: 'sneakers',
-                    featured: false,
-                    inStock: true,
-                    description: 'Giày thể thao Nike Air Max 270',
-                    size: ['39', '40', '41', '42', '43'],
-                    material: 'Mesh'
-                }
-            ]
-        };
+        const url = window.AppConfig && typeof window.AppConfig.getAllProductsUrl === 'function'
+            ? window.AppConfig.getAllProductsUrl()
+            : 'http://localhost:8087/api/products/all';
+
+        const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (!res.ok) {
+            throw new Error('Failed to fetch products');
+        }
+        const data = await res.json();
+
+        // Map backend shape to UI product model used in this page
+        const placeholder = 'images/placeholder.jpg';
+        const mapped = (Array.isArray(data) ? data : []).map(item => {
+            const price = typeof item.price === 'number' ? item.price : parseFloat(item.price || 0);
+            return {
+                id: item.id,
+                name: item.name,
+                price: price,
+                originalPrice: price, // no original price from API
+                discount: 0,
+                rating: 5, // API chưa có rating
+                reviewCount: 0,
+                images: [item.imageUrl || placeholder],
+                brand: item.brandName || 'Khác',
+                color: 'Default',
+                category: (item.categoryNames && item.categoryNames[0]) ? item.categoryNames[0].toLowerCase() : 'general',
+                subcategory: (item.categoryNames && item.categoryNames[0]) ? item.categoryNames[0].toLowerCase() : 'general',
+                featured: false,
+                inStock: (typeof item.stock === 'number' ? item.stock : 0) > 0,
+                description: item.description || ''
+            };
+        });
+
+        return { products: mapped };
     }
 
     async loadFeaturedProducts() {
@@ -287,14 +216,16 @@ class CategoryManager {
     setupFilters() {
         this.setupBrandFilter();
         this.setupColorFilter();
+        this.setupCategoryFilter();
         this.setupSizeFilter();
         this.setupSubcategoriesFilter();
         this.setupCategorySpecificFilters();
     }
 
     setupBrandFilter() {
-        const brands = [...new Set(this.products.map(p => p.brand))];
+        const brands = [...new Set(this.products.map(p => p.brand))].filter(Boolean).sort();
         const container = document.querySelector('#brandFilter .filter-options');
+        if (!container) return;
         container.innerHTML = brands.map(brand => `
             <div class="form-check">
                 <input class="form-check-input" type="checkbox" value="${brand}" id="brand-${brand}">
@@ -303,6 +234,55 @@ class CategoryManager {
                 </label>
             </div>
         `).join('');
+
+        container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const val = cb.value;
+                if (cb.checked) {
+                    if (!this.filters.brands.includes(val)) this.filters.brands.push(val);
+                } else {
+                    this.filters.brands = this.filters.brands.filter(b => b !== val);
+                }
+                this.applyFiltersAndSort();
+            });
+        });
+    }
+
+    filterBrandList(keyword) {
+        const container = document.querySelector('#brandFilter .filter-options');
+        if (!container) return;
+        const items = Array.from(container.querySelectorAll('.form-check'));
+        const lower = (keyword || '').toLowerCase();
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(lower) ? '' : 'none';
+        });
+    }
+
+    setupCategoryFilter() {
+        const categories = [...new Set(this.products.map(p => p.category))].filter(Boolean).sort();
+        const container = document.querySelector('#categoryFilter .filter-options');
+        if (!container) return;
+        container.innerHTML = categories.map(cat => `
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="${cat}" id="cat-${cat}">
+                <label class="form-check-label" for="cat-${cat}">
+                    ${this.formatSubcategoryName(cat)}
+                </label>
+            </div>
+        `).join('');
+
+        container.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                const val = cb.value;
+                if (cb.checked) {
+                    if (!this.filters.categories.includes(val)) this.filters.categories.push(val);
+                } else {
+                    this.filters.categories = this.filters.categories.filter(c => c !== val);
+                }
+                this.applyFiltersAndSort();
+            });
+        });
     }
 
     setupColorFilter() {
@@ -522,8 +502,20 @@ class CategoryManager {
             filtered = filtered.filter(p => p.size && p.size.some(s => this.filters.sizes.includes(s)));
         }
 
+        if (this.filters.categories.length > 0) {
+            filtered = filtered.filter(p => this.filters.categories.includes(p.category));
+        }
+
         if (this.filters.priceRange[0] > 0 || this.filters.priceRange[1] < 10000000) {
             filtered = filtered.filter(p => p.price >= this.filters.priceRange[0] && p.price <= this.filters.priceRange[1]);
+        }
+
+        if (this.filters.inStockOnly) {
+            filtered = filtered.filter(p => p.inStock);
+        }
+
+        if (this.filters.ratingMin > 0) {
+            filtered = filtered.filter(p => (p.rating || 0) >= this.filters.ratingMin);
         }
 
         // Apply sorting
@@ -555,8 +547,10 @@ class CategoryManager {
 
     updateProductCount() {
         const count = this.filteredProducts.length;
-        document.getElementById('productCount').textContent = `${count} sản phẩm`;
-        document.getElementById('resultCount').textContent = `${count} kết quả`;
+        const headerCountEl = document.getElementById('productCount');
+        if (headerCountEl) headerCountEl.textContent = `${count} sản phẩm`;
+        const resultCountEl = document.getElementById('resultCount');
+        if (resultCountEl) resultCountEl.textContent = `${count} kết quả`;
     }
 
     updatePriceRange(value) {
@@ -643,6 +637,11 @@ let categoryManager;
 
 document.addEventListener('DOMContentLoaded', function() {
     categoryManager = new CategoryManager();
+    // Set default view to grid and mark button active
+    const gridBtn = document.getElementById('gridView');
+    const listBtn = document.getElementById('listView');
+    if (gridBtn) gridBtn.classList.add('active');
+    if (listBtn) listBtn.classList.remove('active');
 });
 
 function toggleView(view) {
