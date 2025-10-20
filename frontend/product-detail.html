@@ -24,6 +24,10 @@
                 </button>
             </form>
             <div class="header-actions d-flex align-items-center">
+                <a href="wishlist.html" class="me-3" title="Danh sách yêu thích">
+                    <i class="fas fa-heart"></i> Yêu thích
+                    <span class="wishlist-count badge bg-danger ms-1" style="font-size: 0.7rem;">0</span>
+                </a>
                 <a href="page-cart.html" class="me-3">
                     <i class="fas fa-shopping-cart"></i> Giỏ hàng
                 </a>
@@ -96,10 +100,9 @@
                     </button>
                 </div>
                 <div class="form-check mb-3">
-                    <input class="form-check-input fav-checkbox" type="checkbox" id="favCheck">
-                    <label class="form-check-label fav-label" for="favCheck">
-                        <i class="far fa-heart me-1"></i> Thêm vào danh sách yêu thích
-                    </label>
+                    <button class="btn btn-outline-danger wishlist-toggle" id="wishlist-btn" data-product-id="" type="button">
+                        <i class="far fa-heart me-1"></i> <span id="wishlist-text">Thêm vào danh sách yêu thích</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -209,12 +212,80 @@
         </div>
     </footer>
 
+    <!-- Wishlist functionality -->
+    <script src="js/wishlist.js"></script>
+    
     <script>
         // Image thumbnail click functionality
         $('.product-thumbnails img').on('click', function() {
             $('.product-thumbnails img').removeClass('selected');
             $(this).addClass('selected');
             $('#mainProductImage').attr('src', $(this).attr('src'));
+        });
+        
+        // Product detail page wishlist functionality
+        $(document).ready(function() {
+            // Get product ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+            
+            if (productId) {
+                // Set product ID to wishlist button
+                $('#wishlist-btn').attr('data-product-id', productId);
+                
+                // Check if product is in wishlist
+                checkProductInWishlist(productId);
+            }
+        });
+        
+        // Check if current product is in wishlist
+        async function checkProductInWishlist(productId) {
+            const token = localStorage.getItem('token');
+            if (!token || !wishlistManager) return;
+            
+            try {
+                const isInWishlist = await wishlistManager.isProductInWishlist(productId);
+                updateWishlistButton(isInWishlist);
+            } catch (error) {
+                console.error('Error checking wishlist status:', error);
+            }
+        }
+        
+        // Update wishlist button appearance
+        function updateWishlistButton(isInWishlist) {
+            const $button = $('#wishlist-btn');
+            const $icon = $button.find('i');
+            const $text = $('#wishlist-text');
+            
+            if (isInWishlist) {
+                $icon.removeClass('far').addClass('fas text-danger');
+                $button.removeClass('btn-outline-danger').addClass('btn-danger');
+                $text.text('Đã thêm vào danh sách yêu thích');
+            } else {
+                $icon.removeClass('fas text-danger').addClass('far');
+                $button.removeClass('btn-danger').addClass('btn-outline-danger');
+                $text.text('Thêm vào danh sách yêu thích');
+            }
+        }
+        
+        // Handle wishlist button click
+        $(document).on('click', '.wishlist-toggle', async function() {
+            const productId = $(this).attr('data-product-id');
+            if (!productId) return;
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Vui lòng đăng nhập để sử dụng danh sách yêu thích');
+                window.location.href = 'page-login.html';
+                return;
+            }
+            
+            // Toggle wishlist
+            if (wishlistManager) {
+                await wishlistManager.toggleWishlistItem(productId, this);
+                // Refresh button state
+                checkProductInWishlist(productId);
+            }
         });
     </script>
 </body>
