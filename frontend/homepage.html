@@ -790,5 +790,58 @@
       }
     }
   </script>
+  
+  <!-- jQuery (required for wishlist functionality) -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  
+  <!-- Wishlist functionality -->
+  <script src="js/wishlist.js"></script>
+  
+  <script>
+    // Load wishlist status for products on the page
+    $(document).ready(function() {
+      // Initialize wishlist manager
+      if (typeof wishlistManager !== 'undefined') {
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        if (token) {
+          // Load wishlist statuses for all products
+          loadWishlistStatuses();
+        }
+      }
+    });
+    
+    // Load wishlist status for all products on the page
+    async function loadWishlistStatuses() {
+      const token = localStorage.getItem('token');
+      if (!token) return;
+      
+      // Get all wishlist toggle buttons
+      const wishlistButtons = document.querySelectorAll('.wishlist-toggle');
+      
+      // Check each product
+      wishlistButtons.forEach(async (button) => {
+        const productId = button.getAttribute('data-product-id');
+        if (productId && wishlistManager) {
+          const isInWishlist = await wishlistManager.isProductInWishlist(productId);
+          updateWishlistButtonState(button, isInWishlist);
+        }
+      });
+    }
+    
+    // Update wishlist button visual state
+    function updateWishlistButtonState(button, isInWishlist) {
+      const icon = button.querySelector('i');
+      if (icon) {
+        if (isInWishlist) {
+          icon.classList.remove('far');
+          icon.classList.add('fas', 'text-danger');
+        } else {
+          icon.classList.remove('fas', 'text-danger');
+          icon.classList.add('far');
+        }
+      }
+    }
+  </script>
 </body>
 </html>
