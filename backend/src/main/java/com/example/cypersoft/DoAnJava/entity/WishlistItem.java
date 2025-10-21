@@ -30,13 +30,13 @@ public class WishlistItem {
     private LocalDateTime createdAt;
     
     // Optional fields for extended functionality
-    @Transient
+    @Column(name = "notes")
     private String notes;
     
-    @Transient
+    @Column(name = "priority")
     private Integer priority = 1;
     
-    @Transient
+    @Column(name = "is_notified")
     private Boolean isNotified = false;
     
     @PrePersist

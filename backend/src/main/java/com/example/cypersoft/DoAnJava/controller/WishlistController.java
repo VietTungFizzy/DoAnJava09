@@ -163,8 +163,8 @@ public class WishlistController {
                 request.setPriority(1);
                 request.setIsNotified(false);
                 
-                WishlistResponse response = wishlistService.addToWishlist(request);
-                return ResponseEntity.ok(response);
+                wishlistService.addToWishlist(request);
+                return ResponseEntity.ok(createSuccessResponse("Product added to wishlist"));
             }
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));

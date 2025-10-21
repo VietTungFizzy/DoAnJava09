@@ -398,7 +398,7 @@
     
     // Clear all wishlist items with confirmation
     async function clearAllWishlist() {
-      if (confirm('Bạn có chắc chắn muốn xóa toàn bộ danh sách yêu thích?')) {
+      if (confirm('Are you sure you want to clear your entire wishlist?')) {
         if (wishlistManager) {
           await wishlistManager.clearWishlist();
           wishlistManager.loadWishlist();

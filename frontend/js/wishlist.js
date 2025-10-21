@@ -481,9 +481,9 @@ $(document).ready(function() {
 });
 
 // Global functions for easy access
-function toggleWishlist(productId) {
+function toggleWishlist(productId, buttonElement) {
     if (wishlistManager) {
-        wishlistManager.toggleWishlistItem(productId);
+        wishlistManager.toggleWishlistItem(productId, buttonElement);
     }
 }
 
