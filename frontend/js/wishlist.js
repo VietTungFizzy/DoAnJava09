@@ -270,9 +270,6 @@ class WishlistManager {
 
     // Create wishlist item HTML
     createWishlistItemHTML(item) {
-        const priorityClass = this.getPriorityClass(item.priority);
-        const priorityText = this.getPriorityText(item.priority);
-        
         return `
             <div class="col-md-6 col-lg-4 mb-4">
                 <div class="card h-100">
@@ -286,9 +283,6 @@ class WishlistManager {
                                 title="Remove from wishlist">
                             <i class="fas fa-times"></i>
                         </button>
-                        <span class="badge ${priorityClass} position-absolute top-0 start-0 m-2">
-                            ${priorityText}
-                        </span>
                     </div>
                     <div class="card-body d-flex flex-column">
                         <h6 class="card-title">${item.productName}</h6>
@@ -296,11 +290,10 @@ class WishlistManager {
                         <div class="mt-auto">
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 <span class="h5 text-primary mb-0">$${item.productPrice}</span>
-                                <span class="badge ${item.productStatus === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}">
+                                <span class="badge ${item.productStatus === 'active' ? 'bg-success' : 'bg-secondary'}">
                                     ${item.productStatus}
                                 </span>
                             </div>
-                            ${item.notes ? `<small class="text-muted"><i class="fas fa-sticky-note"></i> ${item.notes}</small>` : ''}
                             <div class="mt-2">
                                 <button class="btn btn-primary btn-sm me-2" onclick="window.location.href='product-detail.html?id=${item.productId}'">
                                     View Details
@@ -317,25 +310,6 @@ class WishlistManager {
         `;
     }
 
-    // Get priority class for styling
-    getPriorityClass(priority) {
-        switch (priority) {
-            case 3: return 'bg-danger';
-            case 2: return 'bg-warning';
-            case 1: return 'bg-info';
-            default: return 'bg-secondary';
-        }
-    }
-
-    // Get priority text
-    getPriorityText(priority) {
-        switch (priority) {
-            case 3: return 'High';
-            case 2: return 'Medium';
-            case 1: return 'Low';
-            default: return 'Normal';
-        }
-    }
 
     // Update pagination
     updatePagination(result) {

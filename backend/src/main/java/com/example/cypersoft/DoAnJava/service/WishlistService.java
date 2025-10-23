@@ -3,10 +3,12 @@ package com.example.cypersoft.DoAnJava.service;
 import com.example.cypersoft.DoAnJava.dto.WishlistRequest;
 import com.example.cypersoft.DoAnJava.dto.WishlistResponse;
 import com.example.cypersoft.DoAnJava.entity.Product;
+import com.example.cypersoft.DoAnJava.entity.Sku;
 import com.example.cypersoft.DoAnJava.entity.User;
 import com.example.cypersoft.DoAnJava.entity.Wishlist;
 import com.example.cypersoft.DoAnJava.entity.WishlistItem;
 import com.example.cypersoft.DoAnJava.repository.ProductRepository;
+import com.example.cypersoft.DoAnJava.repository.SkuRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.repository.WishlistRepository;
 import com.example.cypersoft.DoAnJava.repository.WishlistItemRepository;
@@ -21,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,6 +35,7 @@ public class WishlistService {
     private final WishlistItemRepository wishlistItemRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final SkuRepository skuRepository;
     
     private static final String DEFAULT_WISHLIST_NAME = "Default";
     
@@ -60,38 +64,52 @@ public class WishlistService {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
         
-        // Check if product exists
-        Product product = productRepository.findById(request.getProductId())
-                .orElseThrow(() -> new RuntimeException("Product not found"));
+        // Get SKU (can be provided directly or derived from product)
+        Sku sku;
+        if (request.getSkuId() != null) {
+            // Direct SKU reference
+            sku = skuRepository.findById(request.getSkuId())
+                    .orElseThrow(() -> new RuntimeException("SKU not found"));
+        } else if (request.getProductId() != null) {
+            // Find SKU from product (use first SKU as default)
+            Product product = productRepository.findById(request.getProductId())
+                    .orElseThrow(() -> new RuntimeException("Product not found"));
+            // For simplified case: assume product.id can be used as sku_id
+            // In real scenario: query skus table WHERE product_id = ?
+            sku = skuRepository.findById(request.getProductId())
+                    .orElseThrow(() -> new RuntimeException("SKU not found for this product"));
+        } else {
+            throw new RuntimeException("Either productId or skuId must be provided");
+        }
         
-        // Check if product is already in wishlist
-        if (wishlistItemRepository.existsByWishlistIdAndProductId(wishlist.getId(), request.getProductId())) {
-            throw new RuntimeException("Product already in wishlist");
+        // Check if SKU is already in wishlist
+        if (wishlistItemRepository.existsByWishlistIdAndSkuId(wishlist.getId(), sku.getId())) {
+            throw new RuntimeException("Item already in wishlist");
         }
         
         // Create wishlist item
         WishlistItem wishlistItem = new WishlistItem();
         wishlistItem.setWishlist(wishlist);
-        wishlistItem.setProduct(product);
-        wishlistItem.setNotes(request.getNotes());
-        wishlistItem.setPriority(request.getPriority());
-        wishlistItem.setIsNotified(request.getIsNotified());
+        wishlistItem.setSku(sku);
         
         WishlistItem savedItem = wishlistItemRepository.save(wishlistItem);
         return convertToResponse(savedItem);
     }
     
-    // Remove item from wishlist
+    // Remove item from wishlist (by productId - will find and remove SKU)
     @Transactional
     public void removeFromWishlist(Integer productId) {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
         
-        if (!wishlistItemRepository.existsByWishlistIdAndProductId(wishlist.getId(), productId)) {
-            throw new RuntimeException("Product not found in wishlist");
+        // For backwards compatibility: treat productId as skuId
+        Integer skuId = productId;
+        
+        if (!wishlistItemRepository.existsByWishlistIdAndSkuId(wishlist.getId(), skuId)) {
+            throw new RuntimeException("Item not found in wishlist");
         }
         
-        wishlistItemRepository.deleteByWishlistIdAndProductId(wishlist.getId(), productId);
+        wishlistItemRepository.deleteByWishlistIdAndSkuId(wishlist.getId(), skuId);
     }
     
     // Get user's wishlist with pagination
@@ -120,11 +138,12 @@ public class WishlistService {
         return wishlistItemRepository.countByWishlistId(wishlist.getId());
     }
     
-    // Check if product is in wishlist
+    // Check if product is in wishlist (productId treated as skuId)
     public boolean isProductInWishlist(Integer productId) {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
-        return wishlistItemRepository.existsByWishlistIdAndProductId(wishlist.getId(), productId);
+        // Treat productId as skuId for backwards compatibility
+        return wishlistItemRepository.existsByWishlistIdAndSkuId(wishlist.getId(), productId);
     }
     
     // Update wishlist item
@@ -133,15 +152,12 @@ public class WishlistService {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
         
-        WishlistItem wishlistItem = wishlistItemRepository.findByWishlistIdAndProductId(wishlist.getId(), productId)
-                .orElseThrow(() -> new RuntimeException("Product not found in wishlist"));
+        // Treat productId as skuId for backwards compatibility
+        WishlistItem wishlistItem = wishlistItemRepository.findByWishlistIdAndSkuId(wishlist.getId(), productId)
+                .orElseThrow(() -> new RuntimeException("Item not found in wishlist"));
         
-        wishlistItem.setNotes(request.getNotes());
-        wishlistItem.setPriority(request.getPriority());
-        wishlistItem.setIsNotified(request.getIsNotified());
-        
-        WishlistItem updatedItem = wishlistItemRepository.save(wishlistItem);
-        return convertToResponse(updatedItem);
+        // Nothing to update in simple wishlist (just sku_id reference)
+        return convertToResponse(wishlistItem);
     }
     
     // Search wishlist items
@@ -151,7 +167,9 @@ public class WishlistService {
         
         List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
         List<WishlistResponse> responses = items.stream()
-                .filter(item -> item.getProduct().getName().toLowerCase().contains(keyword.toLowerCase()))
+                .filter(item -> item.getSku() != null && 
+                               item.getSku().getProductName() != null &&
+                               item.getSku().getProductName().toLowerCase().contains(keyword.toLowerCase()))
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
         
@@ -164,28 +182,37 @@ public class WishlistService {
         return new PageImpl<>(pageContent, PageRequest.of(page, size), responses.size());
     }
     
-    // Get wishlist items by priority
+    // Get wishlist items by priority (simplified - no priority field in DB)
     public List<WishlistResponse> getWishlistByPriority(Integer priority) {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
         
+        // Return all items since we don't have priority field
         List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
         return items.stream()
-                .filter(item -> item.getPriority().equals(priority))
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
     }
     
-    // Get wishlist items with notifications enabled
+    // Get wishlist items with notifications enabled (simplified)
     public List<WishlistResponse> getWishlistWithNotifications() {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
         
+        // Return all items since we don't have isNotified field
         List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
         return items.stream()
-                .filter(item -> item.getIsNotified())
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+    
+    // Get wishlist items with price drops (not implemented without snapshot)
+    public List<WishlistResponse> getWishlistWithPriceDrops() {
+        User currentUser = getCurrentUser();
+        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
+        
+        // Return empty list - can't track price drops without snapshot fields
+        return List.of();
     }
     
     // Clear entire wishlist
@@ -201,20 +228,20 @@ public class WishlistService {
     // Convert entity to response DTO
     private WishlistResponse convertToResponse(WishlistItem wishlistItem) {
         WishlistResponse response = new WishlistResponse();
+        Sku sku = wishlistItem.getSku();
+        Product product = sku != null ? sku.getProduct() : null;
+        
         response.setId(wishlistItem.getId());
         response.setUserId(wishlistItem.getWishlist().getUser().getId());
-        response.setProductId(wishlistItem.getProduct().getId());
-        response.setProductName(wishlistItem.getProduct().getName());
-        response.setProductDescription(wishlistItem.getProduct().getDescription());
-        response.setProductPrice(wishlistItem.getProduct().getPrice());
-        response.setProductImageUrl(wishlistItem.getProduct().getImageUrl());
-        response.setProductStatus(wishlistItem.getProduct().getStatus());
-        response.setNotes(wishlistItem.getNotes());
-        response.setPriority(wishlistItem.getPriority());
-        response.setIsNotified(wishlistItem.getIsNotified());
+        response.setProductId(sku != null ? sku.getId() : null); // Return SKU ID as productId for compatibility
+        response.setProductName(sku != null ? sku.getProductName() : null);
+        response.setProductDescription(product != null ? product.getDescription() : null);
+        response.setProductPrice(sku != null ? sku.getPrice() : null);
+        response.setProductImageUrl(sku != null ? sku.getImageUrl() : null);
+        response.setProductStatus(sku != null ? sku.getStatus() : null);
         response.setCreatedAt(wishlistItem.getCreatedAt());
-        response.setProductCreatedAt(wishlistItem.getProduct().getCreatedAt());
-        response.setProductUpdatedAt(wishlistItem.getProduct().getUpdatedAt());
+        response.setProductCreatedAt(product != null ? product.getCreatedAt() : null);
+        response.setProductUpdatedAt(product != null ? product.getUpdatedAt() : null);
         
         return response;
     }

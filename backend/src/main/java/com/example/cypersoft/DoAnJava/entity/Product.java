@@ -24,23 +24,26 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "store_id", nullable = false)
+    private Integer storeId;
+
+    @Column(name = "name", nullable = false, length = 255)
     private String name;
 
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "slug", unique = true, length = 255)
+    private String slug;
+
+    @Column(name = "brand_id")
+    private Integer brandId;
+
+    @Column(name = "description", columnDefinition = "LONGTEXT")
     private String description;
 
-    @Column(name = "price", precision = 15, scale = 2, nullable = false)
-    private BigDecimal price;
-
-    @Column(name = "stock", nullable = false)
-    private Integer stock;
-
-    @Column(name = "image_url")
-    private String imageUrl;
-
     @Column(name = "status")
-    private String status = "ACTIVE"; // ACTIVE, INACTIVE
+    private String status = "active"; // draft, active, inactive
+
+    @Column(name = "visibility")
+    private String visibility = "public"; // public, hidden
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -48,8 +51,19 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
     @PreUpdate
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+    
+    // Transient helper method to get primary image URL from product_images table
+    @Transient
+    public String getImageUrl() {
+        // This should be populated from product_images table
+        // For now return null, will be handled by repository query
+        return null;
     }
 } 

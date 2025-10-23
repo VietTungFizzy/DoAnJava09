@@ -11,14 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class WishlistRequest {
     
-    @NotNull(message = "Product ID is required")
-    private Integer productId;
+    private Integer productId;  // For convenience: will find SKU from product
     
-    @Size(max = 500, message = "Notes must not exceed 500 characters")
-    private String notes;
-    
-    @NotNull(message = "Priority is required")
-    private Integer priority = 1; // 1 = low, 2 = medium, 3 = high
-    
-    private Boolean isNotified = false;
+    private Integer skuId;      // Direct SKU reference (preferred)
 }

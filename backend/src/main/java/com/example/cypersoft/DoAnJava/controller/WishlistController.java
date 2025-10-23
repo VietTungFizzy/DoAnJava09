@@ -160,8 +160,6 @@ public class WishlistController {
             } else {
                 WishlistRequest request = new WishlistRequest();
                 request.setProductId(productId);
-                request.setPriority(1);
-                request.setIsNotified(false);
                 
                 wishlistService.addToWishlist(request);
                 return ResponseEntity.ok(createSuccessResponse("Product added to wishlist"));

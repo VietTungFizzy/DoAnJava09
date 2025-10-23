@@ -12,27 +12,28 @@ import java.util.Optional;
 @Repository
 public interface WishlistItemRepository extends JpaRepository<WishlistItem, Integer> {
     
-    // Find wishlist item by wishlist and product
-    Optional<WishlistItem> findByWishlistIdAndProductId(Integer wishlistId, Integer productId);
+    // Find wishlist item by wishlist and SKU
+    Optional<WishlistItem> findByWishlistIdAndSkuId(Integer wishlistId, Integer skuId);
     
     // Find all items in a wishlist
     List<WishlistItem> findByWishlistIdOrderByCreatedAtDesc(Integer wishlistId);
     
-    // Check if product exists in wishlist
-    boolean existsByWishlistIdAndProductId(Integer wishlistId, Integer productId);
+    // Check if SKU exists in wishlist
+    boolean existsByWishlistIdAndSkuId(Integer wishlistId, Integer skuId);
     
-    // Delete wishlist item by wishlist and product
-    void deleteByWishlistIdAndProductId(Integer wishlistId, Integer productId);
+    // Delete wishlist item by wishlist and SKU
+    void deleteByWishlistIdAndSkuId(Integer wishlistId, Integer skuId);
     
     // Count items in wishlist
     long countByWishlistId(Integer wishlistId);
     
-    // Find items by product ID (for analytics)
-    List<WishlistItem> findByProductId(Integer productId);
+    // Find items by SKU ID (for analytics)
+    List<WishlistItem> findBySkuId(Integer skuId);
     
-    // Custom query to get wishlist items with product details
+    // Custom query to get wishlist items with SKU and product details
     @Query("SELECT wi FROM WishlistItem wi " +
-           "JOIN FETCH wi.product p " +
+           "JOIN FETCH wi.sku s " +
+           "JOIN FETCH s.product p " +
            "WHERE wi.wishlist.id = :wishlistId " +
            "ORDER BY wi.createdAt DESC")
     List<WishlistItem> findWishlistItemsWithProduct(@Param("wishlistId") Integer wishlistId);
