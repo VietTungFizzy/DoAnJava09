@@ -74,10 +74,12 @@ public class WishlistService {
             // Find SKU from product (use first SKU as default)
             Product product = productRepository.findById(request.getProductId())
                     .orElseThrow(() -> new RuntimeException("Product not found"));
-            // For simplified case: assume product.id can be used as sku_id
-            // In real scenario: query skus table WHERE product_id = ?
-            sku = skuRepository.findById(request.getProductId())
-                    .orElseThrow(() -> new RuntimeException("SKU not found for this product"));
+            // Query SKUs by product_id and use the first one
+            List<Sku> skus = skuRepository.findByProductId(request.getProductId());
+            if (skus.isEmpty()) {
+                throw new RuntimeException("SKU not found for this product");
+            }
+            sku = skus.get(0); // Use first SKU as default
         } else {
             throw new RuntimeException("Either productId or skuId must be provided");
         }
@@ -182,38 +184,7 @@ public class WishlistService {
         return new PageImpl<>(pageContent, PageRequest.of(page, size), responses.size());
     }
     
-    // Get wishlist items by priority (simplified - no priority field in DB)
-    public List<WishlistResponse> getWishlistByPriority(Integer priority) {
-        User currentUser = getCurrentUser();
-        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
-        
-        // Return all items since we don't have priority field
-        List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
-        return items.stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-    }
-    
-    // Get wishlist items with notifications enabled (simplified)
-    public List<WishlistResponse> getWishlistWithNotifications() {
-        User currentUser = getCurrentUser();
-        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
-        
-        // Return all items since we don't have isNotified field
-        List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
-        return items.stream()
-                .map(this::convertToResponse)
-                .collect(Collectors.toList());
-    }
-    
-    // Get wishlist items with price drops (not implemented without snapshot)
-    public List<WishlistResponse> getWishlistWithPriceDrops() {
-        User currentUser = getCurrentUser();
-        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
-        
-        // Return empty list - can't track price drops without snapshot fields
-        return List.of();
-    }
+    // Note: Priority, notifications, and price tracking features removed in simplified wishlist
     
     // Clear entire wishlist
     @Transactional

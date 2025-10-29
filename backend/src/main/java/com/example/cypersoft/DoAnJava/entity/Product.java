@@ -1,6 +1,5 @@
 package com.example.cypersoft.DoAnJava.entity;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
@@ -59,8 +58,7 @@ public class Product {
         this.updatedAt = LocalDateTime.now();
     }
     
-    // Transient helper method to get primary image URL from product_images table
-    @Transient
+    // Helper method to get primary image URL from product_images table
     public String getImageUrl() {
         // This should be populated from product_images table
         // For now return null, will be handled by repository query

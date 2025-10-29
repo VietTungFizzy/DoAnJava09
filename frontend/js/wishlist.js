@@ -69,10 +69,7 @@ class WishlistManager {
             }
 
             const requestData = {
-                productId: productId,
-                notes: options.notes || '',
-                priority: options.priority || 1,
-                isNotified: options.isNotified || false
+                productId: productId
             };
 
             const response = await fetch(this.apiBaseUrl, {
@@ -458,6 +455,8 @@ $(document).ready(function() {
 function toggleWishlist(productId, buttonElement) {
     if (wishlistManager) {
         wishlistManager.toggleWishlistItem(productId, buttonElement);
+    } else {
+        console.error('WishlistManager not initialized');
     }
 }
 

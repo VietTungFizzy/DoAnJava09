@@ -13,37 +13,40 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
-        <div class="container">
-            <span class="brand-logo">Brandname</span>
-            <form class="search-bar mx-auto d-flex">
-                <input class="form-control rounded-start" type="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
-                <button class="btn btn-primary rounded-end search-btn" type="submit">
-                    <img src="https://img.icons8.com/ios-filled/20/ffffff/search--v1.png" alt="Tìm kiếm">
-                </button>
-            </form>
-            <div class="header-actions d-flex align-items-center">
-                <a href="wishlist.html" class="me-3" title="Danh sách yêu thích">
-                    <i class="fas fa-heart"></i> Yêu thích
-                    <span class="wishlist-count badge bg-danger ms-1" style="font-size: 0.7rem;">0</span>
-                </a>
-                <a href="page-cart.html" class="me-3">
-                    <i class="fas fa-shopping-cart"></i> Giỏ hàng
-                </a>
-                <a href="page-login.html">
-                    <i class="fas fa-user"></i> Tài khoản
-                </a>
-            </div>
-        </div>
-    </nav>
+  <!-- Header -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+      <a href="homepage.html" class="brand-logo text-decoration-none">Brandname</a>
+      <form class="search-bar mx-auto d-flex" action="shop-list.html" method="get">
+        <input class="form-control rounded-start" type="search" name="search" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+        <button class="btn btn-primary rounded-end search-btn" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+      </form>
+      <div class="header-actions d-flex align-items-center">
+        <a href="page-admin-orders.html" class="me-3 text-dark text-decoration-none" title="Đơn hàng">
+          <i class="fas fa-bag-shopping"></i> Đơn hàng
+        </a>
+        <a href="wishlist.html" class="me-3 text-dark text-decoration-none" title="Danh sách yêu thích">
+          <i class="fas fa-heart"></i> Yêu thích
+          <span class="wishlist-count badge bg-danger ms-1" style="font-size: 0.7rem;">0</span>
+        </a>
+        <a href="page-cart.html" class="me-3 text-dark text-decoration-none">
+          <i class="fas fa-shopping-cart"></i> Giỏ hàng
+        </a>
+        <a href="page-login.html" class="text-dark text-decoration-none">
+          <i class="fas fa-user"></i> Tài khoản
+        </a>
+      </div>
+    </div>
+  </nav>
 
     <!-- Breadcrumb -->
     <div class="container mt-2">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+                <li class="breadcrumb-item"><a href="homepage.html">Home</a></li>
+                <li class="breadcrumb-item"><a href="categories.html">Danh mục</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tên sản phẩm nổi bật</li>
             </ol>
         </nav>
