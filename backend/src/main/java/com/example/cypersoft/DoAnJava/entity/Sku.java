@@ -1,38 +1,31 @@
 package com.example.cypersoft.DoAnJava.entity;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "skus")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "skus")
 public class Sku {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "product_id", nullable = false)
-    private Integer productId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
 
-    @Column(name = "sku_code", unique = true)
+    @Column(name = "sku_code", unique = true, length = 100)
     private String skuCode;
 
-    @Column(name = "barcode")
+    @Column(name = "barcode", length = 100)
     private String barcode;
 
     @Column(name = "price", precision = 12, scale = 2, nullable = false)
@@ -65,12 +58,26 @@ public class Sku {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt = LocalDateTime.now();
 
-    @ManyToOne
-    @JoinColumn(name = "product_id", insertable = false, updatable = false)
-    private Product product;
-
     @PreUpdate
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
+    
+    // Helper method to get primary image
+    // Note: Should be populated from sku_images or product_images table via repository
+    private String imageUrl;
+    
+    // Helper method to get product name  
+    public String getProductName() {
+        return product != null ? product.getName() : null;
+    }
+    
+    public String getImageUrl() {
+        return this.imageUrl;
+    }
+    
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }
+

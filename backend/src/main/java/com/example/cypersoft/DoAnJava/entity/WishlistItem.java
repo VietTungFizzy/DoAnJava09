@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "wishlist_items",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"wishlist_id", "product_id"}))
+    uniqueConstraints = @UniqueConstraint(columnNames = {"wishlist_id", "sku_id"}))
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -24,20 +24,10 @@ public class WishlistItem {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "sku_id", nullable = false)
-    private Product product;
+    private Sku sku;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-    
-    // Optional fields for extended functionality
-    @Transient
-    private String notes;
-    
-    @Transient
-    private Integer priority = 1;
-    
-    @Transient
-    private Boolean isNotified = false;
     
     @PrePersist
     protected void onCreate() {

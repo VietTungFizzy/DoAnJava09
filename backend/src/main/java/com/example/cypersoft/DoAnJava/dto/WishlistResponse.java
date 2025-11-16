@@ -19,9 +19,6 @@ public class WishlistResponse {
     private BigDecimal productPrice;
     private String productImageUrl;
     private String productStatus;
-    private String notes;
-    private Integer priority;
-    private Boolean isNotified;
     private LocalDateTime createdAt;
     private LocalDateTime productCreatedAt;
     private LocalDateTime productUpdatedAt;
