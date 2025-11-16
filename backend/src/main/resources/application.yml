@@ -4,12 +4,9 @@ spring:
   application:
     name: DoAnJava
   datasource:
-#    url: jdbc:mysql://database-1.cgxq828ugpr9.us-east-1.rds.amazonaws.com:3306/marketplace_db
-#    username: root
-#    password: admin123
-    url: jdbc:mysql://localhost:3307/marketplace_db
+    url: jdbc:mysql://database-1.cgxq828ugpr9.us-east-1.rds.amazonaws.com:3306/marketplace_db2
     username: root
-    password: ductu2004
+    password: admin123
   jpa:
     hibernate:
       ddl-auto: none
@@ -36,3 +33,7 @@ jwt:
 app:
   admin:
     email: admin@example.com
+  base-domain: http://localhost:3000
+
+stripe:
+  api-key: sk_test_51S9SX3L9RJOfTfprx3DuvELYlakO3fbRRL6B2BYyZJVnUB074iBTAaUPAujoDnNfl4C7OQRoWDhB8OJMWIPik3I0004xlmoyuB

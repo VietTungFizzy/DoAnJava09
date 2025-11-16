@@ -11,28 +11,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "categories")
+@Table(name = "brands")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Category {
+public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", length = 150, unique = true)
     private String name;
 
-    @Column(name = "slug", unique = true)
+    @Column(name = "slug", length = 150, unique = true)
     private String slug;
-
-    @Column(name = "parent_id")
-    private Integer parentId;
-
-    @Column(name = "path", length = 1000)
-    private String path;
-
-    @Column(name = "depth")
-    private Integer depth = 0;
 }
-
