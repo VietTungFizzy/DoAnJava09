@@ -116,7 +116,7 @@ public class WishlistController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> getWishlistByPriority(@PathVariable Integer priority) {
         try {
-            List<WishlistResponse> response = wishlistService.getWishlistByPriority(priority);
+            List<WishlistResponse> response = wishlistService.getWhistlistByPriority(priority);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));

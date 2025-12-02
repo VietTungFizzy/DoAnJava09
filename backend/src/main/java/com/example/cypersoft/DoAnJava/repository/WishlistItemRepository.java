@@ -37,5 +37,21 @@ public interface WishlistItemRepository extends JpaRepository<WishlistItem, Inte
            "WHERE wi.wishlist.id = :wishlistId " +
            "ORDER BY wi.createdAt DESC")
     List<WishlistItem> findWishlistItemsWithProduct(@Param("wishlistId") Integer wishlistId);
+    
+    // Find items by wishlist and priority
+    @Query("SELECT wi FROM WishlistItem wi " +
+           "JOIN FETCH wi.sku s " +
+           "JOIN FETCH s.product p " +
+           "WHERE wi.wishlist.id = :wishlistId AND wi.priority = :priority " +
+           "ORDER BY wi.createdAt DESC")
+    List<WishlistItem> findByWishlistIdAndPriority(@Param("wishlistId") Integer wishlistId, @Param("priority") Integer priority);
+    
+    // Find items by wishlist with notifications enabled
+    @Query("SELECT wi FROM WishlistItem wi " +
+           "JOIN FETCH wi.sku s " +
+           "JOIN FETCH s.product p " +
+           "WHERE wi.wishlist.id = :wishlistId AND wi.isNotified = true " +
+           "ORDER BY wi.createdAt DESC")
+    List<WishlistItem> findByWishlistIdAndIsNotifiedTrue(@Param("wishlistId") Integer wishlistId);
 }
 

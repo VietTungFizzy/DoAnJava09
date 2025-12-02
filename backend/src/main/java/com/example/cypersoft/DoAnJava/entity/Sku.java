@@ -67,7 +67,8 @@ public class Sku {
     // Note: Should be populated from sku_images or product_images table via repository
     private String imageUrl;
     
-    // Helper method to get product name  
+    // Helper method to get product name
+    @Transient
     public String getProductName() {
         return product != null ? product.getName() : null;
     }

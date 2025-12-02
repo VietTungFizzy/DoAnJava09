@@ -26,6 +26,12 @@ public class WishlistItem {
     @JoinColumn(name = "sku_id", nullable = false)
     private Sku sku;
 
+    @Column(name = "priority")
+    private Integer priority = 1;
+
+    @Column(name = "is_notified")
+    private Boolean isNotified = false;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
     
