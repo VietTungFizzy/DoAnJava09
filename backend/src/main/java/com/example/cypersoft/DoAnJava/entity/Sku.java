@@ -79,5 +79,9 @@ public class Sku {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public Integer getProductId() {
+        return product != null ? product.getId() : null;
+    }
 }
 
