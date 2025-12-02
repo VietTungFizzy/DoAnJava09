@@ -184,7 +184,29 @@ public class WishlistService {
         return new PageImpl<>(pageContent, PageRequest.of(page, size), responses.size());
     }
     
-    // Note: Priority, notifications, and price tracking features removed in simplified wishlist
+    // Get wishlist items by priority
+    public List<WishlistResponse> getWhistlistByPriority(int priority) {
+        User currentUser = getCurrentUser();
+        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
+        
+        // Filter items by priority
+        List<WishlistItem> items = wishlistItemRepository.findByWishlistIdAndPriority(wishlist.getId(), priority);
+        return items.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+   
+    // Get wishlist items with notifications enabled
+    public List<WishlistResponse> getWishlistWithNotifications() {
+        User currentUser = getCurrentUser();
+        Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
+    
+        // Filter items with notifications enabled
+        List<WishlistItem> items = wishlistItemRepository.findByWishlistIdAndIsNotifiedTrue(wishlist.getId());
+        return items.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
     
     // Clear entire wishlist
     @Transactional
