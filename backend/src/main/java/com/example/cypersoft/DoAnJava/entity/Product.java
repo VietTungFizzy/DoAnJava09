@@ -1,19 +1,12 @@
 package com.example.cypersoft.DoAnJava.entity;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
@@ -61,6 +54,19 @@ public class Product {
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
 
+    @Getter
+    @ManyToMany
+    @JoinTable(
+            name="product_categories",
+            joinColumns = @JoinColumn(name="product_id"),
+            inverseJoinColumns = @JoinColumn(name="category_id")
+    )
+    private List<Category> categories;
+
+    @Getter
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Sku> skus;
+
     @PreUpdate
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
@@ -75,11 +81,8 @@ public class Product {
 
     public String getBrandName() {
         // Return the associated Brand's name if available.
-
         return this.brand != null ? this.brand.getName() : null;
     }
-
-
 }
 
 

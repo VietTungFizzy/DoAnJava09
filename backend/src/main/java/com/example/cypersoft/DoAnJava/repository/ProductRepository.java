@@ -43,8 +43,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
            "WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
            "AND (:keyword IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
            "AND (:brandName IS NULL OR LOWER(b.name) LIKE LOWER(CONCAT('%', :brandName, '%'))) " +
-           "AND (:minPrice IS NULL OR p.id IN (SELECT s.productId FROM Sku s WHERE s.price >= :minPrice AND s.status = 'active')) " +
-           "AND (:maxPrice IS NULL OR p.id IN (SELECT s.productId FROM Sku s WHERE s.price <= :maxPrice AND s.status = 'active')) " +
+           "AND (:minPrice IS NULL OR p.id IN (SELECT s.product.id FROM Sku s WHERE s.price >= :minPrice AND s.status = 'active')) " +
+           "AND (:maxPrice IS NULL OR p.id IN (SELECT s.product.id FROM Sku s WHERE s.price <= :maxPrice AND s.status = 'active')) " +
            "AND (:categoryIds IS NULL OR c.id IN :categoryIds) " +
            "AND (:status IS NULL OR p.status = :status) " +
            "AND p.deletedAt IS NULL")
@@ -60,7 +60,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
     );
     
     // Load SKUs for products
-    @Query("SELECT s FROM Sku s WHERE s.productId IN :productIds AND s.status = 'active'")
+    @Query("SELECT s FROM Sku s WHERE s.product.id IN :productIds AND s.status = 'active'")
     List<Sku> findActiveSkusByProductIds(@Param("productIds") List<Integer> productIds);
     
     // Get all products without pagination (for /all endpoint) - use subquery for price filtering
@@ -70,8 +70,8 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
            "WHERE (:name IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))) " +
            "AND (:keyword IS NULL OR LOWER(p.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(p.description) LIKE LOWER(CONCAT('%', :keyword, '%'))) " +
            "AND (:brandName IS NULL OR LOWER(b.name) LIKE LOWER(CONCAT('%', :brandName, '%'))) " +
-           "AND (:minPrice IS NULL OR p.id IN (SELECT s.productId FROM Sku s WHERE s.price >= :minPrice AND s.status = 'active')) " +
-           "AND (:maxPrice IS NULL OR p.id IN (SELECT s.productId FROM Sku s WHERE s.price <= :maxPrice AND s.status = 'active')) " +
+           "AND (:minPrice IS NULL OR p.id IN (SELECT s.product.id FROM Sku s WHERE s.price >= :minPrice AND s.status = 'active')) " +
+           "AND (:maxPrice IS NULL OR p.id IN (SELECT s.product.id FROM Sku s WHERE s.price <= :maxPrice AND s.status = 'active')) " +
            "AND (:categoryIds IS NULL OR c.id IN :categoryIds) " +
            "AND (:status IS NULL OR p.status = :status) " +
            "AND p.deletedAt IS NULL")

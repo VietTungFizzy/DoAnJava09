@@ -169,7 +169,7 @@ public class WishlistService {
         
         List<WishlistItem> items = wishlistItemRepository.findWishlistItemsWithProduct(wishlist.getId());
         List<WishlistResponse> responses = items.stream()
-                .filter(item -> item.getSku() != null && 
+                .filter(item -> item.getSku() != null &&
                                item.getSku().getProductName() != null &&
                                item.getSku().getProductName().toLowerCase().contains(keyword.toLowerCase()))
                 .map(this::convertToResponse)
