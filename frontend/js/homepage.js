@@ -1,6 +1,129 @@
 // Homepage Product Loading
 const HomepageProducts = {
     apiBaseUrl: 'http://localhost:8080/api',
+    categories: [],
+    
+    // Fetch all categories
+    async fetchCategories() {
+        try {
+            const response = await fetch(`${this.apiBaseUrl}/categories`);
+            if (!response.ok) {
+                console.error('Failed to load categories');
+                return [];
+            }
+            
+            const data = await response.json();
+            this.categories = data || [];
+            return this.categories;
+        } catch (error) {
+            console.error('Error loading categories:', error);
+            return [];
+        }
+    },
+    
+    // Render category tabs
+    renderCategoryTabs() {
+        const tabsContainer = document.getElementById('trendTabs');
+        if (!tabsContainer) {
+            console.error('Tabs container not found');
+            return;
+        }
+        
+        // Clear existing content
+        tabsContainer.innerHTML = '';
+        
+        if (this.categories.length === 0) {
+            tabsContainer.innerHTML = `
+                <li class="nav-item">
+                    <span class="nav-link disabled">No categories available</span>
+                </li>
+            `;
+            return;
+        }
+        
+        // Create tab for each category
+        this.categories.forEach((category, index) => {
+            const tabId = `category-${category.id}`;
+            const isActive = index === 0 ? 'active' : '';
+            
+            const tabItem = document.createElement('li');
+            tabItem.className = 'nav-item';
+            tabItem.innerHTML = `
+                <a class="nav-link ${isActive}" 
+                   data-bs-toggle="tab" 
+                   href="#${tabId}"
+                   data-category-id="${category.id}"
+                   data-category-name="${category.name}">
+                    ${category.name}
+                </a>
+            `;
+            
+            tabsContainer.appendChild(tabItem);
+        });
+    },
+    
+    // Render category tab content containers
+    renderCategoryTabContent() {
+        const contentContainer = document.getElementById('trendTabContent');
+        if (!contentContainer) {
+            console.error('Tab content container not found');
+            return;
+        }
+        
+        // Clear existing content
+        contentContainer.innerHTML = '';
+        
+        if (this.categories.length === 0) {
+            contentContainer.innerHTML = `
+                <div class="text-center py-5">
+                    <p class="text-muted">No categories available</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // Create tab pane for each category
+        this.categories.forEach((category, index) => {
+            const tabId = `category-${category.id}`;
+            const isActive = index === 0 ? 'show active' : '';
+            
+            const tabPane = document.createElement('div');
+            tabPane.className = `tab-pane fade ${isActive}`;
+            tabPane.id = tabId;
+            tabPane.innerHTML = `
+                <div class="row row-cols-1 row-cols-md-4 g-4" id="${tabId}-products">
+                    <div class="col-12 text-center py-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            contentContainer.appendChild(tabPane);
+        });
+    },
+    
+    // Setup tab change event listeners
+    setupTabListeners() {
+        const tabsContainer = document.getElementById('trendTabs');
+        if (!tabsContainer) return;
+        
+        // Listen for tab changes
+        tabsContainer.addEventListener('click', async (e) => {
+            const tabLink = e.target.closest('[data-bs-toggle="tab"]');
+            if (!tabLink) return;
+            
+            const categoryId = tabLink.getAttribute('data-category-id');
+            const categoryName = tabLink.getAttribute('data-category-name');
+            const tabId = tabLink.getAttribute('href').substring(1); // Remove #
+            
+            if (categoryId && categoryName) {
+                // Load products for this category
+                await this.renderProductsInTab(`${tabId}-products`, categoryName, 8);
+            }
+        });
+    },
     
     // Load products for homepage
     async loadProducts(category = 'all', limit = 8) {
@@ -76,14 +199,24 @@ const HomepageProducts = {
     
     // Initialize homepage products
     async init() {
-        // Load Men's products
-        await this.renderProductsInTab('men-products', 'men', 4);
+        // Fetch categories from API
+        await this.fetchCategories();
         
-        // Load Women's products
-        await this.renderProductsInTab('women-products', 'women', 4);
+        // Render category tabs
+        this.renderCategoryTabs();
         
-        // Load Kids' products
-        await this.renderProductsInTab('kids-products', 'kids', 4);
+        // Render tab content containers
+        this.renderCategoryTabContent();
+        
+        // Setup tab change listeners
+        this.setupTabListeners();
+        
+        // Load products for the first category (if exists)
+        if (this.categories.length > 0) {
+            const firstCategory = this.categories[0];
+            const tabId = `category-${firstCategory.id}`;
+            await this.renderProductsInTab(`${tabId}-products`, firstCategory.name, 8);
+        }
     }
 };
 

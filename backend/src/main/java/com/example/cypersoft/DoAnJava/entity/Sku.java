@@ -65,6 +65,7 @@ public class Sku {
     
     // Helper method to get primary image
     // Note: Should be populated from sku_images or product_images table via repository
+    @Transient
     private String imageUrl;
     
     // Helper method to get product name
@@ -85,4 +86,3 @@ public class Sku {
         return product != null ? product.getId() : null;
     }
 }
-

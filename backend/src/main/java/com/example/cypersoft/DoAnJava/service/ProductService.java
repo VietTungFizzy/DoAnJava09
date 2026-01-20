@@ -90,7 +90,8 @@ public class ProductService {
         List<Integer> productIds = products.getContent().stream()
                 .map(Product::getId)
                 .collect(Collectors.toList());
-        
+
+        System.out.println(productIds);
         List<Sku> skus = productRepository.findActiveSkusByProductIds(productIds);
         Map<Integer, Sku> skuMap = skus.stream()
                 .collect(Collectors.toMap(Sku::getProductId, sku -> sku, (existing, replacement) -> existing));

@@ -25,7 +25,6 @@ public class AuthController {
             String token = userService.authenticateUser(request.getEmail(), request.getPassword());
             User user = userService.getUserByEmail(request.getEmail());
 
-
             String roleName = user.getRole() != null ? user.getRole().getName() : null;
             return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), roleName, "Đăng nhập thành công"));
         } catch (Exception e) {
@@ -47,6 +46,7 @@ public class AuthController {
             return ResponseEntity.ok("Đăng ký thành công với ID: " + savedUser.getId());
         } catch (Exception e) {
             // Avoid exposing raw exception
+            System.out.println(e);
             return ResponseEntity.status(400).body("Đăng ký không thành công. Vui lòng kiểm tra thông tin.");
         }
     }

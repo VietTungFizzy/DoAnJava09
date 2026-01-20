@@ -266,7 +266,7 @@
         <a href="page-cart.html" class="text-decoration-none text-dark">
           <i class="bi bi-cart ms-2"> My cart</i>
         </a>
-        <a href="page-login.html" class="text-decoration-none text-dark">
+        <a href="page-login.html" class="text-decoration-none text-dark" id="user-account-link">
           <i class="bi bi-person ms-2"> Sign In</i>
         </a>
       </div>
@@ -413,50 +413,15 @@
     <div>
       <h4 class="fw-bold text-center mb-3">Trending now</h4>
       <ul class="nav nav-tabs trending-tabs justify-content-center mb-3" id="trendTabs">
+        <!-- Tabs will be populated dynamically from categories -->
         <li class="nav-item">
-          <a class="nav-link active" data-bs-toggle="tab" href="#men">Men</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" href="#women">Women</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" data-bs-toggle="tab" href="#kids">Kids</a>
-        </li>
-        <li class="nav-item ms-4 d-none d-md-block">
-          <span class="nav-link disabled">Chat CSKH / Chatbot</span>
+          <div class="spinner-border spinner-border-sm text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </li>
       </ul>
-      <div class="tab-content">
-        <div class="tab-pane fade show active" id="men">
-          <div class="row row-cols-1 row-cols-md-4 g-4" id="men-products">
-            <!-- Products will be loaded dynamically -->
-            <div class="col-12 text-center py-5">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="women">
-          <div class="row row-cols-1 row-cols-md-4 g-4" id="women-products">
-            <!-- Products will be loaded dynamically -->
-            <div class="col-12 text-center py-5">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="tab-pane fade" id="kids">
-          <div class="row row-cols-1 row-cols-md-4 g-4" id="kids-products">
-            <!-- Products will be loaded dynamically -->
-            <div class="col-12 text-center py-5">
-              <div class="spinner-border text-primary" role="status">
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="tab-content" id="trendTabContent">
+        <!-- Tab content will be populated dynamically from categories -->
       </div>
     </div>
   </div>
@@ -753,12 +718,47 @@
     }
   </script>
   
-  <!-- Wishlist functionality -->
-  <script src="js/wishlist.js"></script>
-  
   <script>
+    // Update user account link based on authentication status
+    function updateUserAccountLink() {
+      const token = localStorage.getItem('token');
+      const userAccountLink = document.getElementById('user-account-link');
+      
+      if (token && userAccountLink) {
+        // User is logged in, fetch user info
+        fetch('http://localhost:8080/user/profile', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to fetch user info');
+          }
+        })
+        .then(user => {
+          // Update link to show username and link to profile
+          const username = user.username || user.name || user.email || 'User';
+          userAccountLink.href = 'profile.html';
+          userAccountLink.innerHTML = `<i class="bi bi-person-circle ms-2"></i> ${username}`;
+        })
+        .catch(error => {
+          console.error('Error fetching user info:', error);
+          // If error, clear invalid token and show sign in
+          localStorage.removeItem('token');
+          userAccountLink.href = 'page-login.html';
+          userAccountLink.innerHTML = '<i class="bi bi-person ms-2"> Sign In</i>';
+        });
+      }
+    }
+    
     // Load wishlist status for products on the page
     $(document).ready(function() {
+      // Update user account link on page load
+      updateUserAccountLink();
+      
       // Initialize wishlist manager
       if (typeof wishlistManager !== 'undefined') {
         // Check if user is logged in

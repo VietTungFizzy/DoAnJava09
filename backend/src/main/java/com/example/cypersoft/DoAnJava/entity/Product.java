@@ -1,6 +1,7 @@
 package com.example.cypersoft.DoAnJava.entity;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -67,6 +68,10 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sku> skus;
 
+    @Getter
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductImage> images;
+
     @PreUpdate
     public void onUpdate() {
         this.updatedAt = LocalDateTime.now();
@@ -74,8 +79,12 @@ public class Product {
     
     // Helper method to get primary image URL from product_images table
     public String getImageUrl() {
-        // This should be populated from product_images table
-        // For now return null, will be handled by repository query
+        if (images != null && !images.isEmpty()) {
+            return images.stream()
+                    .min(Comparator.comparing(ProductImage::getPosition))
+                    .map(ProductImage::getImageUrl)
+                    .orElse(null);
+        }
         return null;
     }
 
@@ -84,5 +93,3 @@ public class Product {
         return this.brand != null ? this.brand.getName() : null;
     }
 }
-
-

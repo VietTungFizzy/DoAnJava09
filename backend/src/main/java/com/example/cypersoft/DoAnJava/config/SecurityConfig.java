@@ -62,6 +62,8 @@ public class SecurityConfig {
                         .requestMatchers("/api/videos/user/**").permitAll()
                         .requestMatchers("/api/videos/*/view").permitAll()
                         .requestMatchers("/api/videos/*").permitAll()
+                        .requestMatchers("/api/products").permitAll()
+                        .requestMatchers("/api/categories").permitAll()
                         .requestMatchers("/user/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/checkout/create-session").permitAll()
