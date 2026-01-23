@@ -109,6 +109,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/java</executable>
+					<source>21</source>
+					<target>21</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
@@ -134,6 +136,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/java</executable>
+					<source>21</source>
+					<target>21</target>
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>
