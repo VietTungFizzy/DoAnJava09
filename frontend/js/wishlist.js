@@ -199,11 +199,9 @@ class WishlistManager {
         const $icon = $button.find('i');
         
         if (result.message && result.message.includes('removed')) {
-            $icon.removeClass('fas fa-heart').addClass('far fa-heart');
-            $button.removeClass('text-danger').addClass('text-muted');
+            $icon.removeClass('fa-solid fa-heart').addClass('fa-regular fa-heart');
         } else {
-            $icon.removeClass('far fa-heart').addClass('fas fa-heart');
-            $button.removeClass('text-muted').addClass('text-danger');
+            $icon.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
         }
     }
 
@@ -418,6 +416,8 @@ let wishlistManager;
 $(document).ready(function() {
     wishlistManager = new WishlistManager();
     
+    window.wishlistManager = wishlistManager;
+
     // Handle wishlist page events
     if (window.location.pathname.includes('wishlist.html')) {
         wishlistManager.loadWishlist();

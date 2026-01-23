@@ -26,6 +26,8 @@ import com.example.cypersoft.DoAnJava.filter.ProductFilterChain;
 import com.example.cypersoft.DoAnJava.repository.ProductRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Service
 public class ProductService {
@@ -35,6 +37,9 @@ public class ProductService {
     
     @Autowired
     private ProductFilterChain productFilterChain;
+
+    @Autowired
+    private WishlistService wishlistService; // used to check if SKU is in current user's wishlist
 
     private static final Logger log = LoggerFactory.getLogger(ProductService.class);
 
@@ -99,7 +104,26 @@ public class ProductService {
         // Create a map to store SKUs for each product
         final Map<Integer, Sku> finalSkuMap = skuMap;
         
-        return products.map(product -> toResponseWithSku(product, finalSkuMap.get(product.getId())));
+        // Determine if user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean loggedIn = authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()));
+
+        return products.map(product -> {
+            Sku sku = finalSkuMap.get(product.getId());
+            Integer skuId = sku != null ? sku.getId() : null;
+            boolean inWishlist = false;
+            if (loggedIn && skuId != null) {
+                try {
+                    inWishlist = wishlistService.isProductInWishlist(skuId);
+                } catch (Exception e) {
+                    // If wishlist check fails for any reason (e.g. user not found), default to false
+                    log.debug("Failed to check wishlist for sku {}: {}", skuId, e.toString());
+                    inWishlist = false;
+                }
+            }
+            return toResponseWithSku(product, sku, inWishlist);
+        });
     }
 
     public List<ProductResponse> getAllProductsWithFilters(
@@ -141,8 +165,26 @@ public class ProductService {
         Map<Integer, Sku> skuMap = skus.stream()
                 .collect(Collectors.toMap(Sku::getProductId, sku -> sku, (existing, replacement) -> existing));
         
+        // Determine if user is authenticated
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean loggedIn = authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()));
+
         return products.stream()
-                .map(product -> toResponseWithSku(product, skuMap.get(product.getId())))
+                .map(product -> {
+                    Sku sku = skuMap.get(product.getId());
+                    Integer skuId = sku != null ? sku.getId() : null;
+                    boolean inWishlist = false;
+                    if (loggedIn && skuId != null) {
+                        try {
+                            inWishlist = wishlistService.isProductInWishlist(skuId);
+                        } catch (Exception e) {
+                            log.debug("Failed to check wishlist for sku {}: {}", skuId, e.toString());
+                            inWishlist = false;
+                        }
+                    }
+                    return toResponseWithSku(product, sku, inWishlist);
+                })
                 .collect(Collectors.toList());
     }
     
@@ -285,11 +327,12 @@ public class ProductService {
                 categoryNames,
                 price,
                 stock,
-                null // imageUrl - would need to be populated from product_images table
+                null, // imageUrl - would need to be populated from product_images table
+                false // isInWishlist default false
         );
     }
 
-    private ProductResponse toResponseWithSku(Product p, Sku sku) {
+    private ProductResponse toResponseWithSku(Product p, Sku sku, boolean isInWishlist) {
         String brandName = null;
         Set<String> categoryNames = null;
         BigDecimal price = BigDecimal.ZERO;
@@ -347,7 +390,9 @@ public class ProductService {
                 categoryNames,
                 price,
                 stock,
-                null // imageUrl - would need to be populated from product_images table
+                p.getImageUrl(), // imageUrl - would need to be populated from product_images table
+                isInWishlist
         );
     }
-} 
+}
+

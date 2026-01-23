@@ -29,4 +29,5 @@ public class ProductResponse {
     private BigDecimal price;
     private Integer stock;
     private String imageUrl; // Will be populated from product_images table
-} 
+    private boolean isInWishlist; // new field to indicate if current user has this product in wishlist
+}

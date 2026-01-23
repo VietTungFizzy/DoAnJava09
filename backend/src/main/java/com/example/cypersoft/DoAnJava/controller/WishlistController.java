@@ -152,15 +152,19 @@ public class WishlistController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> toggleWishlistItem(@PathVariable Integer productId) {
         try {
-            boolean isInWishlist = wishlistService.isProductInWishlist(productId);
-            
+            // Resolve Product id (or SKU id) to an actual SKU id
+            Integer skuId = wishlistService.resolveSkuIdFromProductId(productId);
+
+            boolean isInWishlist = wishlistService.isProductInWishlist(skuId);
+
             if (isInWishlist) {
-                wishlistService.removeFromWishlist(productId);
+                wishlistService.removeFromWishlist(skuId);
                 return ResponseEntity.ok(createSuccessResponse("Product removed from wishlist"));
             } else {
                 WishlistRequest request = new WishlistRequest();
-                request.setProductId(productId);
-                
+                // Provide SKU id explicitly when adding
+                request.setSkuId(skuId);
+
                 wishlistService.addToWishlist(request);
                 return ResponseEntity.ok(createSuccessResponse("Product added to wishlist"));
             }

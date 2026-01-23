@@ -238,4 +238,23 @@ public class WishlistService {
         
         return response;
     }
+
+    // Check if productId is actually a SKU id or map a product id to a SKU id
+    public Integer resolveSkuIdFromProductId(Integer productId) {
+        if (productId == null) {
+            throw new RuntimeException("Product id is required");
+        }
+
+        // If the provided id matches an existing SKU id, return it directly (backwards compatibility)
+        if (skuRepository.existsById(productId)) {
+            return productId;
+        }
+
+        // Otherwise treat the id as a Product id and try to find SKUs for that product
+        List<Sku> skus = skuRepository.findByProductId(productId);
+        if (skus == null || skus.isEmpty()) {
+            throw new RuntimeException("SKU not found for this product");
+        }
+        return skus.get(0).getId();
+    }
 }

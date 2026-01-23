@@ -190,4 +190,41 @@ $(document).ready(function () {
         $('#password2-signup').val('');
         $('#phone-signup').val('');
     }
+
+    // Update user account link based on authentication status
+    function updateUserAccountLink() {
+        const token = localStorage.getItem('token');
+        const userAccountLink = document.getElementById('user-account-link');
+        
+        if (token && userAccountLink) {
+            // User is logged in, fetch user info
+            fetch('http://localhost:8080/user/profile', {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to fetch user info');
+                }
+            })
+            .then(user => {
+                // Update link to show username and link to profile
+                const username = user.username || user.name || user.email || 'User';
+                userAccountLink.href = 'profile.html';
+                userAccountLink.innerHTML = `<i class="bi bi-person-circle ms-2"></i> ${username}`;
+            })
+            .catch(error => {
+                console.error('Error fetching user info:', error);
+                // If error, clear invalid token and show sign in
+                localStorage.removeItem('token');
+                userAccountLink.href = 'page-login.html';
+                userAccountLink.innerHTML = '<i class="bi bi-person ms-2"> Sign In</i>';
+            });
+        }
+    }
+
+    updateUserAccountLink();
 });

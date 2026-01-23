@@ -1,0 +1,232 @@
+body { background: #f7f7f7; }
+footer { margin-top: 16px;}
+.brand-logo { font-size: 2rem; font-weight: bold; color: #0070f3; }
+.search-bar { max-width: 480px; }
+.user-actions i { font-size: 1.2rem; margin-left: 1rem; cursor: pointer; color: #222;}
+.deal-box { background: #fff; border-radius: 8px; padding: 1rem; text-align: center; box-shadow: 0 2px 8px #0001; }
+.countdown span { font-weight: bold; font-size: 1.2rem; }
+.promo-banner { background: #ffc6e0; border-radius: 16px; padding: 2rem 2rem 1rem 2rem; display: flex; align-items: center; position: relative; min-height: 180px; }
+.promo-banner img { height: 120px; margin-left: auto; }
+.promo-banner .discount-badge { background: #ff4fae; color: #fff; font-size: 2rem; font-weight: bold; position: absolute; right: 2.5rem; top: 2.5rem; border-radius: 12px; padding: 0.5rem 1rem;}
+.category-circles { display: flex; gap: 2rem; justify-content: center; margin: 2rem 0; }
+.category-circles .cat { display: flex; flex-direction: column; align-items: center; }
+.category-circles img { border-radius: 50%; width: 72px; height: 72px; object-fit: cover; border: 2px solid #eee;}
+.brand-cards { display: flex; gap: 1rem; justify-content: center; margin: 2rem 0; }
+.brand-card { width: 300px; height: 100px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 500; background: #f5f5f5; border-radius: 12px; border: 2px solid #0070f3;}
+.brand-card.live { background: #eaeaea; border: none;}
+.trending-tabs .nav-link { color: #333; }
+.trending-tabs .nav-link.active { background: #0070f3; color: #fff; }
+.product-card { background: #fff; border-radius: 12px; box-shadow: 0 2px 8px #0001; padding: 1rem; text-align: center; position: relative; height: 100%;}
+.product-card img { width: 100%; max-width: 120px; height: 120px; object-fit: contain; margin-bottom: 1rem;}
+.fav-btn { position: absolute; top: 1rem; right: 1rem; background: #fff; border: none; font-size: 1.3rem; color: #ff4fae;}
+.footer-main { background: #f1f1f1; padding: 2rem 0;}
+.footer-main h6 { font-weight: bold; margin-bottom: 1rem;}
+.footer-brand { font-size: 1.5rem; font-weight: bold; color: #0070f3;}
+.footer-social i { font-size: 1.3rem; margin-right: 1rem; color: #0070f3;}
+.footer-app img { height: 36px; margin-right: 0.5rem;}
+.footer-bottom { background: #e9e9e9; color: #666; font-size: 0.9rem; text-align: center; padding: 1rem 0;}
+    
+/* Video Section Styles */
+.video-section {
+  margin: 2rem 0;
+}
+    
+.video-container {
+  max-width: 100%;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+    
+.video-player-container {
+  position: relative;
+  background: #000;
+}
+    
+.video-wrapper {
+  position: relative;
+  background: #000;
+}
+    
+.video-wrapper video {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 400px;
+  object-fit: cover;
+}
+    
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(0,0,0,0.3), rgba(0,0,0,0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+    
+.overlay-content {
+  text-align: center;
+  max-width: 500px;
+  padding: 2rem;
+}
+    
+.overlay-content h3 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  margin-bottom: 1rem;
+}
+    
+.overlay-content p {
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  margin-bottom: 1.5rem;
+}
+    
+.overlay-content .btn {
+  pointer-events: all;
+  box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+  transition: all 0.3s ease;
+}
+    
+.overlay-content .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,123,255,0.4);
+}
+    
+.video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.8));
+  padding: 20px 15px 15px;
+  transition: opacity 0.3s ease;
+}
+    
+.video-wrapper:hover .video-controls {
+  opacity: 1 !important;
+}
+    
+.progress-container {
+  margin-bottom: 10px;
+}
+    
+.progress-bar {
+  position: relative;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  cursor: pointer;
+}
+    
+.progress-filled {
+  height: 100%;
+  background: #007bff;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+    
+.progress-handle {
+  position: absolute;
+  top: -6px;
+  width: 16px;
+  height: 16px;
+  background: #007bff;
+  border-radius: 50%;
+  left: 0%;
+  transform: translateX(-50%);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+    
+.progress-bar:hover .progress-handle {
+  opacity: 1;
+}
+    
+.time-display {
+  text-align: right;
+  color: white;
+  font-size: 12px;
+  margin-top: 5px;
+}
+    
+.control-buttons {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+    
+.btn-control {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 3px;
+  transition: background-color 0.3s ease;
+}
+    
+.btn-control:hover {
+  background: rgba(255,255,255,0.2);
+}
+    
+.volume-control {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+    
+.volume-slider {
+  width: 60px;
+  height: 4px;
+  background: rgba(255,255,255,0.3);
+  outline: none;
+  border-radius: 2px;
+}
+    
+.video-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+}
+    
+@media (max-width: 768px) {
+  .promo-banner { flex-direction: column; align-items: flex-start; }
+  .promo-banner img { margin: 1rem 0 0 0; }
+  .brand-cards { flex-direction: column; }
+  .brand-card { width: 100%; }
+      
+  .video-wrapper video {
+    min-height: 250px;
+  }
+      
+  .overlay-content h3 {
+    font-size: 1.8rem;
+  }
+      
+  .overlay-content p {
+    font-size: 1rem;
+  }
+      
+  .overlay-content {
+    padding: 1rem;
+  }
+      
+  .volume-control {
+    display: none;
+  }
+}

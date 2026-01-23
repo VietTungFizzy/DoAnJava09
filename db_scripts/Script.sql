@@ -401,3 +401,8 @@ ALTER TABLE users
   ADD COLUMN failed_login_attempts INT DEFAULT 0,
   ADD COLUMN locked_until TIMESTAMP NULL,
   ADD COLUMN permanently_locked BOOLEAN DEFAULT FALSE;
+
+ALTER TABLE wishlist_items
+  ADD COLUMN is_notified BOOLEAN NOT NULL DEFAULT FALSE AFTER sku_id;
+
+ALTER TABLE wishlist_items ADD COLUMN priority INTEGER DEFAULT 1;

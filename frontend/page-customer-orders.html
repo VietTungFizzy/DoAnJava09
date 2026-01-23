@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="My Orders - Ecommerce"/>
+    <meta name="author" content="Final CSS">
+
+    <title>My Orders - Ecommerce</title>
+
+    <!-- FinalCSS -->
+    <link href="css/final.css" rel="stylesheet" type="text/css" />
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Admin Orders CSS (reused for customer orders) -->
+    <link href="css/admin-orders.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .brand-logo { font-size: 2rem; font-weight: bold; color: #0070f3; }
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .status-pending { background-color: #fff3cd; color: #856404; }
+        .status-processing { background-color: #cce5ff; color: #004085; }
+        .status-shipped { background-color: #d1ecf1; color: #0c5460; }
+        .status-delivered { background-color: #d4edda; color: #155724; }
+        .status-cancelled { background-color: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white py-3 shadow-sm">
+    <div class="container">
+        <a href="homepage.html" class="brand-logo text-decoration-none">Brandname</a>
+        <div class="header-actions ms-auto d-flex align-items-center gap-3">
+            <a href="page-customer-orders.html" class="text-dark text-decoration-none fw-semibold" title="Đơn hàng">
+                <i class="fas fa-bag-shopping"></i> Đơn hàng
+            </a>
+            <a href="wishlist.html" class="text-dark text-decoration-none" title="Danh sách yêu thích">
+                <i class="fas fa-heart"></i> Yêu thích
+            </a>
+            <a href="page-cart.html" class="text-dark text-decoration-none">
+                <i class="fas fa-shopping-cart"></i> Giỏ hàng
+            </a>
+            <a href="profile.html" class="text-dark text-decoration-none">
+                <i class="fas fa-user"></i> Tài khoản
+            </a>
+            <a href="page-login.html" class="text-dark text-decoration-none">
+                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+            </a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid bg-light min-vh-100 py-4">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-1">Đơn hàng của tôi</h2>
+                <p class="text-muted mb-0">Theo dõi và quản lý các đơn hàng đã đặt</p>
+            </div>
+            <button class="btn btn-primary" onclick="loadCustomerOrders()">
+                <i class="fas fa-sync-alt me-2"></i>Làm mới
+            </button>
+        </div>
+
+        <!-- Filters -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <input class="form-control" type="search" placeholder="🔍 Tìm theo mã đơn hàng" id="searchInput">
+                    </div>
+                    <div class="col-md-4">
+                        <select id="statusFilter" class="form-select">
+                            <option value="all">Tất cả trạng thái</option>
+                            <option value="PENDING">⏱️ Chờ xử lý</option>
+                            <option value="PROCESSING">🔄 Đang xử lý</option>
+                            <option value="SHIPPED">🚚 Đang giao</option>
+                            <option value="DELIVERED">✅ Đã giao</option>
+                            <option value="CANCELLED">❌ Đã hủy</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-outline-primary w-100" onclick="applyFilters()">
+                            <i class="fas fa-filter me-1"></i>Lọc
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Orders Table -->
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Mã đơn hàng</th>
+                                <th>Ngày đặt</th>
+                                <th>Trạng thái</th>
+                                <th class="text-end">Tổng tiền</th>
+                                <th class="text-center">Thao tác</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ordersTableBody">
+                            <!-- Orders will be loaded here dynamically -->
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="loading-spinner">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Đang tải...</span>
+                                        </div>
+                                        <p class="mt-3 text-muted">Đang tải danh sách đơn hàng...</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="d-flex justify-content-center mt-4">
+            <nav aria-label="Orders pagination">
+                <ul class="pagination" id="pagination">
+                    <!-- Pagination will be generated here -->
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Order Details Modal -->
+<div class="modal fade" id="orderDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Chi tiết đơn hàng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+// Sample data for demonstration - replace with actual API calls
+const sampleOrders = [
+    {
+        id: "ORD001",
+        date: "2024-01-20",
+        status: "DELIVERED",
+        total: 150000,
+        items: [
+            { name: "Product 1", quantity: 2, price: 50000 },
+            { name: "Product 2", quantity: 1, price: 50000 }
+        ]
+    },
+    {
+        id: "ORD002",
+        date: "2024-01-18",
+        status: "SHIPPED",
+        total: 75000,
+        items: [
+            { name: "Product 3", quantity: 1, price: 75000 }
+        ]
+    },
+    {
+        id: "ORD003",
+        date: "2024-01-15",
+        status: "PROCESSING",
+        total: 200000,
+        items: [
+            { name: "Product 4", quantity: 1, price: 200000 }
+        ]
+    }
+];
+
+function loadCustomerOrders() {
+    const tbody = document.getElementById('ordersTableBody');
+    tbody.innerHTML = '';
+
+    if (sampleOrders.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-5">
+                    <i class="fas fa-shopping-bag fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Chưa có đơn hàng nào</h5>
+                    <p class="text-muted">Hãy bắt đầu mua sắm để xem đơn hàng của bạn tại đây.</p>
+                    <a href="homepage.html" class="btn btn-primary">Mua sắm ngay</a>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    sampleOrders.forEach(order => {
+        const statusClass = getStatusClass(order.status);
+        const statusText = getStatusText(order.status);
+        const formattedDate = formatDate(order.date);
+        const formattedTotal = formatCurrency(order.total);
+
+        const row = `
+            <tr>
+                <td>
+                    <strong class="text-primary">${order.id}</strong>
+                </td>
+                <td>${formattedDate}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td class="text-end fw-semibold">${formattedTotal}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrderDetails('${order.id}')">
+                        <i class="fas fa-eye"></i> Xem
+                    </button>
+                    ${order.status === 'PENDING' ? `
+                        <button class="btn btn-sm btn-outline-danger" onclick="cancelOrder('${order.id}')">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                    ` : ''}
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+function getStatusClass(status) {
+    const classes = {
+        'PENDING': 'status-pending',
+        'PROCESSING': 'status-processing',
+        'SHIPPED': 'status-shipped',
+        'DELIVERED': 'status-delivered',
+        'CANCELLED': 'status-cancelled'
+    };
+    return classes[status] || 'status-pending';
+}
+
+function getStatusText(status) {
+    const texts = {
+        'PENDING': 'Chờ xử lý',
+        'PROCESSING': 'Đang xử lý',
+        'SHIPPED': 'Đang giao',
+        'DELIVERED': 'Đã giao',
+        'CANCELLED': 'Đã hủy'
+    };
+    return texts[status] || status;
+}
+
+function formatDate(dateString) {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('vi-VN');
+}
+
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    }).format(amount);
+}
+
+function viewOrderDetails(orderId) {
+    const order = sampleOrders.find(o => o.id === orderId);
+    if (!order) return;
+
+    const modal = new bootstrap.Modal(document.getElementById('orderDetailsModal'));
+    const content = document.getElementById('orderDetailsContent');
+
+    let itemsHtml = '';
+    order.items.forEach(item => {
+        itemsHtml += `
+            <tr>
+                <td>${item.name}</td>
+                <td class="text-center">${item.quantity}</td>
+                <td class="text-end">${formatCurrency(item.price)}</td>
+                <td class="text-end">${formatCurrency(item.quantity * item.price)}</td>
+            </tr>
+        `;
+    });
+
+    content.innerHTML = `
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Mã đơn hàng:</strong> ${order.id}
+            </div>
+            <div class="col-md-6">
+                <strong>Ngày đặt:</strong> ${formatDate(order.date)}
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <strong>Trạng thái:</strong> <span class="status-badge ${getStatusClass(order.status)}">${getStatusText(order.status)}</span>
+            </div>
+            <div class="col-md-6">
+                <strong>Tổng tiền:</strong> <span class="fw-semibold text-primary">${formatCurrency(order.total)}</span>
+            </div>
+        </div>
+        <h6>Chi tiết sản phẩm:</h6>
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th class="text-center">Số lượng</th>
+                    <th class="text-end">Đơn giá</th>
+                    <th class="text-end">Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${itemsHtml}
+            </tbody>
+        </table>
+    `;
+
+    modal.show();
+}
+
+function cancelOrder(orderId) {
+    if (confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+        // In a real application, this would make an API call
+        alert(`Đơn hàng ${orderId} đã được hủy thành công!`);
+        loadCustomerOrders(); // Reload the orders
+    }
+}
+
+function applyFilters() {
+    const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+    const statusFilter = document.getElementById('statusFilter').value;
+
+    const filteredOrders = sampleOrders.filter(order => {
+        const matchesSearch = order.id.toLowerCase().includes(searchTerm);
+        const matchesStatus = statusFilter === 'all' || order.status === statusFilter;
+        return matchesSearch && matchesStatus;
+    });
+
+    // Update the display with filtered orders
+    const tbody = document.getElementById('ordersTableBody');
+    tbody.innerHTML = '';
+
+    if (filteredOrders.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">Không tìm thấy đơn hàng nào</h5>
+                    <p class="text-muted">Thử tìm kiếm với từ khóa khác hoặc kiểm tra bộ lọc.</p>
+                </td>
+            </tr>
+        `;
+        return;
+    }
+
+    filteredOrders.forEach(order => {
+        const statusClass = getStatusClass(order.status);
+        const statusText = getStatusText(order.status);
+        const formattedDate = formatDate(order.date);
+        const formattedTotal = formatCurrency(order.total);
+
+        const row = `
+            <tr>
+                <td>
+                    <strong class="text-primary">${order.id}</strong>
+                </td>
+                <td>${formattedDate}</td>
+                <td>
+                    <span class="status-badge ${statusClass}">${statusText}</span>
+                </td>
+                <td class="text-end fw-semibold">${formattedTotal}</td>
+                <td class="text-center">
+                    <button class="btn btn-sm btn-outline-primary me-2" onclick="viewOrderDetails('${order.id}')">
+                        <i class="fas fa-eye"></i> Xem
+                    </button>
+                    ${order.status === 'PENDING' ? `
+                        <button class="btn btn-sm btn-outline-danger" onclick="cancelOrder('${order.id}')">
+                            <i class="fas fa-times"></i> Hủy
+                        </button>
+                    ` : ''}
+                </td>
+            </tr>
+        `;
+        tbody.innerHTML += row;
+    });
+}
+
+// Load orders when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadCustomerOrders();
+});
+</script>
+
+</body>
+</html>
