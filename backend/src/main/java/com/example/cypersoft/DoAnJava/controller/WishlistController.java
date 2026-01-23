@@ -38,7 +38,9 @@ public class WishlistController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> removeFromWishlist(@PathVariable Integer productId) {
         try {
-            wishlistService.removeFromWishlist(productId);
+            // Resolve productId (or skuId) to actual SKU id
+            Integer skuId = wishlistService.resolveSkuIdFromProductId(productId);
+            wishlistService.removeFromWishlist(skuId);
             return ResponseEntity.ok(createSuccessResponse("Product removed from wishlist"));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));
@@ -77,7 +79,9 @@ public class WishlistController {
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public ResponseEntity<?> isProductInWishlist(@PathVariable Integer productId) {
         try {
-            boolean isInWishlist = wishlistService.isProductInWishlist(productId);
+            // Resolve productId (or skuId) to actual SKU id
+            Integer skuId = wishlistService.resolveSkuIdFromProductId(productId);
+            boolean isInWishlist = wishlistService.isProductInWishlist(skuId);
             return ResponseEntity.ok(Map.of("isInWishlist", isInWishlist));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));
@@ -90,7 +94,12 @@ public class WishlistController {
     public ResponseEntity<?> updateWishlistItem(@PathVariable Integer productId, 
                                              @Valid @RequestBody WishlistRequest request) {
         try {
-            WishlistResponse response = wishlistService.updateWishlistItem(productId, request);
+            // Resolve productId (or skuId) to actual SKU id
+            Integer skuId = wishlistService.resolveSkuIdFromProductId(productId);
+            // Ensure request uses the resolved SKU id
+            request.setSkuId(skuId);
+
+            WishlistResponse response = wishlistService.updateWishlistItem(skuId, request);
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(createErrorResponse(e.getMessage()));
@@ -157,6 +166,7 @@ public class WishlistController {
 
             boolean isInWishlist = wishlistService.isProductInWishlist(skuId);
 
+            System.out.println("Toggling wishlist item. SKU ID: " + skuId + ", isInWishlist: " + isInWishlist);
             if (isInWishlist) {
                 wishlistService.removeFromWishlist(skuId);
                 return ResponseEntity.ok(createSuccessResponse("Product removed from wishlist"));

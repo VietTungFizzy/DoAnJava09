@@ -21,6 +21,10 @@ var shippingAddresses = [
 	}
 ];
 
+// Stripe integration
+const stripePublicKey = "pk_test_51S9SX3L9RJOfTfprzim07Jef7DOY7AS32iqxeLfFaiJQ5lOoFZBeXJTkSBY4EHtLVjSGVwj84puuYVTvsDKUq0Nu00PRp9BlRQ";
+let stripe = null;
+
 function renderShippingAddresses() {
 	var container = document.getElementById('shipping-address-section');
 	if (!shippingAddresses || shippingAddresses.length === 0) {
@@ -93,4 +97,137 @@ function renderShippingAddresses() {
 
 document.addEventListener('DOMContentLoaded', function() {
 	renderShippingAddresses();
+	// Payment method radio logic
+	const paymentRadios = document.getElementsByName('payment-type');
+	const stripeForm = document.getElementById('stripe-card-form');
+	
+	function updateStripeFormVisibility() {
+		const selected = Array.from(paymentRadios).find(r => r.checked);
+		if (selected && selected.value === 'credit-card') {
+			stripeForm.style.display = '';
+		} else {
+			stripeForm.style.display = 'none';
+		}
+	}
+	
+	paymentRadios.forEach(radio => {
+		radio.addEventListener('change', updateStripeFormVisibility);
+	});
+	updateStripeFormVisibility();
+	// Initialize Stripe
+	stripe = Stripe(stripePublicKey);
+	// Handle Stripe Checkout button click
+	const checkoutBtn = document.getElementById('checkout-button');
+	const messageDiv = document.getElementById('payment-message');
+	
+	if (checkoutBtn) {
+		checkoutBtn.addEventListener('click', async function(e) {
+			e.preventDefault();
+			
+			// Show loading state
+			checkoutBtn.disabled = true;
+			checkoutBtn.innerHTML = 'Creating checkout session...';
+			messageDiv.classList.add('hidden');
+			
+			try {
+				// Get cart data for checkout session
+				const cartItems = getCartItems(); // You'll need to implement this function
+				const shippingAddress = getSelectedShippingAddress(); // You'll need to implement this function
+				
+				// Create checkout session on your backend
+				const response = await fetch('http://localhost:8080/api/checkout/create-session', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify({
+						// items: cartItems,
+						// shipping: shippingAddress,
+						quantity: 1,
+						productId: cartItems[0].id, // Example: sending first product ID
+						successUrl: window.location.origin + '/payment-success.html',
+						cancelUrl: window.location.origin + '/page-cart.html'
+					}),
+				});
+				if (!response.ok) {
+					throw new Error('Failed to create checkout session');
+				}
+				const session = await response.json();
+				
+				// Redirect to Stripe Checkout
+				const result = await stripe.redirectToCheckout({
+					sessionId: session.id
+				});
+				if (result.error) {
+					throw new Error(result.error.message);
+				}
+			} catch (error) {
+				console.error('Error:', error);
+				messageDiv.textContent = error.message || 'An error occurred. Please try again.';
+				messageDiv.classList.remove('hidden');
+				messageDiv.className = 'mt-3 text-danger';
+			} finally {
+				// Reset button state
+				checkoutBtn.disabled = false;
+				checkoutBtn.innerHTML = `
+					<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+						<rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+						<line x1="1" y1="10" x2="23" y2="10"/>
+					</svg>
+					Pay with Stripe Checkout
+				`;
+			}
+		});
+	}
 });
+
+// Helper functions to get cart and shipping data
+function getCartItems() {
+	// Extract cart items from the DOM or return mock data
+	// You should implement this based on your cart structure
+	return [
+		{
+			name: 'Great product name goes here',
+			amount: 4600, // Amount in cents
+			currency: 'usd',
+			quantity: 1,
+		},
+		{
+			name: 'Cutting-edge device title goes here',
+			amount: 4600,
+			currency: 'usd',
+			quantity: 1,
+		}
+		// Add more items as needed
+	];
+}
+
+function getSelectedShippingAddress() {
+	// Get the selected shipping address from the form
+	const selectedAddress = document.querySelector('input[name="shipping-address"]:checked');
+	if (selectedAddress && selectedAddress.value !== 'new-address') {
+		// Return existing address data based on the selected ID
+		// You'll need to match this with your address data structure
+		return {
+			name: 'John Doe',
+			address: {
+				line1: '123 Main St',
+				city: 'Springfield',
+				postal_code: '12345',
+				country: 'US',
+			}
+		};
+	} else if (selectedAddress && selectedAddress.value === 'new-address') {
+		// Get new address from form fields
+		return {
+			name: document.getElementById('new-name')?.value || '',
+			address: {
+				line1: document.getElementById('new-address')?.value || '',
+				city: document.getElementById('new-city')?.value || '',
+				postal_code: document.getElementById('new-zip')?.value || '',
+				country: 'US', // Or get from form
+			}
+		};
+	}
+	return null;
+}

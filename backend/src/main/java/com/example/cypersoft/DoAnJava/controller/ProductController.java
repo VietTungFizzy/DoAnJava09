@@ -69,6 +69,16 @@ public class ProductController {
         return ResponseEntity.ok(productService.getById(id));
     }
 
+    @GetMapping("/{id}/related")
+    public ResponseEntity<List<ProductResponse>> getRelatedRandom(
+            @PathVariable Integer id,
+            @RequestParam(value = "limit", required = false) Integer limit
+    ) {
+        int max = 5;
+        int usedLimit = (limit == null) ? max : Math.min(limit, max);
+        return ResponseEntity.ok(productService.getRandomProductsInSameCategory(id, usedLimit));
+    }
+
     @PostMapping
     public ResponseEntity<ProductResponse> create(@RequestBody ProductRequest request) {
         return ResponseEntity.ok(productService.create(request));
@@ -84,4 +94,4 @@ public class ProductController {
         productService.delete(id);
         return ResponseEntity.noContent().build();
     }
-} 
+}

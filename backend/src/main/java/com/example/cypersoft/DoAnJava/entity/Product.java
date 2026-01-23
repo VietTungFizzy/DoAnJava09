@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -38,6 +40,8 @@ public class Product {
     // Many-to-one relation to Brand. brandId field owns the column so we mark this as not insertable/updatable.
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "brand_id", insertable = false, updatable = false)
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     private Brand brand;
 
     @Column(name = "status")
@@ -56,6 +60,8 @@ public class Product {
     private LocalDateTime deletedAt;
 
     @Getter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @ManyToMany
     @JoinTable(
             name="product_categories",
@@ -65,10 +71,14 @@ public class Product {
     private List<Category> categories;
 
     @Getter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Sku> skus;
 
     @Getter
+    @ToString.Exclude
+    @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProductImage> images;
 

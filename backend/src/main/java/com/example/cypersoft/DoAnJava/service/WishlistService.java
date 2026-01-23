@@ -144,6 +144,7 @@ public class WishlistService {
     public boolean isProductInWishlist(Integer productId) {
         User currentUser = getCurrentUser();
         Wishlist wishlist = getOrCreateDefaultWishlist(currentUser);
+        System.out.println("product id: " + productId + ", wishlist id: " + wishlist.getId());
         // Treat productId as skuId for backwards compatibility
         return wishlistItemRepository.existsByWishlistIdAndSkuId(wishlist.getId(), productId);
     }
@@ -243,11 +244,6 @@ public class WishlistService {
     public Integer resolveSkuIdFromProductId(Integer productId) {
         if (productId == null) {
             throw new RuntimeException("Product id is required");
-        }
-
-        // If the provided id matches an existing SKU id, return it directly (backwards compatibility)
-        if (skuRepository.existsById(productId)) {
-            return productId;
         }
 
         // Otherwise treat the id as a Product id and try to find SKUs for that product

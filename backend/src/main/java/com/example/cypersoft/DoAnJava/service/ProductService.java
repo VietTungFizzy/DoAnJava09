@@ -2,6 +2,7 @@ package com.example.cypersoft.DoAnJava.service;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -105,9 +106,7 @@ public class ProductService {
         final Map<Integer, Sku> finalSkuMap = skuMap;
         
         // Determine if user is authenticated
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean loggedIn = authentication != null && authentication.isAuthenticated()
-                && !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()));
+        boolean loggedIn = isUserLoggedIn();
 
         return products.map(product -> {
             Sku sku = finalSkuMap.get(product.getId());
@@ -166,9 +165,7 @@ public class ProductService {
                 .collect(Collectors.toMap(Sku::getProductId, sku -> sku, (existing, replacement) -> existing));
         
         // Determine if user is authenticated
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean loggedIn = authentication != null && authentication.isAuthenticated()
-                && !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()));
+        boolean loggedIn = isUserLoggedIn();
 
         return products.stream()
                 .map(product -> {
@@ -246,7 +243,8 @@ public class ProductService {
         Set<String> categoryNames = null;
         BigDecimal price = null;
         Integer stock = null;
-        
+        Sku firstActiveSku = null; // moved out so we can use it for wishlist check and image
+
         try {
             // Safely access brand
             if (p.getBrand() != null) {
@@ -281,7 +279,7 @@ public class ProductService {
             // Safely access SKUs - they should be loaded now
             if (p.getSkus() != null && !p.getSkus().isEmpty()) {
                 log.debug("Product {} has {} SKUs", p.getId(), p.getSkus().size());
-                Sku firstActiveSku = p.getSkus().stream()
+                firstActiveSku = p.getSkus().stream()
                         .filter(sku -> "active".equals(sku.getStatus()))
                         .findFirst()
                         .orElse(p.getSkus().iterator().next());
@@ -311,7 +309,43 @@ public class ProductService {
             price = BigDecimal.ZERO;
             stock = 0;
         }
-        
+
+        // Determine if user is authenticated and check wishlist for the SKU if available
+        boolean loggedIn = isUserLoggedIn();
+        boolean isInWishlist = false;
+        if (loggedIn && firstActiveSku != null) {
+            try {
+                isInWishlist = wishlistService.isProductInWishlist(firstActiveSku.getId());
+            } catch (Exception e) {
+                log.debug("Failed to check wishlist for sku {}: {}", firstActiveSku.getId(), e.toString());
+                isInWishlist = false;
+            }
+        }
+
+        // Use product imageUrl if available
+        String imageUrl = null;
+        List<String> images = null;
+        try {
+            imageUrl = p.getImageUrl();
+        } catch (RuntimeException e) {
+            log.debug("Failed to access imageUrl for product {}: {}", p.getId(), e.toString());
+            imageUrl = null;
+        }
+
+        try {
+            if (p.getImages() != null && !p.getImages().isEmpty()) {
+                images = p.getImages().stream()
+                        .map(img -> img.getImageUrl())
+                        .collect(Collectors.toList());
+            }
+        } catch (LazyInitializationException | EntityNotFoundException e) {
+            log.debug("Failed to access images for product {}: {}", p.getId(), e.toString());
+            images = null;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing images for product {}", p.getId(), e);
+            images = null;
+        }
+
         return new ProductResponse(
                 p.getId(),
                 p.getStoreId(),
@@ -327,8 +361,9 @@ public class ProductService {
                 categoryNames,
                 price,
                 stock,
-                null, // imageUrl - would need to be populated from product_images table
-                false // isInWishlist default false
+                imageUrl, // single image for backward compatibility
+                images, // renamed to 'images' to match frontend
+                isInWishlist // isInWishlist populated
         );
     }
 
@@ -337,7 +372,8 @@ public class ProductService {
         Set<String> categoryNames = null;
         BigDecimal price = BigDecimal.ZERO;
         Integer stock = 0;
-        
+        List<String> images = null;
+
         try {
             // Safely access brand
             if (p.getBrand() != null) {
@@ -347,7 +383,7 @@ public class ProductService {
             log.warn("Brand not initialized for product {}: {}", p.getId(), e.toString());
             brandName = null;
         } catch (RuntimeException e) {
-            log.error("Unexpected error accessing brand for product {}", p.getId(), e);
+            log.error("Unexpected error accessing brand for product {}: {}", p.getId(), e);
             brandName = null;
         }
         
@@ -363,7 +399,7 @@ public class ProductService {
             categoryNames = null;
         } catch (RuntimeException e) {
             categoryNames = null;
-            log.error("Unexpected error accessing categories for product {}", p.getId(), e);
+            log.error("Unexpected error accessing categories for product {}: {}", p.getId(), e);
         }
         
         // Use the provided SKU
@@ -374,7 +410,21 @@ public class ProductService {
         } else {
             log.debug("Product {} has no SKU provided", p.getId());
         }
-        
+
+        try {
+            if (p.getImages() != null && !p.getImages().isEmpty()) {
+                images = p.getImages().stream()
+                        .map(img -> img.getImageUrl())
+                        .collect(Collectors.toList());
+            }
+        } catch (LazyInitializationException | EntityNotFoundException e) {
+            log.debug("Failed to access images for product {}: {}", p.getId(), e.toString());
+            images = null;
+        } catch (RuntimeException e) {
+            log.error("Unexpected error accessing images for product {}", p.getId(), e);
+            images = null;
+        }
+
         return new ProductResponse(
                 p.getId(),
                 p.getStoreId(),
@@ -391,8 +441,73 @@ public class ProductService {
                 price,
                 stock,
                 p.getImageUrl(), // imageUrl - would need to be populated from product_images table
+                images,
                 isInWishlist
         );
     }
-}
+    // Helper to centralize authentication check (prevents duplicate code)
+    private boolean isUserLoggedIn() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.isAuthenticated()
+                && !(authentication.getPrincipal() instanceof String && "anonymousUser".equals(authentication.getPrincipal()));
+    }
 
+    // Add method to get random related products (same category)
+    public List<ProductResponse> getRandomProductsInSameCategory(Integer productId, int limit) {
+        Product product = productRepository.findById(productId)
+                .orElseThrow(() -> new NoSuchElementException("Product not found with id: " + productId));
+
+        // Get category IDs
+        List<Integer> categoryIdList = null;
+        try {
+            if (product.getCategories() != null && !product.getCategories().isEmpty()) {
+                categoryIdList = product.getCategories().stream()
+                        .map(cat -> cat.getId())
+                        .collect(Collectors.toList());
+            }
+        } catch (RuntimeException e) {
+            log.debug("Failed to access categories for product {}: {}", productId, e.toString());
+            categoryIdList = null;
+        }
+
+        if (categoryIdList == null || categoryIdList.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Load candidate products that belong to these categories (limit fetch size to a reasonably large number)
+        List<Product> candidates = productRepository.findByCategoryIds(categoryIdList, PageRequest.of(0, 1000))
+                .getContent().stream()
+                .filter(p -> !p.getId().equals(productId))
+                .collect(Collectors.toList());
+
+        if (candidates.isEmpty()) return Collections.emptyList();
+
+        // Shuffle and pick up to 'limit' products
+        Collections.shuffle(candidates);
+        int take = Math.min(limit, candidates.size());
+        List<Product> selected = candidates.subList(0, take);
+
+        // Load SKUs for selected products to populate price and wishlist checks efficiently
+        List<Integer> selectedIds = selected.stream().map(Product::getId).collect(Collectors.toList());
+        List<Sku> skus = productRepository.findActiveSkusByProductIds(selectedIds);
+        Map<Integer, Sku> skuMap = skus.stream()
+                .collect(Collectors.toMap(Sku::getProductId, sku -> sku, (existing, replacement) -> existing));
+
+        boolean loggedIn = isUserLoggedIn();
+
+        return selected.stream().map(p -> {
+            Sku sku = skuMap.get(p.getId());
+            Integer skuId = sku != null ? sku.getId() : null;
+            boolean inWishlist = false;
+            if (loggedIn && skuId != null) {
+                try {
+                    inWishlist = wishlistService.isProductInWishlist(skuId);
+                } catch (Exception e) {
+                    log.debug("Failed to check wishlist for sku {}: {}", skuId, e.toString());
+                    inWishlist = false;
+                }
+            }
+            return toResponseWithSku(p, sku, inWishlist);
+        }).collect(Collectors.toList());
+    }
+}

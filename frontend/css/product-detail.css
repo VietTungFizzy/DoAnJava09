@@ -5,6 +5,8 @@ body {
     font-family: Arial, sans-serif;
 }
 
+.brand-logo { font-size: 2rem; font-weight: bold; color: #0070f3; }
+
 .custom-header {
     background: #fff;
     border-bottom: 1px solid #e0e0e0;

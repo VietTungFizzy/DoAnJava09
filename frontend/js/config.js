@@ -1,10 +1,13 @@
 // Application Configuration
+const isLocalhost = function() {
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+};
+
 const AppConfig = {
+    isLocalhost: isLocalhost,
     // API Configuration
     api: {
-        baseUrl: window.location.origin.includes('localhost') 
-            ? 'http://localhost:8080/api' 
-            : '/api',
+        baseUrl: isLocalhost() ? 'http://localhost:8080/api' : '/api',
         endpoints: {
             categories: '/categories',
             products: '/products',
@@ -13,7 +16,7 @@ const AppConfig = {
     },
     
     // Environment detection
-    isDevelopment: window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1',
+    isDevelopment: isLocalhost(),
     isProduction: !this.isDevelopment,
     
     // Get full API URL for a specific endpoint

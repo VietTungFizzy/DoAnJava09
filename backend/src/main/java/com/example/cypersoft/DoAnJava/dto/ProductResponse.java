@@ -3,6 +3,7 @@ package com.example.cypersoft.DoAnJava.dto;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,6 +29,7 @@ public class ProductResponse {
     // Price and stock from the first active SKU
     private BigDecimal price;
     private Integer stock;
-    private String imageUrl; // Will be populated from product_images table
+    private String imageUrl; // Will be populated from product_images table (primary image)
+    private List<String> images; // Optional: multiple image URLs (frontend expects 'images')
     private boolean isInWishlist; // new field to indicate if current user has this product in wishlist
 }
