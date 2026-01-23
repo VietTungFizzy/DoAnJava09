@@ -23,4 +23,7 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
 
     @Query("SELECT o FROM Order o LEFT JOIN FETCH o.orderItems WHERE o.id = :id")
     Optional<Order> findByIdWithItems(Integer id);
+
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId AND o.status = :status ORDER BY o.createdAt DESC LIMIT 1")
+    Optional<Order> findFirstByUserIdAndStatusOrderByCreatedAtDesc(Integer userId, Order.OrderStatus status);
 }

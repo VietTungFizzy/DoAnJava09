@@ -41,11 +41,15 @@ public class CheckoutController {
                 .setSuccessUrl(request.getSuccessUrl())
                 .setCancelUrl(request.getCancelUrl());
 
-        // Add shipping address collection
+        // Add custom text for shipping address
         if (order.getAddress() != null && !order.getAddress().isBlank()) {
-            paramsBuilder.setShippingAddressCollection(
-                    SessionCreateParams.ShippingAddressCollection.builder()
-                            .addAllowedCountry(SessionCreateParams.ShippingAddressCollection.AllowedCountry.VN)
+            paramsBuilder.setCustomText(
+                    SessionCreateParams.CustomText.builder()
+                            .setShippingAddress(
+                                    SessionCreateParams.CustomText.ShippingAddress.builder()
+                                            .setMessage(order.getAddress())
+                                            .build()
+                            )
                             .build()
             );
         }

@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -157,6 +158,58 @@ public class OrderServiceImp implements OrderService {
 
         order.setStatus(Order.OrderStatus.cancelled);
         orderRepository.save(order);
+    }
+
+    @Override
+    @Transactional
+    public OrderResponse addItemToPendingOrder(OrderItemRequest itemRequest) {
+        User user = getCurrentUser();
+
+        Optional<Order> optionalOrder = orderRepository.findFirstByUserIdAndStatusOrderByCreatedAtDesc(user.getId(), Order.OrderStatus.pending);
+        Order order;
+        if (optionalOrder.isPresent()) {
+            order = optionalOrder.get();
+        } else {
+            order = new Order();
+            order.setUser(user);
+            order.setStatus(Order.OrderStatus.pending);
+            order.setTotal(BigDecimal.ZERO);
+            order.setOrderItems(new ArrayList<>());
+            order = orderRepository.save(order);
+        }
+
+        // Check if item already exists in the order
+        Optional<OrderItem> existingItem = order.getOrderItems().stream()
+                .filter(item -> item.getProductId().equals(itemRequest.getProductId()))
+                .findFirst();
+
+        if (existingItem.isPresent()) {
+            // Update existing item quantity
+            OrderItem item = existingItem.get();
+            int newQuantity = item.getQuantity() + itemRequest.getQuantity();
+            BigDecimal oldItemTotal = item.getPrice().multiply(BigDecimal.valueOf(item.getQuantity()));
+            BigDecimal newItemTotal = item.getPrice().multiply(BigDecimal.valueOf(newQuantity));
+            item.setQuantity(newQuantity);
+            order.setTotal(order.getTotal().subtract(oldItemTotal).add(newItemTotal));
+        } else {
+            // Create new order item
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setProductId(itemRequest.getProductId());
+            orderItem.setStoreId(itemRequest.getStoreId());
+            orderItem.setQuantity(itemRequest.getQuantity());
+            if (itemRequest.getSkuId() != null) {
+                orderItem.setSkuId(itemRequest.getSkuId());
+            }
+            orderItem.setPrice(itemRequest.getPrice());
+
+            BigDecimal itemTotal = itemRequest.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
+            order.getOrderItems().add(orderItem);
+            order.setTotal(order.getTotal().add(itemTotal));
+        }
+
+        Order savedOrder = orderRepository.save(order);
+        return convertToOrderResponse(savedOrder);
     }
 
     private OrderResponse convertToOrderResponse(Order order) {

@@ -275,4 +275,53 @@ $(document).ready(function() {
             $btn.html(originalText);
         }
     });
+
+    // Add to Cart button functionality
+    $(document).on('click', '.btn-add-cart', async function(e) {
+        e.preventDefault();
+        
+        const productId = $(this).data('product-id');
+        if (!productId) {
+            alert('Product ID not found');
+            return;
+        }
+        
+        // Show loading state
+        const $btn = $(this);
+        const originalText = $btn.html();
+        $btn.prop('disabled', true);
+        $btn.html('Adding to cart...');
+        
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('User not logged in');
+            }
+            
+            // Add to cart
+            const response = await fetch('http://localhost:8080/api/orders/add_to_cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                    quantity: 1
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to add to cart');
+            }
+            
+            alert('Product added to cart successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message || 'An error occurred. Please try again.');
+        } finally {
+            // Reset button state
+            $btn.prop('disabled', false);
+            $btn.html(originalText);
+        }
+    });
 });

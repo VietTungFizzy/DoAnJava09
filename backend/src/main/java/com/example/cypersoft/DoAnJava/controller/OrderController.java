@@ -1,5 +1,6 @@
 package com.example.cypersoft.DoAnJava.controller;
 
+import com.example.cypersoft.DoAnJava.dto.OrderItemRequest;
 import com.example.cypersoft.DoAnJava.dto.OrderRequest;
 import com.example.cypersoft.DoAnJava.dto.OrderResponse;
 import com.example.cypersoft.DoAnJava.dto.UpdateOrderStatusRequest;
@@ -114,6 +115,22 @@ public class OrderController {
             Map<String, String> response = new HashMap<>();
             response.put("message", "Order cancelled successfully");
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
+
+    /**
+     * Thêm item vào đơn hàng pending
+     * POST /api/orders/add_to_cart
+     */
+    @PostMapping("/add_to_cart")
+    public ResponseEntity<?> addItemToPendingOrder( @RequestBody OrderItemRequest request) {
+        try {
+            OrderResponse response = orderService.addItemToPendingOrder(request);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());

@@ -1,5 +1,6 @@
 package com.example.cypersoft.DoAnJava.service;
 
+import com.example.cypersoft.DoAnJava.dto.OrderItemRequest;
 import com.example.cypersoft.DoAnJava.dto.OrderRequest;
 import com.example.cypersoft.DoAnJava.dto.OrderResponse;
 import com.example.cypersoft.DoAnJava.dto.UpdateOrderStatusRequest;
@@ -18,4 +19,6 @@ public interface OrderService {
     OrderResponse updateOrderStatus(Integer orderId, UpdateOrderStatusRequest request);
 
     void cancelOrder(Integer orderId);
+
+    OrderResponse addItemToPendingOrder(OrderItemRequest itemRequest);
 }
