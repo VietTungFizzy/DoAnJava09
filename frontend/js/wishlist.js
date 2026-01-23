@@ -1,7 +1,6 @@
 // Wishlist functionality
 class WishlistManager {
     constructor() {
-        this.apiBaseUrl = 'http://localhost:8080/api/wishlist';
         this.updateWishlistButtonCallback = null;
         this.init();
     }
@@ -36,7 +35,7 @@ class WishlistManager {
                 return;
             }
 
-            const response = await fetch(`${this.apiBaseUrl}/toggle/${productId}`, {
+            const response = await fetch(window.AppConfig.getApiUrl(`/wishlist/toggle/${productId}`), {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -77,7 +76,7 @@ class WishlistManager {
                 productId: productId
             };
 
-            const response = await fetch(this.apiBaseUrl, {
+            const response = await fetch(window.AppConfig.getApiUrl('/wishlist'), {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -112,7 +111,7 @@ class WishlistManager {
                 return false;
             }
 
-            const response = await fetch(`${this.apiBaseUrl}/product/${productId}`, {
+            const response = await fetch(window.AppConfig.getApiUrl(`/wishlist/product/${productId}`), {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -145,7 +144,7 @@ class WishlistManager {
                 return false;
             }
 
-            const response = await fetch(`${this.apiBaseUrl}/check/${productId}`, {
+            const response = await fetch(window.AppConfig.getApiUrl(`/wishlist/check/${productId}`), {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -170,7 +169,7 @@ class WishlistManager {
                 return;
             }
 
-            const response = await fetch(`${this.apiBaseUrl}/count`, {
+            const response = await fetch(window.AppConfig.getApiUrl('/wishlist/count'), {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -226,7 +225,7 @@ class WishlistManager {
             }
 
             const response = await fetch(
-                `${this.apiBaseUrl}?page=${page}&size=${size}&sortBy=${sortBy}&sortDir=${sortDir}`,
+                window.AppConfig.getApiUrl(`/wishlist?page=${page}&size=${size}&sortBy=${sortBy}&sortDir=${sortDir}`),
                 {
                     method: 'GET',
                     headers: {
@@ -361,7 +360,7 @@ class WishlistManager {
             }
 
             const response = await fetch(
-                `${this.apiBaseUrl}/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${size}`,
+                window.AppConfig.getApiUrl(`/wishlist/search?keyword=${encodeURIComponent(keyword)}&page=${page}&size=${size}`),
                 {
                     method: 'GET',
                     headers: {

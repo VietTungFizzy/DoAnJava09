@@ -336,7 +336,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			if (!selectedPayment || selectedPayment.value !== 'credit-card') {
 				// For other payment methods, update order status to processing
 				try {
-					const response = await fetch(`http://localhost:8080/api/orders/${currentOrderId}/status`, {
+					const response = await fetch(window.AppConfig.getApiUrl(`/orders/${currentOrderId}/status`), {
 						method: 'PUT',
 						headers: {
 							'Content-Type': 'application/json',
@@ -363,7 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			try {
 				// Create checkout session on your backend
-				const response = await fetch('http://localhost:8080/api/checkout/create-session', {
+				const response = await fetch(window.AppConfig.getApiUrl('/checkout/create-session'), {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

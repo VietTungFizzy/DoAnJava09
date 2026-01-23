@@ -27,7 +27,7 @@
 		<url/>
 	</scm>
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -109,9 +109,9 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/javac</executable>
-					<source>21</source> <!-- JDK source version -->
-					<target>21</target> <!-- JDK target version -->
-					<release>21</release> <!-- Use this for JDK 9+ to ensure API compatibility -->
+					<source>17</source> <!-- JDK source version -->
+					<target>17</target> <!-- JDK target version -->
+					<release>17</release> <!-- Use this for JDK 9+ to ensure API compatibility -->
 					<annotationProcessorPaths>
 						<path>
 							<groupId>org.projectlombok</groupId>

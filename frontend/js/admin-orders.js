@@ -1,6 +1,4 @@
 // Admin Orders Management JavaScript
-// API Configuration
-const API_BASE_URL = 'http://localhost:8080/api';
 
 // Order Status Mapping
 const ORDER_STATUS = {
@@ -117,7 +115,7 @@ async function loadAllOrders() {
         showLoading();
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`${API_BASE_URL}/orders`, {
+        const response = await fetch(window.AppConfig.getApiUrl('/orders'), {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -270,7 +268,7 @@ async function viewOrderDetail(orderId) {
         showLoading();
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`${API_BASE_URL}/orders/${orderId}`, {
+        const response = await fetch(window.AppConfig.getApiUrl(`/orders/${orderId}`), {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -386,7 +384,7 @@ async function updateOrderStatus(orderId, newStatus) {
         showLoading();
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`${API_BASE_URL}/orders/${orderId}/status`, {
+        const response = await fetch(window.AppConfig.getApiUrl(`/orders/${orderId}/status`), {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -420,7 +418,7 @@ async function cancelOrder(orderId) {
         showLoading();
         const token = localStorage.getItem('token');
         
-        const response = await fetch(`${API_BASE_URL}/orders/${orderId}/cancel`, {
+        const response = await fetch(window.AppConfig.getApiUrl(`/orders/${orderId}/cancel`), {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,

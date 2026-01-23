@@ -1,12 +1,11 @@
 // Homepage Product Loading
 const HomepageProducts = {
-    apiBaseUrl: 'http://localhost:8080/api',
     categories: [],
     
     // Fetch all categories
     async fetchCategories() {
         try {
-            const response = await fetch(`${this.apiBaseUrl}/categories`);
+            const response = await fetch(window.AppConfig.getApiUrl('/categories'));
             if (!response.ok) {
                 console.error('Failed to load categories');
                 return [];
@@ -128,7 +127,7 @@ const HomepageProducts = {
     // Load products for homepage
     async loadProducts(category = 'all', limit = 8) {
         try {
-            let url = `${this.apiBaseUrl}/products?page=0&size=${limit}`;
+            let url = window.AppConfig.getApiUrl(`/products?page=0&size=${limit}`);
             
             // Add category filter if needed
             if (category !== 'all') {

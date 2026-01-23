@@ -303,6 +303,7 @@
   <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/config.js"></script>
   <!-- Account functionality -->
   <script src="js/account.js"></script>
   <!-- Wishlist functionality -->
@@ -353,21 +354,21 @@
         if (!token) return;
         
         // Get total count
-        const countResponse = await fetch('http://localhost:8080/api/wishlist/count', {
+        const countResponse = await fetch(window.AppConfig.getApiUrl('/wishlist/count'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const countData = await countResponse.json();
         $('#total-items').text(countData.count || 0);
         
         // Get high priority count
-        const highPriorityResponse = await fetch('http://localhost:8080/api/wishlist/priority/3', {
+        const highPriorityResponse = await fetch(window.AppConfig.getApiUrl('/wishlist/priority/3'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const highPriorityData = await highPriorityResponse.json();
         $('#high-priority').text(highPriorityData.length || 0);
         
         // Get notifications count
-        const notificationsResponse = await fetch('http://localhost:8080/api/wishlist/notifications', {
+        const notificationsResponse = await fetch(window.AppConfig.getApiUrl('/wishlist/notifications'), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const notificationsData = await notificationsResponse.json();
@@ -387,7 +388,7 @@
         const token = localStorage.getItem('token');
         if (!token) return;
         
-        const response = await fetch(`http://localhost:8080/api/wishlist/priority/${priority}`, {
+        const response = await fetch(window.AppConfig.getApiUrl(`/wishlist/priority/${priority}`), {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         const data = await response.json();

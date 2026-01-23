@@ -221,7 +221,7 @@ $(document).ready(function() {
             }
             
             // First, create the order
-            const orderResponse = await fetch('http://localhost:8080/api/orders', {
+            const orderResponse = await fetch(window.AppConfig.getApiUrl('/orders'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -243,7 +243,7 @@ $(document).ready(function() {
             const order = await orderResponse.json();
             
             // Then, create checkout session on your backend
-            const response = await fetch('http://localhost:8080/api/checkout/create-session', {
+            const response = await fetch(window.AppConfig.getApiUrl('/checkout/create-session'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -299,7 +299,7 @@ $(document).ready(function() {
             }
             
             // Add to cart
-            const response = await fetch('http://localhost:8080/api/orders/add_to_cart', {
+            const response = await fetch(window.AppConfig.getApiUrl('/orders/add_to_cart'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
