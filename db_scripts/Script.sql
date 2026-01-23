@@ -415,3 +415,5 @@ ALTER TABLE orders RENAME COLUMN placed_at TO created_at;
 ALTER TABLE order_items RENAME COLUMN unit_price TO price;
 
 ALTER TABLE order_items ADD COLUMN product_id INT;
+
+ALTER TABLE order_items MODIFY COLUMN sku_id int DEFAULT 1 NOT NULL;

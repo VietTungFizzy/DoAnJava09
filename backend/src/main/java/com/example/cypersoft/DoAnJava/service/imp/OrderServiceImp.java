@@ -103,7 +103,6 @@ public class OrderServiceImp implements OrderService {
         order.setTotal(total);
         order.setStatus(Order.OrderStatus.pending);
 
-        System.out.println("Checking....");
         Order savedOrder = orderRepository.save(order);
         return convertToOrderResponse(savedOrder);
     }
