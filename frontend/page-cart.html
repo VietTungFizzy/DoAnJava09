@@ -152,7 +152,7 @@
 
 		<div class="row gap-8">
 			<main class="md:col-6">
-				<div class="card shadow-sm mb-5 p-4">
+				<!-- <div class="card shadow-sm mb-5 p-4">
 					<div>
 						<h5 class="mb-3"> Choose delivery option </h5>
 
@@ -185,10 +185,11 @@
 						</fieldset>
 
 					</div>
-				</div> <!-- card.// -->
+				</div>  -->
+				<!-- card.// -->
 
 				<!-- Shipping Address Section -->
-				<div id="shipping-address-section"></div>
+				<!-- <div id="shipping-address-section"></div> -->
 
 				<!-- Payment Method Section -->
 				<div class="card shadow-sm mb-5 p-4">
@@ -218,277 +219,30 @@
 					</fieldset>
 
 					<!-- Stripe Credit Card Form (hidden unless selected) -->
-					<div id="stripe-card-form" class="mt-4">
+					<!-- <div id="stripe-card-form" class="mt-4">
 						<form id="payment-form">
-							<div id="payment-element"><!--Stripe.js injects the Payment Element here--></div>
+							<div id="payment-element"></div>
 							<button class="btn btn-primary mt-3" id="submit">Pay</button>
 							<div id="payment-message" class="hidden"></div>
 						</form>
-					</div>
+					</div> -->
 				</div>
 
 			</main> <!-- col.// -->
 			<aside class="md:col-6">
                 <!-- summary -->
-				<div class="p-5 rounded bg-neutral-100">
-					<!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
-                        
-                        <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
-							<img src="images/product-basic/1.png" class="ratio-1x1 h-full rounded">
-						</div>
-
-						<div class="flex flex-grow py-1">
-                            <h5 class="mb-1 font-medium  text-lg">
-                                <a href="#" class="text-dark">
-                                    Great product name goes here
-                                </a>
-                            </h5>
-                            <p class="text-secondary"> 
-                                Size: medium  <br>
-                                Material: Plastic <br>
-                                Color: blue  <br>
-                            </p>
-						</div>
-                      
-                        <div class="py-1 max-sm:w-full max-sm:d-flex max-sm:align-items-center">
-
-                            <p class="sm:mb-4 sm:text-right max-sm:mr-10 max-sm:flex-grow">  <strong>46.00 USD</strong> </p>
-
-                            <div class="d-flex  gap-2">
-                                <select class="form-select" name="" id="">
-                                    <option selected value="1">Qty: 1</option>
-                                    <option value="2">Qty: 2</option>
-                                    <option value="3">Qty: 3</option>
-                                    <option value="4">Qty: 4</option>
-                                    <option value="2">Other</option>
-                                </select>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#14181F" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.0005 4.99989L5.00049 18.9999M5.00049 4.99989L19.0005 18.9999" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                        
-                                </button>
-                            </div>
-
-                        </div>
-					</article> 
-					<!-- ==== item cart ==== .//end -->
-
-					<hr>
-
-					<!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
-                        
-                        <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
-							<img src="images/product-basic/2.png" class="ratio-1x1 h-full rounded">
-						</div>
-
-						<div class="flex flex-grow py-1">
-                            <h5 class="mb-1 font-medium  text-lg">
-                                <a href="#" class="text-dark">
-                                    Cutting-edge device title goes here
-                                </a>
-                            </h5>
-                            <p class="text-secondary"> 
-                                Size: medium  <br>
-                                Material: Plastic <br>
-                                Color: blue  <br>
-                            </p>
-						</div>
-                      
-                        <div class="py-1 max-sm:w-full max-sm:d-flex max-sm:align-items-center">
-
-                            <p class="sm:mb-4 sm:text-right max-sm:mr-10 max-sm:flex-grow">  <strong>46.00 USD</strong> </p>
-
-                            <div class="d-flex  gap-2">
-                                <select class="form-select" name="" id="">
-                                    <option selected value="1">Qty: 1</option>
-                                    <option value="2">Qty: 2</option>
-                                    <option value="3">Qty: 3</option>
-                                    <option value="4">Qty: 4</option>
-                                    <option value="2">Other</option>
-                                </select>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#14181F" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.0005 4.99989L5.00049 18.9999M5.00049 4.99989L19.0005 18.9999" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                        
-                                </button>
-                            </div>
-
-                        </div>
-					</article> 
-					<!-- ==== item cart ==== .//end -->
-
-					<hr>
-
-                    <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
-                        
-                        <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
-							<img src="images/product-basic/3.png" class="ratio-1x1 h-full rounded">
-						</div>
-
-						<div class="flex flex-grow py-1">
-                            <h5 class="mb-1 font-medium  text-lg">
-                                <a href="#" class="text-dark">
-                                    Hot sale wholesale Original Second hand
-                                </a>
-                            </h5>
-                            <p class="text-secondary"> 
-                                Size: medium  <br>
-                                Material: Plastic <br>
-                                Color: blue  <br>
-                            </p>
-						</div>
-                      
-                        <div class="py-1 max-sm:w-full max-sm:d-flex max-sm:align-items-center">
-
-                            <p class="sm:mb-4 sm:text-right max-sm:mr-10 max-sm:flex-grow">  <strong>46.00 USD</strong> </p>
-
-                            <div class="d-flex  gap-2">
-                                <select class="form-select" name="" id="">
-                                    <option selected value="1">Qty: 1</option>
-                                    <option value="2">Qty: 2</option>
-                                    <option value="3">Qty: 3</option>
-                                    <option value="4">Qty: 4</option>
-                                    <option value="2">Other</option>
-                                </select>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#14181F" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.0005 4.99989L5.00049 18.9999M5.00049 4.99989L19.0005 18.9999" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                        
-                                </button>
-                            </div>
-
-                        </div>
-					</article> 
-					<!-- ==== item cart ==== .//end -->
-
-					<hr>
-
-                    <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
-                        
-                        <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
-							<img src="images/product-basic/4.png" class="ratio-1x1 h-full rounded">
-						</div>
-
-						<div class="flex flex-grow py-1">
-                            <h5 class="mb-1 font-medium  text-lg">
-                                <a href="#" class="text-dark">
-                                    Great product name goes here
-                                </a>
-                            </h5>
-                            <p class="text-secondary"> 
-                                Size: XXL  <br>
-                                Color: Orange  <br>
-                            </p>
-						</div>
-                      
-                        <div class="py-1 max-sm:w-full max-sm:d-flex max-sm:align-items-center">
-
-                            <p class="sm:mb-4 sm:text-right max-sm:mr-10 max-sm:flex-grow">  <strong>46.00 USD</strong> </p>
-
-                            <div class="d-flex  gap-2">
-                                <select class="form-select" name="" id="">
-                                    <option selected value="1">Qty: 1</option>
-                                    <option value="2">Qty: 2</option>
-                                    <option value="3">Qty: 3</option>
-                                    <option value="4">Qty: 4</option>
-                                    <option value="2">Other</option>
-                                </select>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#14181F" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.0005 4.99989L5.00049 18.9999M5.00049 4.99989L19.0005 18.9999" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                        
-                                </button>
-                            </div>
-
-                        </div>
-					</article> 
-					<!-- ==== item cart ==== .//end -->
-
-					<hr>
-
-                    <!--  ==== item cart ====  -->
-					<article class="d-flex max-sm:flex-wrap gap-2 mb-5 pb-5">
-                        
-                        <div class="mr-2 flex-shrink-0 w-25 h-25 bg-neutral-200 rounded overflow-hidden">
-							<img src="images/product-basic/5.png" class="ratio-1x1 h-full rounded">
-						</div>
-
-						<div class="flex flex-grow py-1">
-                            <h5 class="mb-1 font-medium  text-lg">
-                                <a href="#" class="text-dark">
-                                    Great product name goes here
-                                </a>
-                            </h5>
-                            <p class="text-secondary"> 
-                                Size: Small  <br>
-                                Material: Metallic <br>
-                            </p>
-						</div>
-                      
-                        <div class="py-1 max-sm:w-full max-sm:d-flex max-sm:align-items-center">
-
-                            <p class="sm:mb-4 sm:text-right max-sm:mr-10 max-sm:flex-grow">  <strong>46.00 USD</strong> </p>
-
-                            <div class="d-flex  gap-2">
-                                <select class="form-select" name="" id="">
-                                    <option selected value="1">Qty: 1</option>
-                                    <option value="2">Qty: 2</option>
-                                    <option value="3">Qty: 3</option>
-                                    <option value="4">Qty: 4</option>
-                                    <option value="2">Other</option>
-                                </select>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.4626 3.99415C16.7809 2.34923 14.4404 3.01211 13.0344 4.06801C12.4578 4.50096 12.1696 4.71743 12 4.71743C11.8304 4.71743 11.5422 4.50096 10.9656 4.06801C9.55962 3.01211 7.21909 2.34923 4.53744 3.99415C1.01807 6.15294 0.221721 13.2749 8.33953 19.2834C9.88572 20.4278 10.6588 21 12 21C13.3412 21 14.1143 20.4278 15.6605 19.2834C23.7783 13.2749 22.9819 6.15294 19.4626 3.99415Z" stroke="#14181F" stroke-width="1.5" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-                                <button class="btn btn-neutral btn-icon">
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <path d="M19.0005 4.99989L5.00049 18.9999M5.00049 4.99989L19.0005 18.9999" stroke="#14181F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>                                        
-                                </button>
-                            </div>
-
-                        </div>
-					</article> 
-					<!-- ==== item cart ==== .//end -->
-
-					<hr>
+				<div class="p-5 rounded bg-neutral-100" id="cart-items">
 
 					<form action="" class="d-flex gap-1 mb-6">
-						<input type="text" class="form-control bg-white" placeholder="Enter Promocode">
-						<button class="btn btn-default">Apply</button>
+						<!-- <input type="text" class="form-control bg-white" placeholder="Enter Promocode">
+						<button class="btn btn-default">Apply</button> -->
 					</form>
 
 					<ul>
 						<li class="d-flex justify-content-between mb-2">
 							<label>5 items:</label> <var>$2,103.97</var>
 						</li>
-						<li class="d-flex justify-content-between mb-2">
+						<!-- <li class="d-flex justify-content-between mb-2">
 							<label>Discount</label> <var>- $5.40</var>
 						</li>
 						<li class="d-flex justify-content-between mb-2">
@@ -496,7 +250,7 @@
 						</li>
 						<li class="d-flex justify-content-between mb-2">
 							<label>Tax:</label> <var>$3.90</var>
-						</li>
+						</li> -->
 					</ul>
 					<hr>
 					<dl class="d-flex justify-content-between">
@@ -516,7 +270,7 @@
 								<path d="M14.5 17.5H9.49995M15 16V4H1.99996L1.99976 17.5H4.49996M15.5 6.5H18.9998L21.9998 11L22 17.5H19.4998" stroke="currentColor" stroke-width="1.5"/>
 								</svg>
 						</span>
-						<figcaption class="text-sm">
+						<figcaption class="text-sm" id="time-delivery">
 							Delivered by <br> Fri, May 20, 2024
 						</figcaption>
 					</figure>
@@ -539,7 +293,7 @@
 			<h4 class="text-3xl">Customer also bought these </h4>
 		</header> 
 
-		<div class="row row-cols-2  lg:row-cols-4 gap-rows-8 max-sm:gap-1">
+		<div class="row row-cols-2  lg:row-cols-4 gap-rows-8 max-sm:gap-1" id="similar-products">
 			<div>
 				<figure class="relative">
 					<button class="absolute top-2 right-2 btn btn-icon btn-default">
@@ -750,6 +504,7 @@
 
 <!-- Stripe.js -->
 <script src="https://js.stripe.com/v3/"></script>
+<script src="js/config.js"></script>
 <script src="js/cart.js"></script>
 </body>
 </html>

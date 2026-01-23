@@ -161,6 +161,17 @@ public class OrderServiceImp implements OrderService {
     }
 
     @Override
+    public OrderResponse getPendingOrder() {
+        User user = getCurrentUser();
+        Optional<Order> optionalOrder = orderRepository.findFirstByUserIdAndStatusOrderByCreatedAtDesc(user.getId(), Order.OrderStatus.pending);
+        if (optionalOrder.isPresent()) {
+            return convertToOrderResponse(optionalOrder.get());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
     @Transactional
     public OrderResponse addItemToPendingOrder(OrderItemRequest itemRequest) {
         User user = getCurrentUser();

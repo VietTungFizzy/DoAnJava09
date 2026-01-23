@@ -62,7 +62,7 @@ public class Order {
     }
 
     public enum OrderStatus {
-        pending, paid, shipped, delivered, cancelled
+        pending,processing, paid, shipped, delivered, cancelled
     }
 
     public enum PaymentStatus {

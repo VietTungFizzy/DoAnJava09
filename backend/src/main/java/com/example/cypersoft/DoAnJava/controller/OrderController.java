@@ -137,4 +137,26 @@ public class OrderController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
         }
     }
+
+    /**
+     * Lấy đơn hàng pending hiện tại
+     * GET /api/orders/pending
+     */
+    @GetMapping("/pending")
+    public ResponseEntity<?> getPendingOrder() {
+        try {
+            OrderResponse response = orderService.getPendingOrder();
+            if (response != null) {
+                return ResponseEntity.ok(response);
+            } else {
+                Map<String, String> error = new HashMap<>();
+                error.put("error", "No pending order found");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+            }
+        } catch (Exception e) {
+            Map<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+    }
 }

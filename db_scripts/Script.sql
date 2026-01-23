@@ -417,3 +417,5 @@ ALTER TABLE order_items RENAME COLUMN unit_price TO price;
 ALTER TABLE order_items ADD COLUMN product_id INT;
 
 ALTER TABLE order_items MODIFY COLUMN sku_id int DEFAULT 1 NOT NULL;
+
+ALTER TABLE orders MODIFY COLUMN order_status enum('pending','confirmed','cancelled','completed','closed', 'processing') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'pending' NULL;

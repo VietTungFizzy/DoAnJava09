@@ -20,5 +20,7 @@ public interface OrderService {
 
     void cancelOrder(Integer orderId);
 
+    OrderResponse getPendingOrder();
+
     OrderResponse addItemToPendingOrder(OrderItemRequest itemRequest);
 }
