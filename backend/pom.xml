@@ -108,7 +108,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/java</executable>
+					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/javac</executable>
 					<source>21</source> <!-- JDK source version -->
 					<target>21</target> <!-- JDK target version -->
 					<release>21</release> <!-- Use this for JDK 9+ to ensure API compatibility -->
@@ -116,6 +116,7 @@
 						<path>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
+							<version>1.18.42</version>
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
@@ -130,23 +131,6 @@
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<executable>/usr/lib/jvm/java-21-amazon-corretto.x86_64/bin/java</executable>
-					<source>21</source> <!-- JDK source version -->
-					<target>21</target> <!-- JDK target version -->
-					<release>21</release> <!-- Use this for JDK 9+ to ensure API compatibility -->
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>1.18.42</version>
-						</path>
-					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
 		</plugins>
