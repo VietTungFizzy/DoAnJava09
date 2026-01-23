@@ -24,11 +24,20 @@ public class Order {
     private User user;
 
     @Column(name = "total", precision = 10, scale = 2)
-    private BigDecimal total;
+    private BigDecimal total = BigDecimal.ZERO;
+
+    // map to existing DB column `order_state` and use field name `status`
+    @Enumerated(EnumType.STRING)
+    @Column(name = "order_status")
+    private OrderStatus status = OrderStatus.pending;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private OrderStatus status = OrderStatus.pending;
+    @Column(name = "payment_status")
+    private PaymentStatus paymentStatus = PaymentStatus.unpaid;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "fulfillment_status")
+    private FulfillmentStatus fulfillmentStatus = FulfillmentStatus.unfulfilled;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
@@ -45,10 +54,22 @@ public class Order {
 
     @PrePersist
     protected void onCreate() {
-        createdAt = LocalDateTime.now();
+        if (createdAt == null) createdAt = LocalDateTime.now();
+        if (status == null) status = OrderStatus.pending;
+        if (paymentStatus == null) paymentStatus = PaymentStatus.unpaid;
+        if (fulfillmentStatus == null) fulfillmentStatus = FulfillmentStatus.unfulfilled;
+        if (total == null) total = BigDecimal.ZERO;
     }
 
     public enum OrderStatus {
         pending, paid, shipped, delivered, cancelled
+    }
+
+    public enum PaymentStatus {
+        unpaid, processing, paid, refunded, failed
+    }
+
+    public enum FulfillmentStatus {
+        unfulfilled, processing, fulfilled, cancelled
     }
 }

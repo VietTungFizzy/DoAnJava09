@@ -1,6 +1,8 @@
 package com.example.cypersoft.DoAnJava.controller;
 
 import com.example.cypersoft.DoAnJava.dto.CheckoutRequest;
+import com.example.cypersoft.DoAnJava.entity.Order;
+import com.example.cypersoft.DoAnJava.repository.OrderRepository;
 import com.example.cypersoft.DoAnJava.repository.ProductRepository;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
@@ -22,16 +24,15 @@ public class CheckoutController {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private OrderRepository orderRepository;
+
     @PostMapping("/create-session")
     public Map<String, String> createCheckoutSession(@RequestBody CheckoutRequest request) throws Exception {
-        // Convert int to Long for Stripe API and other usages
-        Long productId = Long.valueOf(request.getProductId());
-        Long quantity = Long.valueOf(request.getQuantity());
-        // Product product = productRepository.findById(productId)
-        //         .orElseThrow(() -> new IllegalArgumentException("Product not found"));
-        // if (quantity == null || quantity <= 0) {
-        //     throw new IllegalArgumentException("Quantity must be greater than 0");
-        //
+        Order order = orderRepository.findByIdWithItems(request.getOrderId()).orElseThrow(() -> new Exception("Order not found"));
+
+        System.out.println(order);
+        // Do not touch
         SessionCreateParams params =
                 SessionCreateParams.builder()
                         .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -39,7 +40,7 @@ public class CheckoutController {
                         .setCancelUrl(request.getCancelUrl())
                         .addLineItem(
                                 SessionCreateParams.LineItem.builder()
-                                        .setQuantity(quantity)
+                                        .setQuantity(1L)
                                         .setPriceData(
                                                 SessionCreateParams.LineItem.PriceData.builder()
                                                         .setCurrency("VND")

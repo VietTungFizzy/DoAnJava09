@@ -277,7 +277,7 @@ CREATE TABLE order_items (
   unit_price     DECIMAL(12,2) NOT NULL,
   discount       DECIMAL(12,2) DEFAULT 0,
   tax            DECIMAL(12,2) DEFAULT 0,
-  total          DECIMAL(12,2) NOT NULL,
+  total          DECIMAL(12,2) NOT NULL DEFAULT 0,
   FOREIGN KEY (order_id) REFERENCES orders(id),
   FOREIGN KEY (store_id) REFERENCES stores(id),
   FOREIGN KEY (sku_id)   REFERENCES skus(id)
@@ -406,3 +406,12 @@ ALTER TABLE wishlist_items
   ADD COLUMN is_notified BOOLEAN NOT NULL DEFAULT FALSE AFTER sku_id;
 
 ALTER TABLE wishlist_items ADD COLUMN priority INTEGER DEFAULT 1;
+
+ALTER TABLE `orders`
+  ADD COLUMN `address` TEXT;
+
+ALTER TABLE orders RENAME COLUMN placed_at TO created_at;
+
+ALTER TABLE order_items RENAME COLUMN unit_price TO price;
+
+ALTER TABLE order_items ADD COLUMN product_id INT;

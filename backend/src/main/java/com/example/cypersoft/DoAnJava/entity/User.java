@@ -55,6 +55,23 @@ public class User implements UserDetails {
     @Column(name = "permanently_locked")
     private Boolean permanentlyLocked = false; // khóa vĩnh viễn, liên hệ admin
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<UserAddress> addresses;
+
+    public java.util.Optional<UserAddress> getDefaultShippingAddress() {
+        if (addresses == null) return java.util.Optional.empty();
+        return addresses.stream()
+                .filter(a -> "shipping".equalsIgnoreCase(a.getType()) && Boolean.TRUE.equals(a.getIsDefault()))
+                .findFirst();
+    }
+
+    public java.util.Optional<UserAddress> getAnyShippingAddress() {
+        if (addresses == null) return java.util.Optional.empty();
+        return addresses.stream()
+                .filter(a -> "shipping".equalsIgnoreCase(a.getType()))
+                .findFirst();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 

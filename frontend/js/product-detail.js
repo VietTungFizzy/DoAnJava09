@@ -1,5 +1,13 @@
 // Product Detail Page JavaScript
+// Stripe integration
+const stripePublicKey = "pk_test_51S9SX3L9RJOfTfprzim07Jef7DOY7AS32iqxeLfFaiJQ5lOoFZBeXJTkSBY4EHtLVjSGVwj84puuYVTvsDKUq0Nu00PRp9BlRQ";
+let stripe = null;
+let currentProduct = null;
+
 $(document).ready(function() {
+    // Initialize Stripe
+    stripe = Stripe(stripePublicKey);
+
     // Get product ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
@@ -9,6 +17,11 @@ $(document).ready(function() {
     } else {
         console.error('No product ID found in URL');
         // Maybe redirect to homepage or show error
+    }
+
+    // Set custom wishlist button update callback
+    if (window.wishlistManager) {
+        window.wishlistManager.setUpdateWishlistButtonCallback(handleWishlistButtonUpdate);
     }
 });
 
@@ -43,6 +56,7 @@ async function fetchProductDetails(productId) {
 
 // Populate product details into the DOM
 function populateProductDetails(product) {
+    currentProduct = product;
     // Update breadcrumb
     $('.breadcrumb-item.active').text(product.name);
 
@@ -172,3 +186,93 @@ function updateWishlistButton(isInWishlist) {
         $text.text('Thêm vào danh sách yêu thích');
     }
 }
+
+// Handle wishlist button update callback for WishlistManager
+function handleWishlistButtonUpdate(buttonElement, result) {
+    const isInWishlist = !(result.message && result.message.includes('removed'));
+    updateWishlistButton(isInWishlist);
+}
+
+// Buy Now button functionality
+$(document).ready(function() {
+    $(document).on('click', '.btn-buy-now', async function(e) {
+        e.preventDefault();
+        
+        const productId = $(this).data('product-id');
+        if (!productId) {
+            alert('Product ID not found');
+            return;
+        }
+        
+        // Show loading state
+        const $btn = $(this);
+        const originalText = $btn.html();
+        $btn.prop('disabled', true);
+        $btn.html('Creating checkout session...');
+        
+        try {
+            if (!currentProduct) {
+                throw new Error('Product details not loaded');
+            }
+            
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error('User not logged in');
+            }
+            
+            // First, create the order
+            const orderResponse = await fetch('http://localhost:8080/api/orders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    address: localStorage.getItem('address') || 'Default Address',
+                    orderItems: [{
+                        productId: productId,
+                        storeId: currentProduct.storeId,
+                        quantity: 1,
+                        price: currentProduct.price
+                    }]
+                }),
+            });
+            if (!orderResponse.ok) {
+                throw new Error('Failed to create order');
+            }
+            const order = await orderResponse.json();
+            
+            // Then, create checkout session on your backend
+            const response = await fetch('http://localhost:8080/api/checkout/create-session', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orderId: order.id,
+                    successUrl: window.location.origin + '/payment-success.html',
+                    cancelUrl: window.location.href
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to create checkout session');
+            }
+            const session = await response.json();
+            
+            // Redirect to Stripe Checkout
+            const result = await stripe.redirectToCheckout({
+                sessionId: session.id
+            });
+            if (result.error) {
+                throw new Error(result.error.message);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert(error.message || 'An error occurred. Please try again.');
+        } finally {
+            // Reset button state
+            $btn.prop('disabled', false);
+            $btn.html(originalText);
+        }
+    });
+});

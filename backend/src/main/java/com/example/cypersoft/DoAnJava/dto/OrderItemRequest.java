@@ -13,5 +13,6 @@ public class OrderItemRequest {
     private Integer productId;
     private Integer storeId;
     private Integer quantity;
+    private Integer skuId; // required sku identifier for the order item
     private BigDecimal price;
 }

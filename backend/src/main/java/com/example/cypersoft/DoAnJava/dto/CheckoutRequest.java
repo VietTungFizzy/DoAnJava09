@@ -4,9 +4,7 @@ import lombok.Data;
 
 @Data
 public class CheckoutRequest {
-    private int productId;
-    private int quantity;
+    private int orderId;
     private String successUrl;
     private String cancelUrl;
 }
-

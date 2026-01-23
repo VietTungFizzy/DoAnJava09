@@ -2,6 +2,7 @@
 class WishlistManager {
     constructor() {
         this.apiBaseUrl = 'http://localhost:8080/api/wishlist';
+        this.updateWishlistButtonCallback = null;
         this.init();
     }
 
@@ -46,7 +47,11 @@ class WishlistManager {
             const result = await response.json();
 
             if (response.ok) {
-                this.updateWishlistButton(buttonElement, result);
+                if (this.updateWishlistButtonCallback) {
+                    this.updateWishlistButtonCallback(buttonElement, result);
+                } else {
+                    this.updateWishlistButton(buttonElement, result);
+                }
                 this.loadWishlistCount();
                 this.showMessage(result.message || 'Wishlist updated', 'success');
             } else {
@@ -203,6 +208,11 @@ class WishlistManager {
         } else {
             $icon.removeClass('fa-regular fa-heart').addClass('fa-solid fa-heart');
         }
+    }
+
+    // Set custom callback for updating wishlist button
+    setUpdateWishlistButtonCallback(callback) {
+        this.updateWishlistButtonCallback = callback;
     }
 
     // Load user's wishlist

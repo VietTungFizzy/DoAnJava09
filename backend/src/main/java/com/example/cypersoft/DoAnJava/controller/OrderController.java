@@ -25,7 +25,7 @@ public class OrderController {
      * Tạo đơn hàng mới
      * POST /api/orders
      */
-    @PostMapping("/create")
+    @PostMapping
     public ResponseEntity<?> createOrder(@RequestBody OrderRequest request) {
         try {
             OrderResponse response = orderService.createOrder(request);

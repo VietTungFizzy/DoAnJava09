@@ -166,7 +166,6 @@ public class WishlistController {
 
             boolean isInWishlist = wishlistService.isProductInWishlist(skuId);
 
-            System.out.println("Toggling wishlist item. SKU ID: " + skuId + ", isInWishlist: " + isInWishlist);
             if (isInWishlist) {
                 wishlistService.removeFromWishlist(skuId);
                 return ResponseEntity.ok(createSuccessResponse("Product removed from wishlist"));

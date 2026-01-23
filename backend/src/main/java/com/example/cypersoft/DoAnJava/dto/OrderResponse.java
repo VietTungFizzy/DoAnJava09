@@ -16,7 +16,9 @@ public class OrderResponse {
     private Integer id;
     private Integer userId;
     private BigDecimal total;
-    private Order.OrderStatus status;
+    private Order.OrderStatus orderStatus;
+    private Order.PaymentStatus paymentStatus;
+    private Order.FulfillmentStatus fulfillmentStatus;
     private LocalDateTime createdAt;
     private String address;
     private Integer voucherId;

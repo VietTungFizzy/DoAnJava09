@@ -10,7 +10,12 @@ import com.example.cypersoft.DoAnJava.repository.OrderRepository;
 import com.example.cypersoft.DoAnJava.repository.UserRepository;
 import com.example.cypersoft.DoAnJava.repository.VoucherRepository;
 import com.example.cypersoft.DoAnJava.service.OrderService;
+import com.example.cypersoft.DoAnJava.entity.UserAddress;
+import com.example.cypersoft.DoAnJava.repository.UserAddressRepository;
+import com.example.cypersoft.DoAnJava.exception.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,15 +39,37 @@ public class OrderServiceImp implements OrderService {
     @Autowired
     private VoucherRepository voucherRepository;
 
+    @Autowired
+    private UserAddressRepository userAddressRepository;
+
     @Override
     @Transactional
     public OrderResponse createOrder(OrderRequest request) {
-        User user = userRepository.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + request.getUserId()));
+        User user = getCurrentUser();
 
         Order order = new Order();
         order.setUser(user);
-        order.setAddress(request.getAddress());
+
+        // prefer explicit address in request, otherwise use user's default shipping address or any shipping address
+        String finalAddress = null;
+        if (request.getAddress() != null && !request.getAddress().isBlank()) {
+            finalAddress = request.getAddress();
+        } else {
+            UserAddress addr = userAddressRepository
+                    .findFirstByUserIdAndTypeAndIsDefaultTrue(user.getId(), "shipping")
+                    .orElseGet(() -> userAddressRepository
+                            .findFirstByUserIdAndTypeOrderByUpdatedAtDesc(user.getId(), "shipping")
+                            .orElse(null));
+            if (addr != null) {
+                finalAddress = formatAddress(addr);
+            }
+        }
+
+        if (finalAddress == null || finalAddress.isBlank()) {
+            throw new BadRequestException("Shipping address is required");
+        }
+
+        order.setAddress(finalAddress);
 
         if (request.getVoucherId() != null) {
             Voucher voucher = voucherRepository.findById(request.getVoucherId())
@@ -60,9 +87,13 @@ public class OrderServiceImp implements OrderService {
             orderItem.setProductId(itemReq.getProductId());
             orderItem.setStoreId(itemReq.getStoreId());
             orderItem.setQuantity(itemReq.getQuantity());
-            orderItem.setPrice(itemReq.getPrice());
-
+            // populate skuId if provided; otherwise use entity default (0) for now
+            if (itemReq.getSkuId() != null) {
+                orderItem.setSkuId(itemReq.getSkuId());
+            }
+            // compute item total and set price
             BigDecimal itemTotal = itemReq.getPrice().multiply(BigDecimal.valueOf(itemReq.getQuantity()));
+            orderItem.setPrice(itemReq.getPrice());
             total = total.add(itemTotal);
 
             orderItems.add(orderItem);
@@ -72,6 +103,7 @@ public class OrderServiceImp implements OrderService {
         order.setTotal(total);
         order.setStatus(Order.OrderStatus.pending);
 
+        System.out.println("Checking....");
         Order savedOrder = orderRepository.save(order);
         return convertToOrderResponse(savedOrder);
     }
@@ -133,7 +165,9 @@ public class OrderServiceImp implements OrderService {
         response.setId(order.getId());
         response.setUserId(order.getUser().getId());
         response.setTotal(order.getTotal());
-        response.setStatus(order.getStatus());
+        response.setOrderStatus(order.getStatus());
+        response.setPaymentStatus(order.getPaymentStatus());
+        response.setFulfillmentStatus(order.getFulfillmentStatus());
         response.setCreatedAt(order.getCreatedAt());
         response.setAddress(order.getAddress());
         response.setVoucherId(order.getVoucher() != null ? order.getVoucher().getId() : null);
@@ -155,5 +189,32 @@ public class OrderServiceImp implements OrderService {
         response.setQuantity(item.getQuantity());
         response.setPrice(item.getPrice());
         return response;
+    }
+
+    private User getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    private String formatAddress(UserAddress a) {
+        StringBuilder sb = new StringBuilder();
+        if (a.getFullName() != null && !a.getFullName().isBlank()) {
+            sb.append(a.getFullName()).append(" - ");
+        }
+        if (a.getPhone() != null && !a.getPhone().isBlank()) {
+            sb.append(a.getPhone()).append(" - ");
+        }
+        sb.append(a.getAddressLine1());
+        if (a.getAddressLine2() != null && !a.getAddressLine2().isBlank()) {
+            sb.append(", ").append(a.getAddressLine2());
+        }
+        if (a.getWard() != null && !a.getWard().isBlank()) sb.append(", ").append(a.getWard());
+        if (a.getDistrict() != null && !a.getDistrict().isBlank()) sb.append(", ").append(a.getDistrict());
+        if (a.getCity() != null && !a.getCity().isBlank()) sb.append(", ").append(a.getCity());
+        if (a.getPostalCode() != null && !a.getPostalCode().isBlank()) sb.append(" - ").append(a.getPostalCode());
+        if (a.getCountryCode() != null && !a.getCountryCode().isBlank()) sb.append(" - ").append(a.getCountryCode());
+        return sb.toString();
     }
 }

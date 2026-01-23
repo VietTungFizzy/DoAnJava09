@@ -10,7 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRequest {
-    private Integer userId;
     private Integer voucherId;
     private String address;
     private List<OrderItemRequest> orderItems;

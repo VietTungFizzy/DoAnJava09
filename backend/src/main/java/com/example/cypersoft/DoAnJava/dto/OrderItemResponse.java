@@ -14,5 +14,6 @@ public class OrderItemResponse {
     private Integer productId;
     private Integer storeId;
     private Integer quantity;
+    private Integer skuId;
     private BigDecimal price;
 }
